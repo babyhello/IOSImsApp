@@ -15,7 +15,7 @@ import AlamofireImage
 
 class EditIssueCollectionCell:UICollectionViewCell
 {
-    
+      
     @IBOutlet weak var Img_Issue: UIImageView!
     
     
