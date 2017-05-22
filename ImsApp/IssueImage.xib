@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IssueImage" customModule="IMS" customModuleProvider="target">
+            <connections>
+                <outlet property="Img_Cancel" destination="BB2-Ak-exP" id="E10-0b-3XN"/>
+                <outlet property="Img_Issue" destination="JsO-VG-N1u" id="Hyq-Fi-vx6"/>
+                <outlet property="IssueImageHeight" destination="uHm-Z7-Aei" id="J1N-c7-jNN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JsO-VG-N1u">
+                    <rect key="frame" x="8" y="0.0" width="584" height="250"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="250" id="uHm-Z7-Aei"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_newissue_cancel" translatesAutoresizingMaskIntoConstraints="NO" id="BB2-Ak-exP">
+                    <rect key="frame" x="560" y="6" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="qfF-1X-hUW"/>
+                        <constraint firstAttribute="width" constant="24" id="zl2-B4-G1N"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="JsO-VG-N1u" secondAttribute="trailing" constant="8" id="4uc-62-TSB"/>
+                <constraint firstItem="JsO-VG-N1u" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="A5H-kX-kyp"/>
+                <constraint firstItem="BB2-Ak-exP" firstAttribute="leading" secondItem="JsO-VG-N1u" secondAttribute="trailing" constant="-32" id="gc7-Ay-o84"/>
+                <constraint firstItem="JsO-VG-N1u" firstAttribute="top" secondItem="BB2-Ak-exP" secondAttribute="bottom" constant="-30" id="x0X-wW-3XJ"/>
+                <constraint firstItem="JsO-VG-N1u" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="xhM-M4-IOU"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="337" y="462"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_newissue_cancel" width="20" height="20"/>
+    </resources>
+</document>
