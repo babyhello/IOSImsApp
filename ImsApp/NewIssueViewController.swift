@@ -11,6 +11,8 @@ import Alamofire
 import AlamofireImage
 import MobileCoreServices
 import AssetsLibrary
+import AVFoundation
+
 
 protocol NewIssueViewViewDelegate: class {         // make this class protocol so you can create `weak` reference
     func Cancel_NewIssue()
@@ -65,16 +67,16 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         
         self.title = ModelName
         
-//        if(FromScanText != "")
-//        {
-//            print(FromScanText)
-//            
-//            txt_Subject.text = FromScanText
-//        }
-//        else
-//        {
-//            txt_Subject.text = "Please enter a issue Subject"
-//        }
+        //        if(FromScanText != "")
+        //        {
+        //            print(FromScanText)
+        //
+        //            txt_Subject.text = FromScanText
+        //        }
+        //        else
+        //        {
+        //            txt_Subject.text = "Please enter a issue Subject"
+        //        }
         if txt_Subject.text.isEmpty {
             txt_Subject.text = "Please enter a issue Subject"
             txt_Subject.textColor = UIColor.lightGray
@@ -115,7 +117,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         Alamofire.upload(
             multipartFormData: { multipartFormData in
                 multipartFormData.append(fileUrl, withName: "photo")
-                            },
+        },
             to: Path,
             encodingCompletion: { encodingResult in
                 switch encodingResult {
@@ -126,34 +128,34 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
                 case .failure(let encodingError):
                     print(encodingError)
                 }
-            }
+        }
         )
         
-//        Alamofire.upload(
-//            multipartFormData: { multipartFormData in
-//                multipartFormData.append(unicornImageURL, withName: "unicorn")
-//                multipartFormData.append(rainbowImageURL, withName: "rainbow")
-//            },
-//            to: "https://httpbin.org/post",
-//            encodingCompletion: { encodingResult in
-//                switch encodingResult {
-//                case .success(let upload, _, _):
-//                    upload.responseJSON { response in
-//                        debugPrint(response)
-//                    }
-//                case .failure(let encodingError):
-//                    print(encodingError)
-//                }
-//            }
-//        )
+        //        Alamofire.upload(
+        //            multipartFormData: { multipartFormData in
+        //                multipartFormData.append(unicornImageURL, withName: "unicorn")
+        //                multipartFormData.append(rainbowImageURL, withName: "rainbow")
+        //            },
+        //            to: "https://httpbin.org/post",
+        //            encodingCompletion: { encodingResult in
+        //                switch encodingResult {
+        //                case .success(let upload, _, _):
+        //                    upload.responseJSON { response in
+        //                        debugPrint(response)
+        //                    }
+        //                case .failure(let encodingError):
+        //                    print(encodingError)
+        //                }
+        //            }
+        //        )
         
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Upload_Issue_File", parameters: ["F_Keyin": WorkID,"F_Master_ID":IssueID,"F_Master_Table":"C_Issue","File":theFileName])
             .responseJSON { response in
                 
-               print(response)
+                print(response)
         }
-
-
+        
+        
     }
     
     func Cancel_NewIssue()
@@ -172,11 +174,11 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         UIView.animate(withDuration: 0.25, animations: {
             self.view.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             self.view.alpha = 0.0;
-            }, completion:{(finished : Bool)  in
-                if (finished)
-                {
-                    self.view.removeFromSuperview()
-                }
+        }, completion:{(finished : Bool)  in
+            if (finished)
+            {
+                self.view.removeFromSuperview()
+            }
         });
     }
     
@@ -187,7 +189,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         let imagePickerController = UIImagePickerController()
         
         // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .photoLibrary
+        imagePickerController.sourceType = .camera
         
         // Make sure ViewController is notified when the user picks an image.
         imagePickerController.delegate = self
@@ -242,11 +244,11 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
                 
             }
             
-            self.Upload_Issue_File(AppUser.WorkID!,IssueID: self.IssueNo!,IssueFilePath: imagePath)
+            //self.Upload_Issue_File(AppUser.WorkID!,IssueID: self.IssueNo!,IssueFilePath: imagePath)
             
         }
-
-       
+        
+        
         
         dismiss(animated: true, completion: nil)
         
@@ -261,22 +263,88 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
     
     func Camera_Photo_Pic(_ Camera:AnyObject)
     {
+        
+        //        AVAuthorizationStatus; authStatus = [AVCaptureDevice, authorizationStatusForMediaType,:AVMediaTypeVideo];
+        //        if(authStatus == AVAuthorizationStatusAuthorized) {
+        //            // 已取得使用者權限
+        //        } else if(authStatus == AVAuthorizationStatusDenied){
+        //            // 使用者拒絕提供權限 可以作提示到設定中開啟
+        //        } else if(authStatus == AVAuthorizationStatusRestricted){
+        //            // restricted, 通常不會發生
+        //        } else if(authStatus == AVAuthorizationStatusNotDetermined){
+        //            // 尚未詢問要求權限 則提一個詢問
+        //            [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
+        //                if(granted){
+        //                NSLog(@"Granted access to %@", mediaType);
+        //                } else {
+        //                NSLog(@"Not granted access to %@", mediaType);
+        //                }
+        //                }];
+        //        }
+        //
+        //
+        //        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized
+        //        {
+        //            if UIImagePickerController.isSourceTypeAvailable(
+        //                UIImagePickerControllerSourceType.camera) {
+        //
+        //                let imagePicker = UIImagePickerController()
+        //
+        //                imagePicker.delegate = self
+        //                imagePicker.sourceType = .camera
+        //                imagePicker.mediaTypes = [kUTTypeImage as String]
+        //                //imagePicker.mediaTypes = [kUTTypeMovie as String]
+        //                imagePicker.allowsEditing = false
+        //
+        //                self.present(imagePicker, animated: true,
+        //                             completion: nil)
+        //                //newMedia = true
+        //            }        }
+        //        else
+        //        {
+        //            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
+        //                if granted == true
+        //                {
+        ////                    if UIImagePickerController.isSourceTypeAvailable(
+        ////                        UIImagePickerControllerSourceType.camera) {
+        ////
+        ////                        let imagePicker = UIImagePickerController()
+        ////
+        ////                        imagePicker.delegate = self
+        ////                        imagePicker.sourceType = .camera
+        ////                        imagePicker.mediaTypes = [kUTTypeImage as String]
+        ////                        //imagePicker.mediaTypes = [kUTTypeMovie as String]
+        ////                        imagePicker.allowsEditing = false
+        ////
+        ////                        self.present(imagePicker, animated: true,
+        ////                                     completion: nil)
+        ////                        //newMedia = true
+        ////                    }
+        //                }
+        //                else
+        //                {
+        //                    // User Rejected
+        //                }
+        //            });
+        //        }
+        
         if UIImagePickerController.isSourceTypeAvailable(
             UIImagePickerControllerSourceType.camera) {
             
             let imagePicker = UIImagePickerController()
             
             imagePicker.delegate = self
-            imagePicker.sourceType =
-                UIImagePickerControllerSourceType.camera
+            imagePicker.sourceType = .camera
             imagePicker.mediaTypes = [kUTTypeImage as String]
             //imagePicker.mediaTypes = [kUTTypeMovie as String]
             imagePicker.allowsEditing = false
             
             self.present(imagePicker, animated: true,
-                                       completion: nil)
+                         completion: nil)
             //newMedia = true
         }
+        
+        
     }
     
     func Cancel_Click(_ sender: UITapGestureRecognizer)
@@ -389,21 +457,21 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         
         //let subViews = self.Scl_Content.subviews
         
-//        for subView in subViews
-//        {
-//            if (subView as? IssueImage) != nil {
-//                
-//                let IssueImageView:IssueImage =  (subView as? IssueImage)!
-//                
-//                //Upload_Issue_File(IssueImageView.Img_Issue.image!)
-//            }
-//        }
+        //        for subView in subViews
+        //        {
+        //            if (subView as? IssueImage) != nil {
+        //
+        //                let IssueImageView:IssueImage =  (subView as? IssueImage)!
+        //
+        //                //Upload_Issue_File(IssueImageView.Img_Issue.image!)
+        //            }
+        //        }
         //Upload_Issue_File(UIImage(named: "btn_share_back")!)
         
         
-       _ = navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
         
-       
+        
         //performSegueWithIdentifier("NewIssueToEditIssue", sender: self)
     }
     

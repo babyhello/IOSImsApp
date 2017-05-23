@@ -1,16 +1,16 @@
 //
-//  ProjectListTableViewController.swift
-//  ImsApp
+//  ExpandTableProjectListViewController.swift
+//  IMS
 //
-//  Created by 俞兆 on 2016/6/30.
-//  Copyright © 2016年 Mark. All rights reserved.
+//  Created by 俞兆 on 2017/5/23.
+//  Copyright © 2017年 Mark. All rights reserved.
 //
 
 import UIKit
 import Alamofire
 import AlamofireImage
 
-class ProjectInfo
+class ExpandTableProjectInfo
 {
     var ProjectName: String?
     var Image: String?
@@ -26,15 +26,16 @@ class ProjectInfo
     
 }
 
-class ProjectListTableViewController: UITableViewController,PopUpProjectSelectViewDelegate,NewIssueViewViewDelegate,UISearchResultsUpdating, UISearchBarDelegate,UIPopoverPresentationControllerDelegate{
+class ExpandTableProjectListViewController: UITableViewController,PopUpProjectSelectViewDelegate,NewIssueViewViewDelegate,UISearchResultsUpdating, UISearchBarDelegate,UIPopoverPresentationControllerDelegate {
+
     
-  
+    
     
     var request: Request?
     
-    @IBOutlet var ImsProjectTable: UITableView!
+    //@IBOutlet var ImsProjectTable: UITableView!
     
-    var ProjectInfroList = [ProjectInfo]()
+    var ProjectInfroList = [ExpandTableProjectInfo]()
     
     var SelectPM_ID:String?
     
@@ -44,7 +45,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     
     var shouldShowSearchResults = false
     
-   // var refreshControl: UIRefreshControl!
+    // var refreshControl: UIRefreshControl!
     
     @IBAction func Btn_Project_Click(_ sender: AnyObject) {
         
@@ -71,7 +72,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         
         tableView.addSubview(refreshControl!) // not required when using UITableViewController
         
-//        self.refreshControl?.addTarget(self, action: #selector(ProjectIssueListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        //        self.refreshControl?.addTarget(self, action: #selector(ProjectIssueListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         
         //self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
         
@@ -90,17 +91,17 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     
     
     
-    func configureSearchController() {
-        
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search here..."
-        searchController.searchBar.delegate = self
-        searchController.searchBar.sizeToFit()
-        
-        ImsProjectTable.tableHeaderView = searchController.searchBar
-    }
+//    func configureSearchController() {
+//        
+//        searchController = UISearchController(searchResultsController: nil)
+//        searchController.searchResultsUpdater = self
+//        searchController.dimsBackgroundDuringPresentation = false
+//        searchController.searchBar.placeholder = "Search here..."
+//        searchController.searchBar.delegate = self
+//        searchController.searchBar.sizeToFit()
+//        
+//        self.tableHeaderView = searchController.searchBar
+//    }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
         if AppUser.WorkID! != "" {
@@ -179,7 +180,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     }
     func ProjectList(_ WorkID:String,SearchString:String)
     {
-        ProjectInfroList = [ProjectInfo]()
+        ProjectInfroList = [ExpandTableProjectInfo]()
         
         var Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Project_List"
         
@@ -246,7 +247,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
                                 
                             }
                             
-                             CloseRate = "0"
+                            CloseRate = "0"
                             
                             if (ModelInfo["ModelID"]) != nil {
                                 
@@ -257,12 +258,12 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
                                 
                             }
                             
-                            let ProjectDetail =  ProjectInfo(text: Name!, image: Image!,CloseRate: CloseRate,PM_ID: Service_PM_ID)
+                            let ProjectDetail =  ExpandTableProjectInfo(text: Name!, image: Image!,CloseRate: CloseRate,PM_ID: Service_PM_ID)
                             
                             self.ProjectInfroList.append(ProjectDetail)
                         }
                         
-                        self.ImsProjectTable.reloadData()
+                        self.tableView.reloadData()
                         
                     }
                     else
@@ -299,10 +300,12 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         else
         {
             
-            ImsProjectTable.dataSource = self
-            ImsProjectTable.delegate = self
-            ImsProjectTable.reloadData()
-        }
+            self.tableView.dataSource = self
+            self.tableView.delegate = self
+            self.tableView.reloadData()
+            
+            
+                   }
         
     }
     
@@ -349,10 +352,10 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     
     // MARK: - Table view data source
     
-    //    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    //        // #warning Incomplete implementation, return the number of sections
-    //        return ProjectInfroList.count
-    //    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -384,7 +387,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
             AppClass.WebImgGet(PicPath!,ImageView: cell.ProjectImage)
             
             //loadImage(PicPath!,ImageView: cell.ProjectImage)
-
+            
         }
         
         
@@ -410,14 +413,14 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         popover?.sourceView = self.view
         popover?.sourceRect = CGRect(x: 100, y: 100, width: 0, height: 0)
         
-       
         
-   
+        
+        
         
         self.tabBarController?.tabBar.isHidden = true
-//        
-//        self.navigationController?.isNavigationBarHidden = true
-     
+        //
+        //        self.navigationController?.isNavigationBarHidden = true
+        
         //UITabBar.appearance().backgroundColor = UIColor.black.withAlphaComponent(0.6)
         
         
@@ -432,7 +435,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         //
         //        popOverVC.didMove(toParentViewController: self)
         
-        popOverVC.ProjectInfo = ProjectInfroList[(indexPath as NSIndexPath).row]
+        //popOverVC.ProjectInfo = ProjectInfroList[(indexPath as NSIndexPath).row]
         
         
         self.clearsSelectionOnViewWillAppear = true

@@ -38,6 +38,7 @@ class PopUpProjectSelectViewController: UIViewController {
     var ProjectInfo : ProjectInfo?
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.isHidden = true
