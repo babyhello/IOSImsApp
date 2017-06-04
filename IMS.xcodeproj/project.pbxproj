@@ -10,6 +10,10 @@
 		3C04E5A31D51BD8900DE5E07 /* EditIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C04E5A21D51BD8900DE5E07 /* EditIssueViewController.swift */; };
 		3C0C7BB51D7E96A50089302E /* CounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0C7BB41D7E96A50089302E /* CounterView.swift */; };
 		3C120EC31D40C92A00479C04 /* NewIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C120EC21D40C92A00479C04 /* NewIssueViewController.swift */; };
+		3C2856841ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2856821ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift */; };
+		3C2856851ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */; };
+		3C2856871ED7ACE20078824B /* ProjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2856861ED7ACE20078824B /* ProjectInfo.swift */; };
+		3C2856891ED7FCC70078824B /* Pods_IMS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C2856881ED7FCC70078824B /* Pods_IMS.framework */; };
 		3C28D3B01D2216C800FF4538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3AF1D2216C800FF4538 /* AppDelegate.swift */; };
 		3C28D3B21D2216C800FF4538 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3B11D2216C800FF4538 /* ViewController.swift */; };
 		3C28D3B51D2216C800FF4538 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C28D3B31D2216C800FF4538 /* Main.storyboard */; };
@@ -56,7 +60,6 @@
 		3CFAC0B31D25F6D10001F2F1 /* ProjectMemberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAC0B21D25F6D10001F2F1 /* ProjectMemberTableViewController.swift */; };
 		3CFD552A1D458DF3001BBD1B /* SelectProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD55291D458DF3001BBD1B /* SelectProjectTableViewController.swift */; };
 		3CFD552C1D458E50001BBD1B /* SelectPriorityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD552B1D458E50001BBD1B /* SelectPriorityTableViewController.swift */; };
-		7AF8229FCAF3AF89ADA8AE92 /* Pods_IMS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCF1C33116281D53EFC0EFD /* Pods_IMS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +96,10 @@
 		3C04E5A21D51BD8900DE5E07 /* EditIssueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditIssueViewController.swift; sourceTree = "<group>"; };
 		3C0C7BB41D7E96A50089302E /* CounterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CounterView.swift; sourceTree = "<group>"; };
 		3C120EC21D40C92A00479C04 /* NewIssueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIssueViewController.swift; sourceTree = "<group>"; };
+		3C2856821ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectHeaderCellTableViewCell.swift; sourceTree = "<group>"; };
+		3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectHeaderCellTableViewCell.xib; sourceTree = "<group>"; };
+		3C2856861ED7ACE20078824B /* ProjectInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectInfo.swift; sourceTree = "<group>"; };
+		3C2856881ED7FCC70078824B /* Pods_IMS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pods_IMS.framework; path = "Pods/../build/Release-iphoneos/Pods_IMS.framework"; sourceTree = "<group>"; };
 		3C28D3AC1D2216C800FF4538 /* IMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C28D3AF1D2216C800FF4538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C28D3B11D2216C800FF4538 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -156,7 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7AF8229FCAF3AF89ADA8AE92 /* Pods_IMS.framework in Frameworks */,
+				3C2856891ED7FCC70078824B /* Pods_IMS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +301,7 @@
 				3C5344AA1D38BBA70085E366 /* ImsCellNib.xib */,
 				3C7CBB701D2F64A400DF079C /* ProjectCellNib.xib */,
 				3CDEAADD1D4EB8A9002961DC /* IssueImage.xib */,
+				3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */,
 			);
 			name = CustomXib;
 			sourceTree = "<group>";
@@ -301,6 +309,7 @@
 		3C7CBB721D2F98E600DF079C /* CustomClass */ = {
 			isa = PBXGroup;
 			children = (
+				3C2856821ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift */,
 				3CDEAAD61D4D9CDA002961DC /* IssueImage.swift */,
 				3C7CBB751D2FA5A400DF079C /* ProjectCell.swift */,
 				3C5344A91D38BBA70085E366 /* ImsCell.swift */,
@@ -397,6 +406,7 @@
 				3CFAC0B01D25F4F70001F2F1 /* ProjectSpecTableViewController.swift */,
 				3CFAC0B21D25F6D10001F2F1 /* ProjectMemberTableViewController.swift */,
 				3C8A4A561ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift */,
+				3C2856861ED7ACE20078824B /* ProjectInfo.swift */,
 			);
 			name = Project;
 			sourceTree = "<group>";
@@ -437,6 +447,7 @@
 		FC19BE350A0BDDAC9311070C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3C2856881ED7FCC70078824B /* Pods_IMS.framework */,
 				FFCF1C33116281D53EFC0EFD /* Pods_IMS.framework */,
 			);
 			name = Frameworks;
@@ -509,7 +520,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = Mark;
 				TargetAttributes = {
 					3C28D3AB1D2216C800FF4538 = {
@@ -566,6 +577,7 @@
 				3C5344AC1D38BBA70085E366 /* ImsCellNib.xib in Resources */,
 				3C8473BB1E7A78780022DBB8 /* Media.xcassets in Resources */,
 				3CDEAADE1D4EB8A9002961DC /* IssueImage.xib in Resources */,
+				3C2856851ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib in Resources */,
 				3C628D3C1ECD2AAF007869F1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -664,6 +676,8 @@
 				3CF400AD1D698F13001EC3C7 /* AccountSettingTableViewController.swift in Sources */,
 				3CE0E4BC1D6DEA540041EFCE /* QRCodeScan.swift in Sources */,
 				3CFAC0A41D247FB30001F2F1 /* ProjectListTableViewController.swift in Sources */,
+				3C2856871ED7ACE20078824B /* ProjectInfo.swift in Sources */,
+				3C2856841ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift in Sources */,
 				3C28D3B01D2216C800FF4538 /* AppDelegate.swift in Sources */,
 				3C3636171D7660C000B7BB39 /* URLEncodedString.swift in Sources */,
 				3CD894421D97CEE10066C836 /* DB_Member+CoreDataProperties.swift in Sources */,
@@ -773,7 +787,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				"LIBRARY_SEARCH_PATHS[arch=*]" = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -817,7 +832,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -843,6 +858,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Alamofire",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/AlamofireImage",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
 				);
 				INFOPLIST_FILE = ImsApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -873,6 +889,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/Alamofire",
 					"$(PROJECT_DIR)/build/Debug-iphoneos/AlamofireImage",
+					"$(PROJECT_DIR)/build/Release-iphoneos",
 				);
 				INFOPLIST_FILE = ImsApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

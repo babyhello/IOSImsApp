@@ -1,34 +1,34 @@
 //
-//  ProjectListTableViewController.swift
-//  ImsApp
+//  ExpandTableProjectListViewController.swift
+//  IMS
 //
-//  Created by 俞兆 on 2016/6/30.
-//  Copyright © 2016年 Mark. All rights reserved.
+//  Created by 俞兆 on 2017/5/23.
+//  Copyright © 2017年 Mark. All rights reserved.
 //
 
 import UIKit
 import Alamofire
 import AlamofireImage
 
-class ProjectInfo
+
+class ExpandTableSection
 {
-    var ProjectName: String?
-    var Image: String?
-    var CloseRate:String?
-    var PM_ID:String?
-    init(text: String?,image: String?,CloseRate:String?,PM_ID:String?) {
+    var Title: String?
+    var Collapse: Bool?
+    
+    init(Title: String?,Collapse: Bool?) {
         // Default type is Mine
-        self.ProjectName = text
-        self.Image = image
-        self.CloseRate = CloseRate
-        self.PM_ID = PM_ID
+        self.Title = Title
+        self.Collapse = Collapse
+        
     }
     
 }
 
+
 class ProjectListTableViewController: UITableViewController,PopUpProjectSelectViewDelegate,NewIssueViewViewDelegate,UISearchResultsUpdating, UISearchBarDelegate,UIPopoverPresentationControllerDelegate{
     
-  
+    
     
     var request: Request?
     
@@ -44,7 +44,9 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     
     var shouldShowSearchResults = false
     
-   // var refreshControl: UIRefreshControl!
+    
+    var SectionTitleArray = [ExpandTableSection]()
+    // var refreshControl: UIRefreshControl!
     
     @IBAction func Btn_Project_Click(_ sender: AnyObject) {
         
@@ -53,25 +55,29 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         
     }
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let nib = UINib(nibName: "ProjectCellNib", bundle: nil)
+        let ProjectCellNib = UINib(nibName: "ProjectCellNib", bundle: nil)
         
-        tableView.register(nib, forCellReuseIdentifier: "ImsProjectCell")
+        let HeaderSectionCellNib = UINib(nibName: "ProjectHeaderCellTableViewCell", bundle: nil)
+        
+        
+        tableView.register(ProjectCellNib, forCellReuseIdentifier: "ImsProjectCell")
+        
+        tableView.register(HeaderSectionCellNib, forCellReuseIdentifier: "HeaderSectionCell")
+        
+        tableView.tableFooterView = UIView()
         
         self.clearsSelectionOnViewWillAppear = true
         
-        
-        refreshControl = UIRefreshControl()
-        refreshControl?.attributedTitle = NSAttributedString(string: "")
-        refreshControl?.addTarget(self, action: #selector(ProjectListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
-        
-        tableView.addSubview(refreshControl!) // not required when using UITableViewController
-        
-//        self.refreshControl?.addTarget(self, action: #selector(ProjectIssueListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        //        refreshControl = UIRefreshControl()
+        //        refreshControl?.attributedTitle = NSAttributedString(string: "")
+        //        refreshControl?.addTarget(self, action: #selector(ProjectListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
+        //
+        //        tableView.addSubview(refreshControl!) // not required when using UITableViewController
+        //
+        //        self.refreshControl?.addTarget(self, action: #selector(ProjectIssueListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
         
         //self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
         
@@ -79,6 +85,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
             
             ProjectList(AppUser.WorkID!,SearchString: "")
         }
+        
         
         
         
@@ -90,17 +97,17 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     
     
     
-    func configureSearchController() {
-        
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search here..."
-        searchController.searchBar.delegate = self
-        searchController.searchBar.sizeToFit()
-        
-        ImsProjectTable.tableHeaderView = searchController.searchBar
-    }
+    //    func configureSearchController() {
+    //
+    //        searchController = UISearchController(searchResultsController: nil)
+    //        searchController.searchResultsUpdater = self
+    //        searchController.dimsBackgroundDuringPresentation = false
+    //        searchController.searchBar.placeholder = "Search here..."
+    //        searchController.searchBar.delegate = self
+    //        searchController.searchBar.sizeToFit()
+    //
+    //        self.tableHeaderView = searchController.searchBar
+    //    }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
         if AppUser.WorkID! != "" {
@@ -181,16 +188,10 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     {
         ProjectInfroList = [ProjectInfo]()
         
-        var Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Project_List"
+        var Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Project_List_By_Start_End"
         
-        var _parameters = ["WorkID": WorkID]
-        
-        if SearchString != "" {
-            _parameters = ["ModelName": SearchString]
-            
-            Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Project_List_Search"
-            
-        }
+        var _parameters = ["WorkID": WorkID,"Start":"1","End":"100"]
+     
         
         
         Alamofire.request( Path, parameters: _parameters)
@@ -214,6 +215,8 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
                             var CloseRate:String?
                             
                             var Service_PM_ID:String?
+                            
+                            var Model_Focus:String?
                             
                             if (ModelInfo["ModelName"] as? String) != nil {
                                 
@@ -246,7 +249,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
                                 
                             }
                             
-                             CloseRate = "0"
+                            CloseRate = "0"
                             
                             if (ModelInfo["ModelID"]) != nil {
                                 
@@ -257,12 +260,36 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
                                 
                             }
                             
-                            let ProjectDetail =  ProjectInfo(text: Name!, image: Image!,CloseRate: CloseRate,PM_ID: Service_PM_ID)
+                            if (ModelInfo["Model_Focus"]) != nil {
+                                
+                                let TempModel_Focus = ModelInfo["Model_Focus"]!
+                                
+                                
+                                Model_Focus = String(describing: TempModel_Focus)
+                                
+                                
+                            }
+                            
+                            
+                            let ProjectDetail =  ProjectInfo(text: Name!, image: Image!,CloseRate: CloseRate,PM_ID: Service_PM_ID,Model_Focus: Model_Focus)
                             
                             self.ProjectInfroList.append(ProjectDetail)
                         }
                         
-                        self.ImsProjectTable.reloadData()
+                        
+                        self.SectionTitleArray =  [ExpandTableSection]()
+
+
+                        
+                       self.SectionTitleArray.append(ExpandTableSection(Title: "Favorit", Collapse: true))
+                        
+                        self.SectionTitleArray.append(ExpandTableSection(Title: "NoFavorit", Collapse: true))
+                        //NSLog(String(self.ModelHeaderArray.count) + "Test");
+                        
+                        //debugPrint(self.ModelHeaderArray.count)
+                        
+                        self.tableView.reloadData()
+                        
                         
                     }
                     else
@@ -299,9 +326,11 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         else
         {
             
-            ImsProjectTable.dataSource = self
-            ImsProjectTable.delegate = self
-            ImsProjectTable.reloadData()
+            self.tableView.dataSource = self
+            self.tableView.delegate = self
+            self.tableView.reloadData()
+            
+            
         }
         
     }
@@ -343,20 +372,35 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         performSegue(withIdentifier: "ProjectToIssueList", sender: self)
     }
     
+    func Img_NewIssue_Click() {
+        super.tabBarController?.tabBar.isHidden = false
+        
+        super.navigationController?.isNavigationBarHidden = false
+        self.tabBarController?.tabBar.isHidden = true
+        performSegue(withIdentifier: "ProjectToNewIssue", sender: self)
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
     // MARK: - Table view data source
     
-    //    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    //        // #warning Incomplete implementation, return the number of sections
-    //        return ProjectInfroList.count
-    //    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        
+        
+        return SectionTitleArray.count
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return ProjectInfroList.count
+        let ProjectInfoArray =  ProjectInfroList.filter{$0.Model_Focus == SectionTitleArray[section].Title}
+        
+        
+        
+        return ProjectInfoArray.count
         
     }
     
@@ -372,24 +416,32 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         
         let cell:ProjectCell = tableView.dequeueReusableCell(withIdentifier: "ImsProjectCell") as! ProjectCell
         
-        if  (ProjectInfroList.count >= (indexPath as NSIndexPath).row)
+        let ProjectInfoArray =  ProjectInfroList.filter{$0.Model_Focus == SectionTitleArray[(indexPath as NSIndexPath).section].Title}
+        
+        if  (ProjectInfoArray.count >= (indexPath as NSIndexPath).row)
         {
             
-            let ProjectName = ProjectInfroList[(indexPath as NSIndexPath).row].ProjectName
+            let ProjectName = ProjectInfoArray[(indexPath as NSIndexPath).row].ProjectName
             
-            let PicPath = ProjectInfroList[(indexPath as NSIndexPath).row].Image
+            let PicPath = ProjectInfoArray[(indexPath as NSIndexPath).row].Image
             
             cell.ProjectName.text = ProjectName
             
             AppClass.WebImgGet(PicPath!,ImageView: cell.ProjectImage)
             
             //loadImage(PicPath!,ImageView: cell.ProjectImage)
-
+            
         }
         
         
         return cell
     }
+    
+    // MARK: - Table view data source
+    
+    
+    
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -410,14 +462,14 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         popover?.sourceView = self.view
         popover?.sourceRect = CGRect(x: 100, y: 100, width: 0, height: 0)
         
-       
         
-   
+        let ProjectListInfoArray = ProjectInfroList.filter{$0.Model_Focus == SectionTitleArray[(indexPath as NSIndexPath).section].Title}
+        
         
         self.tabBarController?.tabBar.isHidden = true
-//        
-//        self.navigationController?.isNavigationBarHidden = true
-     
+        //
+        //        self.navigationController?.isNavigationBarHidden = true
+        
         //UITabBar.appearance().backgroundColor = UIColor.black.withAlphaComponent(0.6)
         
         
@@ -432,21 +484,17 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         //
         //        popOverVC.didMove(toParentViewController: self)
         
-        popOverVC.ProjectInfo = ProjectInfroList[(indexPath as NSIndexPath).row]
-        
-        
-        self.clearsSelectionOnViewWillAppear = true
-        
+        popOverVC.ProjectInfo = ProjectListInfoArray[(indexPath as NSIndexPath).row]
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let ProjectName = ProjectInfroList[(indexPath as NSIndexPath).row].ProjectName
+        let ProjectName = ProjectListInfoArray[(indexPath as NSIndexPath).row].ProjectName
         
         //                let PicPath = ProjectInfroList[(indexPath as NSIndexPath).row].Image
         //
         //                let CloseRate =  ProjectInfroList[(indexPath as NSIndexPath).row].CloseRate
         //
-        SelectPM_ID = ProjectInfroList[(indexPath as NSIndexPath).row].PM_ID
+        SelectPM_ID = ProjectListInfoArray[(indexPath as NSIndexPath).row].PM_ID
         
         SelectPM_Name = ProjectName
         
@@ -477,9 +525,6 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
-        
-        
-        
         if segue.identifier == "ProjectToIssueList" {
             
             let ViewController = segue.destination as! ProjectIssueListTableViewController
@@ -491,7 +536,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         }
         else if segue.identifier == "ProjectToNewIssue"
         {
-            print(segue.destination)
+            
             
             let ViewController = segue.destination as! NewIssueViewController
             
@@ -581,10 +626,73 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         ProjectList("",SearchString: searchString)
     }
     
-    //    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    //        return dataArray[section]
+    
+    //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    //        return ModelHeaderArray[section]
     //    }
-    //
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        //let titleHeader =  SectionTitleArray[section].Title // Also set on button
+        
+        let  headerCell = tableView.dequeueReusableCell(withIdentifier: "HeaderSectionCell") as! ProjectHeaderCellTableViewCell
+        
+        
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectedSectionStoredButtonClicked(sender:)))
+        
+        headerCell.contentView.backgroundColor = UIColor(hexString: "#e4e7e9")
+        
+        //headerCell.Lbl_Title.backgroundColor = UIColor.black
+        
+        headerCell.Lbl_Title.text = section == 0 ? "Favorite" : "Project"
+        
+        headerCell.Lbl_Title.sizeToFit()
+        
+        headerCell.Lbl_Title.numberOfLines = 0;
+        
+        headerCell.Lbl_Toggle_Title.text = !SectionTitleArray[section].Collapse! ? "v": ">"
+        
+        headerCell.contentView.tag = section
+        
+        headerCell.contentView.addGestureRecognizer(gesture)
+        
+        //print(String(section) + "ViewForHeaderINsection")
+        
+        return headerCell.contentView
+    }
+    
+    func selectedSectionStoredButtonClicked (sender:UITapGestureRecognizer) {
+        
+        let section = sender.view?.tag
+        
+        SectionTitleArray[section!].Collapse = !SectionTitleArray[section!].Collapse!
+        
+        tableView.beginUpdates()
+        
+        //let ProjectInfoArray =  ProjectInfroList.filter{$0.Model_Focus == SectionTitleArray[section!].Title}
+        
+        // tableView.reloadSections(section, with: .automatic)
+        
+        
+        self.tableView.reloadSections(NSIndexSet(index: section!) as IndexSet, with: UITableViewRowAnimation.none)
+        
+        
+        //        for i in 0 ..< ProjectInfoArray.count {
+        //            tableView.reloadRows(at: [IndexPath(row: i, section: section!)], with: .automatic)
+        //        }
+        tableView.endUpdates()
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return !SectionTitleArray[indexPath.section].Collapse! ? 0: 70
+        
+    }
+    
+    override func tableView(_ tableView: UITableView,
+                            heightForHeaderInSection section: Int) -> CGFloat {
+        return 30.0
+    }
     /*
      // Override to support conditional editing of the table view.
      override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

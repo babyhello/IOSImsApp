@@ -76,7 +76,8 @@ open class AppClass
     
     open static func WebImgGet(_ Path:String,ImageView:UIImageView)
     {
-        let encodedName = Path.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
+        
+        let encodedName = ("http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Get_File?FileName=" + Path).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
         //let encodedName = Path.addingPercentEscapes(using: String.Encoding.utf8)
         //print(encodedName)
         

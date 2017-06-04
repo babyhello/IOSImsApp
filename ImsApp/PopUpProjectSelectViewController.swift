@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireImage
 
 protocol PopUpProjectSelectViewDelegate: class {         // make this class protocol so you can create `weak` reference
     func Img_Issue_Click()
@@ -15,6 +17,8 @@ protocol PopUpProjectSelectViewDelegate: class {         // make this class prot
     
     func Img_Member_Click()
     
+    func Img_NewIssue_Click()
+    
     func Exit_Click()
 }
 
@@ -22,17 +26,25 @@ class PopUpProjectSelectViewController: UIViewController {
     
     weak var delegate: PopUpProjectSelectViewDelegate?
     
-    @IBOutlet weak var Img_Member: UIImageView!
-    @IBOutlet weak var Img_Spec: UIImageView!
-    @IBOutlet weak var Img_Issue: UIImageView!
+    @IBOutlet weak var Img_Favorite: UIImageView!
+
     @IBOutlet weak var ClosePopView: UIImageView!
     
+    @IBOutlet weak var Img_Spec: UIImageView!
+    @IBOutlet weak var Img_Issue: UIImageView!
+    @IBOutlet weak var lbl_Stage: UILabel!
     
-  
+    @IBOutlet weak var Img_Member: UIImageView!
     @IBOutlet weak var Img_Project: UIImageView!
+    
     @IBOutlet weak var lbl_ProjectName: UILabel!
     @IBOutlet weak var lbl_CloseRate: UILabel!
     
+    @IBOutlet weak var lbl_P1_count: UILabel!
+    
+    @IBOutlet weak var lbl_Project_MarketName: UILabel!
+    
+    @IBOutlet weak var Img_NewIssue: UIImageView!
     @IBOutlet weak var BottomConstanct: NSLayoutConstraint!
     
     var ProjectInfo : ProjectInfo?
@@ -52,6 +64,13 @@ class PopUpProjectSelectViewController: UIViewController {
         AppClass.WebImgGet((ProjectInfo?.Image)!,ImageView: Img_Project)
         
         Img_Project.clipsToBounds = true
+        
+        lbl_Project_MarketName.textColor = UIColor(hexString: "#878787")
+        
+        let FavoritView = Img_Favorite
+        let FavoritViewLink = UITapGestureRecognizer(target:self, action:#selector(PopUpProjectSelectViewController.Favorite_Click(_:)))
+        FavoritView?.isUserInteractionEnabled = true
+        FavoritView?.addGestureRecognizer(FavoritViewLink)
         
         let ClosePopup = ClosePopView
         let ClosePopupLink = UITapGestureRecognizer(target:self, action:#selector(PopUpProjectSelectViewController.ClosePopView_Click(_:)))
@@ -73,7 +92,18 @@ class PopUpProjectSelectViewController: UIViewController {
         ImgMember?.isUserInteractionEnabled = true
         ImgMember?.addGestureRecognizer(ImgMemberLink)
         
+        let ImgNew = Img_NewIssue
+        let ImgNewLink = UITapGestureRecognizer(target:self, action:#selector(PopUpProjectSelectViewController.Img_NewIssue_Click(_:)))
+        ImgNew?.isUserInteractionEnabled = true
+        ImgNew?.addGestureRecognizer(ImgNewLink)
+
+        
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        
+        if AppUser.WorkID! != "" {
+            
+            Find_Model_Detail((ProjectInfo?.PM_ID)!,WorkID: AppUser.WorkID!)
+        }
         
         
         //self.showAnimate()
@@ -81,7 +111,154 @@ class PopUpProjectSelectViewController: UIViewController {
         
         // Do any additional setup after loading the view.
     }
+//    
     
+    func Find_Model_Detail(_ ModelID:String,WorkID:String)
+    {
+       
+        
+        let Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Model_Detail";
+        
+        let _parameters = ["WorkID": WorkID,"ModelID":ModelID]
+        
+        Alamofire.request( Path, parameters: _parameters)
+            .responseJSON { response in
+                
+                
+                if let value = response.result.value as? [String: AnyObject] {
+                    
+                    let ObjectString = value["Key"]! as? [[String: AnyObject]]
+                    
+                    let Jstring = String(describing: value["Key"]!)
+                    
+                    if Jstring  != "" {
+                        
+                        for ModelInfo in (ObjectString )! {
+                            
+                            
+                            var P1:String?
+                            
+                            var ModelID:Int?
+                            
+                            var ModelPic:String?
+                            
+                            var Model_Favorit:Bool?
+                            
+                            var CloseRate:Double?
+                            
+                            var CurrentStage:String?
+                            
+                            var MarketName:String?
+
+                            
+                            if (ModelInfo["P1"] as? String) != nil {
+                                
+                                P1 = ModelInfo["P1"] as? String
+                                
+                            }
+                            
+                            if (ModelInfo["ModelID"] as? Int) != nil {
+                                
+                                ModelID =  ModelInfo["ModelID"] as? Int
+                                
+                            }
+                            
+                            if (ModelInfo["ModelPic"]) != nil {
+                                
+                                
+                               ModelPic = ModelInfo["ModelPic"] as? String
+                                
+                                
+                            }
+                            
+                            
+                            if (ModelInfo["Model_Favorit"]) != nil {
+                                
+                                                                
+                                Model_Favorit = ModelInfo["Model_Favorit"] as? Bool
+                                
+                                
+                            }
+                            
+                            if (ModelInfo["CloseRate"]) != nil {
+                                
+                                CloseRate = ModelInfo["CloseRate"] as? Double
+
+                            }
+                            
+                            if (ModelInfo["CurrentStage"]) != nil {
+                                
+                                CurrentStage = ModelInfo["CurrentStage"] as? String
+                                
+                            }
+                            
+                            if (ModelInfo["MarketName"]) != nil {
+                                
+                                MarketName = ModelInfo["MarketName"] as? String
+                                
+                            }
+                            
+                           self.lbl_CloseRate.text = String(describing: Int(CloseRate! * 100)) + "%"
+                            
+                             self.lbl_P1_count.text = P1
+                            
+                            self.lbl_Stage.text = CurrentStage
+
+                            
+                            self.lbl_Project_MarketName.text = MarketName
+                       
+                            if  Model_Favorit!
+                            {
+                                self.Img_Favorite.image = UIImage(named: "btn_star_sel")
+                         }
+                            else
+                            {
+                                self.Img_Favorite.image = UIImage(named: "btn_star_nor")
+
+                            }
+                            
+                        }
+                        
+                        
+                        
+                    }
+                    else
+                    {
+                        
+                        
+                        AppClass.Alert("Not Verify", SelfControl: self)
+                    }
+                    
+                }
+                else
+                {
+                    AppClass.Alert("Outlook ID or Password Not Verify !!", SelfControl: self)
+                }
+        }
+        
+    }
+    
+    func Favorite_Click(_ img: AnyObject)
+    {
+        
+        let Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Insert_Favorit_Model"
+        
+        let F_Owner = ""
+        
+        //let _parameters = ["F_Keyin": AppUser.WorkID!,"F_Owner":F_Owner,"ModelID":ProjectInfo?.PM_ID!]
+      
+        let PM_ID = ProjectInfo?.PM_ID!
+        
+        Alamofire.request( Path, parameters: ["F_Keyin": AppUser.WorkID!,"F_Owner":F_Owner,"F_PM_ID": PM_ID!])
+            .responseJSON { response in
+                self.Find_Model_Detail((self.ProjectInfo?.PM_ID)!,WorkID: AppUser.WorkID!)
+               
+        }
+        
+            }
+    
+    
+
     
     func Img_Issue_Click(_ img: AnyObject)
     {
@@ -104,7 +281,13 @@ class PopUpProjectSelectViewController: UIViewController {
         delegate?.Img_Member_Click()
     }
     
-   
+    func Img_NewIssue_Click(_ img: AnyObject)
+    {
+        self.HideBar()
+        
+        delegate?.Img_NewIssue_Click()
+    }
+
     
 
     func ClosePopView_Click(_ img: AnyObject)

@@ -419,7 +419,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                             
                             let Issue_File_Path = IssueInfo["F_DownloadFilePath"] as! String
                             
-                            _Issue_File.FilePath = "http:" + Issue_File_Path
+                           _Issue_File.FilePath = Issue_File_Path
                           
                             if ((_Issue_File.FilePath?.uppercased().contains("JPG"))! || (_Issue_File.FilePath?.uppercased().contains("PNG"))! || (_Issue_File.FilePath?.uppercased().contains("GIF"))!)
                             {
