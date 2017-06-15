@@ -188,9 +188,9 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     {
         ProjectInfroList = [ProjectInfo]()
         
-        var Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Project_List_By_Start_End"
+        let Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Project_List_By_Start_End"
         
-        var _parameters = ["WorkID": WorkID,"Start":"1","End":"100"]
+        let _parameters = ["WorkID": WorkID,"Start":"1","End":"100"]
      
         
         
@@ -230,12 +230,6 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
                                 Image =  ModelInfo["ModelPic"] as? String
                                 
                                 
-                                Image = "http:" + (Image)!
-                                
-                                
-                                
-                                
-                                //print(Image!)
                             }
                             
                             if (ModelInfo["CloseRate"]) != nil {
@@ -429,8 +423,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
             
             AppClass.WebImgGet(PicPath!,ImageView: cell.ProjectImage)
             
-            //loadImage(PicPath!,ImageView: cell.ProjectImage)
-            
+            print(PicPath!)
         }
         
         
@@ -467,52 +460,21 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         
         
         self.tabBarController?.tabBar.isHidden = true
-        //
-        //        self.navigationController?.isNavigationBarHidden = true
-        
-        //UITabBar.appearance().backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        
-        
-        //self.tabBarController?.tabBar.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        
+       
         popOverVC.delegate = self
-        
-        //        self.addChildViewController(popOverVC)
-        //        popOverVC.view.frame = self.view.frame
-        //
-        //        self.view.addSubview(popOverVC.view)
-        //
-        //        popOverVC.didMove(toParentViewController: self)
         
         popOverVC.ProjectInfo = ProjectListInfoArray[(indexPath as NSIndexPath).row]
         
         tableView.deselectRow(at: indexPath, animated: true)
         
         let ProjectName = ProjectListInfoArray[(indexPath as NSIndexPath).row].ProjectName
-        
-        //                let PicPath = ProjectInfroList[(indexPath as NSIndexPath).row].Image
-        //
-        //                let CloseRate =  ProjectInfroList[(indexPath as NSIndexPath).row].CloseRate
-        //
+       
         SelectPM_ID = ProjectListInfoArray[(indexPath as NSIndexPath).row].PM_ID
         
         SelectPM_Name = ProjectName
         
         self.present(nav, animated: true, completion: nil)
-        //self.performSegue(withIdentifier: "ProjectToPopupPresent", sender: self)
-        
-        
-        //
-        
-        //
-        //        popOverVC.lbl_ProjectName.text = ProjectName
-        //
-        //        popOverVC.lbl_CloseRate.text = CloseRate! + "%"
-        //
-        //        AppClass.WebImgGet(PicPath!,ImageView: popOverVC.Img_Project)
-        //
-        //        popOverVC.Img_Project.clipsToBounds = true
-        //
+     
     }
     
     func addCategory() {

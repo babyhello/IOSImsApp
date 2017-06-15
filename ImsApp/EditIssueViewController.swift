@@ -103,6 +103,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     @IBOutlet weak var WorkNoteMessage: UITextField!
     
     @IBAction func Btn_WorkNote_Send(_ sender: Any) {
+        
+      WorkNote_Update()
     }
     
     var SelectPhoto:UIImage?
@@ -134,9 +136,9 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         //TB_WorkNote.translatesAutoresizingMaskIntoConstraints = false
         
-        TB_WorkNote.estimatedRowHeight = 80
-        TB_WorkNote.rowHeight = UITableViewAutomaticDimension
         
+        TB_WorkNote.estimatedRowHeight = 80
+TB_WorkNote.rowHeight = UITableViewAutomaticDimension
         TB_WorkNote.delegate = self
         TB_WorkNote.dataSource = self
         TB_WorkNote.reloadData()
@@ -154,7 +156,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         self.Img_Author.clipsToBounds = true
         
-
+        lbl_ProjectName.text = "#" + Issue_ID!
+        
         //WorkNoteContent.constant = 50
     }
     
@@ -241,6 +244,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 Comment_Insert(AppUser.WorkID!,IssueID: Issue_ID!,Comment: WorkMessage!)
                 
                 WorkNoteMessage.text = ""
+                
+                Get_Issue_Command(Issue_ID!)
             }
         }
         
@@ -301,12 +306,12 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                             
                             if (IssueInfo[0]["F_ModelName"] as? String) != nil {
                                 
-                                self.lbl_ProjectName.text = "MS-" + (IssueInfo[0]["F_ModelName"] as? String)!
+                                self.title = "MS-" + (IssueInfo[0]["F_ModelName"] as? String)!
                                 
                             }
                             else
                             {
-                                self.lbl_ProjectName.text = ""
+                                self.title = ""
                             }
                             
                             if (IssueInfo[0]["F_Subject"] as? String) != nil {
@@ -348,7 +353,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                                 AppClass.WebImgGet(AppClass.ImagePath + self.Issue_Keyin! + ".jpg",ImageView: self.Img_Author)
                                 
                                 
-
+print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
                                 
                             }
                             else
@@ -491,6 +496,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                             _Issue_Command.Command_Author = Issue_Command_Author
                             _Issue_Command.Command_Content = Issue_Command_Content
                             _Issue_Command.Command_Time = Issue_Command_Date
+                            
                             
                             self.Issue_Command_List.append(_Issue_Command)
                         }

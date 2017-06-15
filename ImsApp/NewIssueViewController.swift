@@ -12,6 +12,7 @@ import AlamofireImage
 import MobileCoreServices
 import AssetsLibrary
 import AVFoundation
+import AVKit
 
 
 protocol NewIssueViewViewDelegate: class {         // make this class protocol so you can create `weak` reference
@@ -21,8 +22,9 @@ protocol NewIssueViewViewDelegate: class {         // make this class protocol s
 
 class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    @IBOutlet weak var CoverView: UIView!
     
-    @IBOutlet weak var Img_Author: UIImageView!
+//    @IBOutlet weak var Img_Author: UIImageView!
     weak var delegate: NewIssueViewViewDelegate?
     @IBOutlet weak var BottomHeight: NSLayoutConstraint!
     
@@ -56,6 +58,8 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         VW_Bottom.layer.borderWidth = 1
         
         VW_Bottom.layer.borderColor = UIColor(hexString: "#dcdde1").cgColor
+        
+        CoverView.layer.backgroundColor = UIColor(hexString: "#dcdde1").cgColor
         
         let done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(Finish_Issue))
         
@@ -96,10 +100,11 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
             
         }
         
-        Img_Author.layer.cornerRadius = Img_Author.frame.width/2.0
+//        Img_Author.layer.cornerRadius = Img_Author.frame.width/2.0
+//        
+//        Img_Author.clipsToBounds = true
         
-        Img_Author.clipsToBounds = true
-        
+        //AVPlayer
         
         //let ImageArray: [[UIImage]] = [[UIImage(named: "1-1")!, UIImage(named: "1-2")!], [UIImage(named: "2-1")!, UIImage(named: "2-2")!]]
         
@@ -209,7 +214,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         
         let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
         
-        MySubView = IssueImage(frame: CGRect(x:10,y:Int(txt_Subject.frame.origin.y + txt_Subject.frame.height) + height, width:Int(self.view.frame.size.width), height:subviewHeight))
+        MySubView = IssueImage(frame: CGRect(x:10,y: height, width:Int(self.view.frame.size.width), height:subviewHeight))
         
         MySubView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         
@@ -238,9 +243,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
             
             if Int(self.Scl_Content.frame.size.height) <  self.height{
                 
-                let ContentHeight = self.height -  Int(self.Scl_Content.frame.size.height)
-                
-                self.Scl_Content.contentSize = CGSize(width: self.view.frame.size.width, height: self.Scl_Content.contentSize.height + CGFloat(ContentHeight))
+                self.Scl_Content.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(self.height))
                 
             }
             

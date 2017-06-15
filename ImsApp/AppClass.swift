@@ -93,7 +93,7 @@ open class AppClass
                     
                 }
         }
-        //return Img
+      
         
     }
     

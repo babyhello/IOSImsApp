@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -26,7 +26,7 @@
                             <constraint firstAttribute="width" constant="30" id="jvq-pF-pxG"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#482800" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Esv-qx-f7q">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#482800" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Esv-qx-f7q">
                         <rect key="frame" x="13" y="46" width="49" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="0.23921568627450979" green="0.25490196078431371" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -74,6 +74,7 @@
                 <constraints>
                     <constraint firstItem="j31-QF-VKC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="66" id="1rD-t8-nw7"/>
                     <constraint firstItem="twq-Yy-eVO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="9BP-zI-kfq"/>
+                    <constraint firstItem="j31-QF-VKC" firstAttribute="leading" secondItem="Esv-qx-f7q" secondAttribute="trailing" constant="12" id="CgW-VK-E6M"/>
                     <constraint firstItem="ifB-fX-2hZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="1" id="Ddt-t0-W2o"/>
                     <constraint firstAttribute="trailingMargin" secondItem="9Fu-wY-Edq" secondAttribute="trailing" constant="3" id="E52-Gr-hZH"/>
                     <constraint firstItem="mN3-V0-4e8" firstAttribute="firstBaseline" secondItem="ifB-fX-2hZ" secondAttribute="firstBaseline" id="J3W-NX-xVn"/>

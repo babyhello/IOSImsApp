@@ -387,7 +387,9 @@ class IssueListTableViewController: UITableViewController,QRCode_Scan_Delegate,N
         
         cell.lbl_Issue_Date.text = AppClass.DateStringtoShortDate(String(describing: yourDate!))
         
-        cell.lbl_Issue_No.text = "#"  + IssueArray[(indexPath as NSIndexPath).row].IssueNo!
+       // cell.lbl_Issue_No.text = "#"  + IssueArray[(indexPath as NSIndexPath).row].IssueNo!
+        
+        cell.lbl_Issue_No.text = IssueArray[(indexPath as NSIndexPath).row].Owner
         
         cell.lbl_Issue_Subject.text = IssueArray[(indexPath as NSIndexPath).row].Subject
         

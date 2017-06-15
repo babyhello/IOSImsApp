@@ -59,7 +59,12 @@ class ProjectIssueListTableViewController: UITableViewController {
         
         navigationItem.title = PM_Title
         
-        Issue_List()
+        if AppUser.WorkID! != "" {
+            
+            Issue_List(WorkID: AppUser.WorkID!)
+
+        }
+        
         
         self.refreshControl?.addTarget(self, action: #selector(ProjectIssueListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
     
@@ -70,7 +75,11 @@ class ProjectIssueListTableViewController: UITableViewController {
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
-         Issue_List()
+        if AppUser.WorkID! != "" {
+            
+            Issue_List(WorkID: AppUser.WorkID!)
+            
+        }
         refreshControl.endRefreshing()
     }
     
@@ -116,13 +125,13 @@ class ProjectIssueListTableViewController: UITableViewController {
         //        self.presentViewController(vc, animated: true, completion: nil)
     }
     
-    func Issue_List()
+    func Issue_List(WorkID:String)
     {
         IssueArray = [IssueListInfo]()
         
-        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Issue_List", parameters: ["PM_ID": String(PM_ID!)])
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Issue_List_Advantage", parameters: ["PM_ID": String(PM_ID!),"F_Keyin":WorkID])
             .responseJSON { response in
-                
+ 
                 
                 if let value = response.result.value as? [String: AnyObject] {
                     
@@ -252,13 +261,17 @@ class ProjectIssueListTableViewController: UITableViewController {
         
         cell.lbl_Issue_Date.text = AppClass.DateStringtoShortDate(String(describing: yourDate!))
         
-        cell.lbl_Issue_No.text = "#" + IssueArray[(indexPath as NSIndexPath).row].IssueNo!
+//        cell.lbl_Issue_No.text = "#" + IssueArray[(indexPath as NSIndexPath).row].IssueNo!
+
+        cell.lbl_Issue_No.text = IssueArray[(indexPath as NSIndexPath).row].Author
         
         cell.lbl_Issue_Subject.text = IssueArray[(indexPath as NSIndexPath).row].Subject
         
         cell.ImgPriority.image = IssueArray[(indexPath as NSIndexPath).row].Priority!.image
         
-        cell.lbl_Project_Name.isHidden = true
+        cell.lbl_Project_Name.text = "#" + IssueArray[(indexPath as NSIndexPath).row].IssueNo!
+        
+        //cell.lbl_Project_Name.isHidden = true
         
         if IssueArray[(indexPath as NSIndexPath).row].IssueRead! == 0 {
             cell.lbl_WorkNoteCount.text = "N"
