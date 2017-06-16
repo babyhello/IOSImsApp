@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         return true
     }
 
-    public func setBadgeTextAttributes(_ textAttributes: [String : AnyObject]?, for state: UIControlState)
+    open func setBadgeTextAttributes(_ textAttributes: [String : AnyObject]?, for state: UIControlState)
     {
         
     }

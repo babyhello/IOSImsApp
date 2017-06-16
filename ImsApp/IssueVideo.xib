@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IssueVideo" customModule="IMS" customModuleProvider="target">
+            <connections>
+                <outlet property="Img_Cancel" destination="tua-r0-c82" id="vLO-Lf-bXb"/>
+                <outlet property="IssueVideoHeight" destination="qG9-8Q-8am" id="7Us-kP-AVb"/>
+                <outlet property="Issue_Video_VW" destination="3h1-oB-cki" id="pzC-f5-hdw"/>
+                <outlet property="MainView" destination="OAR-f5-baR" id="26D-FW-zl8"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="OAR-f5-baR" customClass="IssueVideo" customModule="IMS" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="OAR-f5-baR">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3h1-oB-cki">
-                    <rect key="frame" x="8" y="0.0" width="584" height="250"/>
+                    <rect key="frame" x="48" y="0.0" width="504" height="250"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="250" id="qG9-8Q-8am"/>
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_newissue_cancel" translatesAutoresizingMaskIntoConstraints="NO" id="tua-r0-c82">
-                    <rect key="frame" x="560" y="6" width="24" height="24"/>
+                    <rect key="frame" x="576" y="0.0" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="24" id="0Ij-8e-II6"/>
                         <constraint firstAttribute="height" constant="24" id="UGr-6u-cVw"/>
@@ -31,19 +38,13 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="tua-r0-c82" secondAttribute="trailing" constant="16" id="Nwl-jg-Xtw"/>
-                <constraint firstAttribute="bottom" secondItem="3h1-oB-cki" secondAttribute="bottom" constant="350" id="Qj7-wm-jne"/>
-                <constraint firstItem="3h1-oB-cki" firstAttribute="leading" secondItem="OAR-f5-baR" secondAttribute="leading" constant="8" id="SAK-y8-H6e"/>
-                <constraint firstItem="tua-r0-c82" firstAttribute="top" secondItem="OAR-f5-baR" secondAttribute="top" constant="6" id="b50-Dy-MpB"/>
-                <constraint firstAttribute="trailing" secondItem="3h1-oB-cki" secondAttribute="trailing" constant="8" id="qdJ-io-BKK"/>
+                <constraint firstAttribute="trailing" secondItem="tua-r0-c82" secondAttribute="trailing" id="Nwl-jg-Xtw"/>
+                <constraint firstItem="3h1-oB-cki" firstAttribute="leading" secondItem="OAR-f5-baR" secondAttribute="leading" constant="48" id="SAK-y8-H6e"/>
+                <constraint firstItem="tua-r0-c82" firstAttribute="top" secondItem="OAR-f5-baR" secondAttribute="top" id="b50-Dy-MpB"/>
+                <constraint firstAttribute="trailing" secondItem="3h1-oB-cki" secondAttribute="trailing" constant="48" id="qdJ-io-BKK"/>
                 <constraint firstItem="3h1-oB-cki" firstAttribute="top" secondItem="OAR-f5-baR" secondAttribute="top" id="wfb-Z0-TVc"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="Img_Cancel" destination="tua-r0-c82" id="7Bj-Yl-xta"/>
-                <outlet property="IssueVideoHeight" destination="qG9-8Q-8am" id="JYE-ci-oDk"/>
-                <outlet property="Issue_Video_VW" destination="3h1-oB-cki" id="KYL-Tw-3Wn"/>
-            </connections>
             <point key="canvasLocation" x="337" y="462"/>
         </view>
     </objects>

@@ -7,40 +7,59 @@
 //
 
 import UIKit
+import MediaPlayer
+import AVFoundation
+import AVKit
 
 class IssueVideo: UIView {
 
-
+    @IBOutlet var MainView: UIView!
     @IBOutlet weak var IssueVideoHeight: NSLayoutConstraint!
-    
-    @IBOutlet weak var Issue_Video_VW: UIView!
-    
+
     @IBOutlet weak var Img_Cancel: UIImageView!
+//    @IBOutlet weak var IssueVideoHeight: NSLayoutConstraint!
+    @IBOutlet weak var Issue_Video_VW: UIView!
+//    
+//    @IBOutlet weak var Issue_Video_VW: UIView!
+//    
+//    @IBOutlet weak var Img_Cancel: UIImageView!
+    
+
+    
+    var VideoPath:String!
     
     var MyCustview:UIView!
     
-    //    var height:Int?
-    //
-    //    var width:Int?
-    
-    override init(frame: CGRect) {
+    init(frame: CGRect,VideoPath: String){
+        
+        self.VideoPath = VideoPath
         super.init(frame: frame)
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)!
-        setup()
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
     }
-    
     func setup() {
         
+        
         MyCustview = loadViewFromNib()
-        Issue_Video_VW.bringSubview(toFront: MyCustview)
-        MyCustview.frame = bounds
+         MyCustview.frame = bounds
         MyCustview.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         IssueVideoHeight.constant = MyCustview.frame.height
+
+         var avPlayer: AVPlayer!
+        
+        let videoURL = NSURL(string: VideoPath)
+        avPlayer = AVPlayer(url: videoURL! as URL)
+        let playerLayer = AVPlayerLayer(player: avPlayer)
+        playerLayer.frame = bounds
+        MyCustview.layer.addSublayer(playerLayer)
+        avPlayer.play()
+       
+        
         addSubview(MyCustview)
+
     }
     
     func loadViewFromNib() -> UIView {

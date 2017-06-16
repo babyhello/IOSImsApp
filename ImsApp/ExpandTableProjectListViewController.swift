@@ -642,7 +642,7 @@ class ExpandTableProjectListViewController: UITableViewController,PopUpProjectSe
         
         
         
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(selectedSectionStoredButtonClicked(sender:)))
+         let gesture = UITapGestureRecognizer(target: self, action: #selector(selectedSectionStoredButtonClicked(sender:)))
         
         headerCell.contentView.backgroundColor = UIColor(hexString: "#e4e7e9")
         
@@ -677,10 +677,8 @@ class ExpandTableProjectListViewController: UITableViewController,PopUpProjectSe
         
        // tableView.reloadSections(section, with: .automatic)
         
-     
-        self.tableView.reloadSections(NSIndexSet(index: section!) as IndexSet, with: UITableViewRowAnimation.none)
-     
-        
+     self.tableView.reloadSections(NSIndexSet(index: section!) as IndexSet, with: UITableViewRowAnimation.none)
+               
 //        for i in 0 ..< ProjectInfoArray.count {
 //            tableView.reloadRows(at: [IndexPath(row: i, section: section!)], with: .automatic)
 //        }

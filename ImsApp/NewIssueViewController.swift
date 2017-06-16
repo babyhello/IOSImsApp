@@ -13,14 +13,15 @@ import MobileCoreServices
 import AssetsLibrary
 import AVFoundation
 import AVKit
-
+import Fusuma
+import MediaPlayer
 
 protocol NewIssueViewViewDelegate: class {         // make this class protocol so you can create `weak` reference
     func Cancel_NewIssue()
     func Finish_Issue()
 }
 
-class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate, UINavigationControllerDelegate, FusumaDelegate {
     
     @IBOutlet weak var CoverView: UIView!
     
@@ -34,6 +35,12 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
     @IBOutlet weak var txt_Subject: UITextView!
     
     @IBOutlet weak var lbl_Author: UILabel!
+    
+    @IBOutlet weak var VW_Photo: UIView!
+    
+    @IBOutlet weak var VW_Video: UIView!
+    
+    @IBOutlet weak var VW_Microphone: UIView!
     var height = 0
     
     var ModelID:String?
@@ -41,6 +48,8 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
     var ModelName:String?
     
     var MySubView:IssueImage!
+    
+    var MySubVideoView:IssueVideo?
     
     var SubViewTag = 100
     
@@ -71,17 +80,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         
         self.title = ModelName
         
-        //        if(FromScanText != "")
-        //        {
-        //            print(FromScanText)
-        //
-        //            txt_Subject.text = FromScanText
-        //        }
-        //        else
-        //        {
-        //            txt_Subject.text = "Please enter a issue Subject"
-        //        }
-        if txt_Subject.text.isEmpty {
+               if txt_Subject.text.isEmpty {
             txt_Subject.text = "Please enter a issue Subject"
             txt_Subject.textColor = UIColor.lightGray
         }
@@ -89,10 +88,20 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         txt_Subject.textColor = UIColor.lightGray
         txt_Subject?.delegate = self
         
-        let Camera = VW_Bottom
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Camera_Photo_Pic(_:)))
-        Camera?.isUserInteractionEnabled = true
-        Camera?.addGestureRecognizer(tapGestureRecognizer)
+        let TakePhoto = VW_Photo
+        let tapTakePhoto = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Take_Photo(_:)))
+        TakePhoto?.isUserInteractionEnabled = true
+        TakePhoto?.addGestureRecognizer(tapTakePhoto)
+        
+        let TakeVideo = VW_Video
+        let tapTakeVideo = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Take_Video(_:)))
+        TakeVideo?.isUserInteractionEnabled = true
+        TakeVideo?.addGestureRecognizer(tapTakeVideo)
+        
+        let TakeMicroPhone = VW_Microphone
+        let tapTakeMicroPhone = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Take_MicroPhone(_:)))
+        TakeMicroPhone?.isUserInteractionEnabled = true
+        TakeMicroPhone?.addGestureRecognizer(tapTakeMicroPhone)
         
         if AppUser.WorkID! != "" {
             
@@ -107,6 +116,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         //AVPlayer
         
         //let ImageArray: [[UIImage]] = [[UIImage(named: "1-1")!, UIImage(named: "1-2")!], [UIImage(named: "2-1")!, UIImage(named: "2-2")!]]
+
         
         
     }
@@ -190,16 +200,19 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
     func CameraFun(_ Camera:AnyObject)
     {
         
-        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-        let imagePickerController = UIImagePickerController()
+//        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+//        let imagePickerController = UIImagePickerController()
+//        
+//        // Only allow photos to be picked, not taken.
+//        imagePickerController.sourceType = .camera
+//        
+//        // Make sure ViewController is notified when the user picks an image.
+//        imagePickerController.delegate = self
+//        
+//        present(imagePickerController, animated: true, completion: nil)
+//        
         
-        // Only allow photos to be picked, not taken.
-        imagePickerController.sourceType = .camera
-        
-        // Make sure ViewController is notified when the user picks an image.
-        imagePickerController.delegate = self
-        
-        present(imagePickerController, animated: true, completion: nil)
+      
     }
     
     // MARK: UIImagePickerControllerDelegate
@@ -208,55 +221,7 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        // The info dictionary contains multiple representations of the image, and this uses the original.
-        let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        
-        let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
-        
-        MySubView = IssueImage(frame: CGRect(x:10,y: height, width:Int(self.view.frame.size.width), height:subviewHeight))
-        
-        MySubView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
-        
-        let imageName = UUID().uuidString
-        
-        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName + ".jpg")
-        
-        if let jpegData = UIImageJPEGRepresentation(selectedImage, 80) {
-            
-            try? jpegData.write(to: URL(fileURLWithPath: imagePath), options: [.atomic])
-            
-            
-            self.MySubView.Img_Issue.image = UIImage(contentsOfFile: imagePath)
-            
-            //MySubView.Img_Issue.image = UIImage(named: "btn_share_back")
-            
-            let imageView = self.MySubView.Img_Cancel
-            let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Cancel_Click(_:)))
-            imageView?.isUserInteractionEnabled = true
-            imageView?.addGestureRecognizer(tapGestureRecognizer)
-            self.MySubView.tag = self.SubViewTag
-            imageView?.tag = self.SubViewTag
-            self.height =  self.height + subviewHeight + 20
-            self.Scl_Content.isUserInteractionEnabled = true
-            self.Scl_Content.addSubview(self.MySubView)
-            
-            if Int(self.Scl_Content.frame.size.height) <  self.height{
-                
-                self.Scl_Content.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(self.height))
-                
-            }
-            
-            //self.Upload_Issue_File(AppUser.WorkID!,IssueID: self.IssueNo!,IssueFilePath: imagePath)
-            
-        }
-        
-        
-        
-        dismiss(animated: true, completion: nil)
-        
-        SubViewTag = SubViewTag + 1
-    }
+  
     
     func getDocumentsDirectory() -> NSString {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -264,91 +229,38 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
         return documentsDirectory as NSString
     }
     
-    func Camera_Photo_Pic(_ Camera:AnyObject)
+    func Take_Video(_ Video:AnyObject)
     {
         
-        //        AVAuthorizationStatus; authStatus = [AVCaptureDevice, authorizationStatusForMediaType,:AVMediaTypeVideo];
-        //        if(authStatus == AVAuthorizationStatusAuthorized) {
-        //            // 已取得使用者權限
-        //        } else if(authStatus == AVAuthorizationStatusDenied){
-        //            // 使用者拒絕提供權限 可以作提示到設定中開啟
-        //        } else if(authStatus == AVAuthorizationStatusRestricted){
-        //            // restricted, 通常不會發生
-        //        } else if(authStatus == AVAuthorizationStatusNotDetermined){
-        //            // 尚未詢問要求權限 則提一個詢問
-        //            [AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:^(BOOL granted) {
-        //                if(granted){
-        //                NSLog(@"Granted access to %@", mediaType);
-        //                } else {
-        //                NSLog(@"Not granted access to %@", mediaType);
-        //                }
-        //                }];
-        //        }
-        //
-        //
-        //        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) ==  AVAuthorizationStatus.authorized
-        //        {
-        //            if UIImagePickerController.isSourceTypeAvailable(
-        //                UIImagePickerControllerSourceType.camera) {
-        //
-        //                let imagePicker = UIImagePickerController()
-        //
-        //                imagePicker.delegate = self
-        //                imagePicker.sourceType = .camera
-        //                imagePicker.mediaTypes = [kUTTypeImage as String]
-        //                //imagePicker.mediaTypes = [kUTTypeMovie as String]
-        //                imagePicker.allowsEditing = false
-        //
-        //                self.present(imagePicker, animated: true,
-        //                             completion: nil)
-        //                //newMedia = true
-        //            }        }
-        //        else
-        //        {
-        //            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted :Bool) -> Void in
-        //                if granted == true
-        //                {
-        ////                    if UIImagePickerController.isSourceTypeAvailable(
-        ////                        UIImagePickerControllerSourceType.camera) {
-        ////
-        ////                        let imagePicker = UIImagePickerController()
-        ////
-        ////                        imagePicker.delegate = self
-        ////                        imagePicker.sourceType = .camera
-        ////                        imagePicker.mediaTypes = [kUTTypeImage as String]
-        ////                        //imagePicker.mediaTypes = [kUTTypeMovie as String]
-        ////                        imagePicker.allowsEditing = false
-        ////
-        ////                        self.present(imagePicker, animated: true,
-        ////                                     completion: nil)
-        ////                        //newMedia = true
-        ////                    }
-        //                }
-        //                else
-        //                {
-        //                    // User Rejected
-        //                }
-        //            });
-        //        }
+
         
-        if UIImagePickerController.isSourceTypeAvailable(
-            UIImagePickerControllerSourceType.camera) {
-            
-            let imagePicker = UIImagePickerController()
-            
-            imagePicker.delegate = self
-            imagePicker.sourceType = .camera
-            imagePicker.mediaTypes = [kUTTypeImage as String]
-            //imagePicker.mediaTypes = [kUTTypeMovie as String]
-            imagePicker.allowsEditing = false
-            
-            self.present(imagePicker, animated: true,
-                         completion: nil)
-            //newMedia = true
-        }
+        startCameraFromViewController(self, withDelegate: self)
         
         
     }
+    
+    func Take_MicroPhone(_ MicroPhone:AnyObject)
+    {
+        
+        
+    }
+    
+    func Take_Photo(_ Photo:AnyObject)
+    {
+        
+        
+                let fusuma = FusumaViewController()
+        
+                fusuma.delegate = self
+                fusuma.cropHeightRatio = 0.6
+        
+                self.present(fusuma, animated: true, completion: nil)
+        
+    
+        
+        
+    }
+    
     
     func Cancel_Click(_ sender: UITapGestureRecognizer)
     {
@@ -647,4 +559,247 @@ class NewIssueViewController: UIViewController,UIPickerViewDataSource,UIPickerVi
     }
     
     
+    // MARK: FusumaDelegate Protocol
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        
+        switch source {
+            
+        case .camera:
+            
+            print("Image captured from Camera")
+            
+        case .library:
+            
+            print("Image selected from Camera Roll")
+            
+        default:
+            
+            print("Image selected")
+        }
+        
+       ImagePicker(image: image)
+    }
+    
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
+        
+        print("Number of selection images: \(images.count)")
+        
+        var count: Double = 0
+        
+        for image in images {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + (3.0 * count)) {
+                
+                //self.imageView.image = image
+                print("w: \(image.size.width) - h: \(image.size.height)")
+            }
+            count += 1
+        }
+    }
+    
+//    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
+//        
+//        print("Image mediatype: \(metaData.mediaType)")
+//        print("Source image size: \(metaData.pixelWidth)x\(metaData.pixelHeight)")
+//        print("Creation date: \(String(describing: metaData.creationDate))")
+//        print("Modification date: \(String(describing: metaData.modificationDate))")
+//        print("Video duration: \(metaData.duration)")
+//        print("Is favourite: \(metaData.isFavourite)")
+//        print("Is hidden: \(metaData.isHidden)")
+//        print("Location: \(String(describing: metaData.location))")
+//    }
+    
+    func fusumaVideoCompleted(withFileURL fileURL: URL) {
+        
+        print("video completed and output to file: \(fileURL)")
+       // self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
+    }
+    
+    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
+        
+        switch source {
+            
+        case .camera:
+            
+            print("Called just after dismissed FusumaViewController using Camera")
+            
+        case .library:
+            
+            print("Called just after dismissed FusumaViewController using Camera Roll")
+            
+        default:
+            
+            print("Called just after dismissed FusumaViewController")
+        }
+    }
+    
+    func fusumaCameraRollUnauthorized() {
+        
+        print("Camera roll unauthorized")
+        
+        let alert = UIAlertController(title: "Access Requested",
+                                      message: "Saving image needs to access your photo album",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Settings", style: .default) { (action) -> Void in
+            
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                
+                UIApplication.shared.openURL(url)
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+            
+        })
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func fusumaClosed() {
+        
+        print("Called when the FusumaViewController disappeared")
+    }
+    
+    func fusumaWillClosed() {
+        
+        print("Called when the close button is pressed")
+    }
+    
+    func ImagePicker(image: UIImage)
+    {
+    
+        // The info dictionary contains multiple representations of the image, and this uses the original.
+        let selectedImage = image
+        
+        let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
+        
+        MySubView = IssueImage(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight))
+        
+        MySubView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        
+        let imageName = UUID().uuidString
+        
+        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName + ".jpg")
+        
+        if let jpegData = UIImageJPEGRepresentation(selectedImage, 80) {
+            
+            try? jpegData.write(to: URL(fileURLWithPath: imagePath), options: [.atomic])
+            
+            
+            self.MySubView.Img_Issue.image = UIImage(contentsOfFile: imagePath)
+            
+            //MySubView.Img_Issue.image = UIImage(named: "btn_share_back")
+            
+            let imageView = self.MySubView.Img_Cancel
+            let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Cancel_Click(_:)))
+            imageView?.isUserInteractionEnabled = true
+            imageView?.addGestureRecognizer(tapGestureRecognizer)
+            self.MySubView.tag = self.SubViewTag
+            imageView?.tag = self.SubViewTag
+            self.height =  self.height + subviewHeight + 20
+            self.Scl_Content.isUserInteractionEnabled = true
+            self.Scl_Content.addSubview(self.MySubView)
+            
+            if Int(self.Scl_Content.frame.size.height) <  self.height{
+                
+                self.Scl_Content.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(self.height))
+                
+            }
+            
+            //self.Upload_Issue_File(AppUser.WorkID!,IssueID: self.IssueNo!,IssueFilePath: imagePath)
+            
+        }
+        
+        
+        
+        dismiss(animated: true, completion: nil)
+        
+        SubViewTag = SubViewTag + 1
+        
+    }
+    
+    func ImagePickerVideo(Path: String)
+    {
+        
+        // The info dictionary contains multiple representations of the image, and this uses the original.
+       
+        
+        let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
+        
+        MySubVideoView = IssueVideo(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight),VideoPath: Path)
+        
+        MySubVideoView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        
+        let imageView = self.MySubVideoView?.Img_Cancel
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Cancel_Click(_:)))
+        imageView?.isUserInteractionEnabled = true
+        imageView?.addGestureRecognizer(tapGestureRecognizer)
+        self.MySubVideoView?.tag = self.SubViewTag
+        imageView?.tag = self.SubViewTag
+        self.height =  self.height + subviewHeight + 20
+        self.Scl_Content.isUserInteractionEnabled = true
+        self.Scl_Content.addSubview(self.MySubVideoView!)
+        
+        if Int(self.Scl_Content.frame.size.height) <  self.height{
+            
+            self.Scl_Content.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(self.height))
+            
+            
+            
+        }
+        
+        
+        dismiss(animated: true, completion: nil)
+        
+        SubViewTag = SubViewTag + 1
+        
+    }
+    
+    func startCameraFromViewController(_ viewController: UIViewController, withDelegate delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate) -> Bool {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) == false {
+            return false
+        }
+        
+        let cameraController = UIImagePickerController()
+        cameraController.sourceType = .camera
+        cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
+        cameraController.allowsEditing = false
+        cameraController.delegate = delegate
+        
+        present(cameraController, animated: true, completion: nil)
+        return true
+    }
+    
+    func video(_ videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
+        var title = "Success"
+        var message = "Video was saved"
+        if let _ = error {
+            title = "Error"
+            message = "Video failed to save"
+        }
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
+        //dismiss(animated: true, completion: nil)
+        // Handle a movie capture
+        if mediaType == kUTTypeMovie {
+            
+            let tempImage = info[UIImagePickerControllerMediaURL] as! NSURL!
+            
+            let path = tempImage?.absoluteURL?.absoluteString
+            
+            ImagePickerVideo(Path:path!)
+        }
+        
+        
+    }
+
+    
 }
+

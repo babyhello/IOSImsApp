@@ -521,21 +521,73 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fBF-2p-Pua">
                                 <rect key="frame" x="0.0" y="637" width="414" height="50"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="btn_camera" translatesAutoresizingMaskIntoConstraints="NO" id="50i-gN-7y2">
-                                        <rect key="frame" x="16" y="14" width="25" height="19"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Photo/Video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gnz-Lw-YUe">
-                                        <rect key="frame" x="57" y="14" width="106" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="0.65490196078431373" green="0.67843137254901964" blue="0.71372549019607845" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ECD-LD-g0j">
+                                        <rect key="frame" x="0.0" y="0.0" width="138" height="42"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_camera" translatesAutoresizingMaskIntoConstraints="NO" id="HeM-Ov-Whx">
+                                                <rect key="frame" x="48" y="0.0" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="0eT-og-ocF"/>
+                                                    <constraint firstAttribute="width" constant="50" id="4Rj-er-Jda"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="HeM-Ov-Whx" firstAttribute="centerX" secondItem="ECD-LD-g0j" secondAttribute="centerX" constant="4" id="ahk-R2-YXM"/>
+                                            <constraint firstItem="HeM-Ov-Whx" firstAttribute="centerY" secondItem="ECD-LD-g0j" secondAttribute="centerY" constant="4" id="gWo-45-RiD"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Jv-4k-UKj">
+                                        <rect key="frame" x="138" y="0.0" width="138" height="42"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="video_camera" translatesAutoresizingMaskIntoConstraints="NO" id="OD2-Wa-gbQ">
+                                                <rect key="frame" x="48" y="0.0" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="ZTU-Gt-ouH"/>
+                                                    <constraint firstAttribute="width" constant="50" id="qyS-bo-Oll"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="OD2-Wa-gbQ" firstAttribute="centerX" secondItem="1Jv-4k-UKj" secondAttribute="centerX" constant="4" id="htd-9m-Wsd"/>
+                                            <constraint firstItem="OD2-Wa-gbQ" firstAttribute="centerY" secondItem="1Jv-4k-UKj" secondAttribute="centerY" constant="4" id="ypq-Tb-RmC"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4BI-nF-Ahj">
+                                        <rect key="frame" x="276" y="0.0" width="138" height="42"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_microphone_gray" translatesAutoresizingMaskIntoConstraints="NO" id="hm0-Oa-oJF">
+                                                <rect key="frame" x="48" y="0.0" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="2A3-ft-a0z"/>
+                                                    <constraint firstAttribute="width" constant="50" id="x4c-nA-yyy"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="hm0-Oa-oJF" firstAttribute="centerX" secondItem="4BI-nF-Ahj" secondAttribute="centerX" constant="4" id="6sv-fy-VBv"/>
+                                            <constraint firstItem="hm0-Oa-oJF" firstAttribute="centerY" secondItem="4BI-nF-Ahj" secondAttribute="centerY" constant="4" id="abl-82-qXv"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="4BI-nF-Ahj" firstAttribute="height" secondItem="ECD-LD-g0j" secondAttribute="height" id="2Fb-fJ-BLB"/>
+                                    <constraint firstAttribute="trailing" secondItem="4BI-nF-Ahj" secondAttribute="trailing" id="4tL-D9-7Se"/>
                                     <constraint firstAttribute="height" constant="50" id="4ww-bQ-PHB"/>
+                                    <constraint firstItem="1Jv-4k-UKj" firstAttribute="top" secondItem="fBF-2p-Pua" secondAttribute="top" id="6Do-ps-7gd"/>
+                                    <constraint firstItem="ECD-LD-g0j" firstAttribute="top" secondItem="fBF-2p-Pua" secondAttribute="top" id="6pf-iB-FeC"/>
+                                    <constraint firstItem="1Jv-4k-UKj" firstAttribute="width" secondItem="ECD-LD-g0j" secondAttribute="width" id="BWq-G5-uWY"/>
+                                    <constraint firstItem="ECD-LD-g0j" firstAttribute="bottom" secondItem="fBF-2p-Pua" secondAttribute="bottomMargin" id="K60-jP-Nuf"/>
+                                    <constraint firstItem="4BI-nF-Ahj" firstAttribute="leading" secondItem="1Jv-4k-UKj" secondAttribute="trailing" id="Pai-Cy-pzk"/>
+                                    <constraint firstItem="1Jv-4k-UKj" firstAttribute="height" secondItem="ECD-LD-g0j" secondAttribute="height" id="YZO-Bt-gwL"/>
+                                    <constraint firstItem="1Jv-4k-UKj" firstAttribute="leading" secondItem="ECD-LD-g0j" secondAttribute="trailing" id="b8g-x2-7hd"/>
+                                    <constraint firstItem="4BI-nF-Ahj" firstAttribute="top" secondItem="fBF-2p-Pua" secondAttribute="top" id="d9u-ad-qlW"/>
+                                    <constraint firstItem="ECD-LD-g0j" firstAttribute="leading" secondItem="fBF-2p-Pua" secondAttribute="leading" id="rzz-Q8-ovY"/>
+                                    <constraint firstItem="4BI-nF-Ahj" firstAttribute="width" secondItem="ECD-LD-g0j" secondAttribute="width" id="s8e-8y-EBE"/>
                                 </constraints>
                             </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mPy-XY-nrz">
@@ -577,6 +629,9 @@
                         <outlet property="CoverView" destination="Kxf-1k-O93" id="dTL-EE-3v2"/>
                         <outlet property="Scl_Content" destination="5yU-TZ-Jbl" id="ILe-Tx-EyB"/>
                         <outlet property="VW_Bottom" destination="fBF-2p-Pua" id="176-jb-I0G"/>
+                        <outlet property="VW_Microphone" destination="4BI-nF-Ahj" id="gMo-Wz-zVw"/>
+                        <outlet property="VW_Photo" destination="ECD-LD-g0j" id="W9j-6R-1fG"/>
+                        <outlet property="VW_Video" destination="1Jv-4k-UKj" id="vsA-bV-zcy"/>
                         <outlet property="lbl_Author" destination="TcD-Vy-rVH" id="CFa-TD-rp9"/>
                         <outlet property="txt_Subject" destination="mPy-XY-nrz" id="04p-ie-geA"/>
                         <segue destination="eRR-6w-olF" kind="show" identifier="SelectProject" id="sgc-N0-MDv"/>
@@ -1279,7 +1334,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MtQ-hb-ZJD">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="637"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="638"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="aE3-Af-SVo">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
@@ -1513,7 +1568,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hq5-lp-RAF">
-                                <rect key="frame" x="0.0" y="637" width="414" height="50"/>
+                                <rect key="frame" x="0.0" y="638" width="414" height="49"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_camera" translatesAutoresizingMaskIntoConstraints="NO" id="zRY-sE-fEx">
                                         <rect key="frame" x="16" y="14" width="25" height="19"/>
@@ -1523,7 +1578,7 @@
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HMA-5O-Pil">
-                                        <rect key="frame" x="59" y="10" width="292" height="30"/>
+                                        <rect key="frame" x="59" y="10" width="292" height="29"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -2214,6 +2269,7 @@
         <image name="Layer" width="40" height="40"/>
         <image name="btn_camera" width="33" height="33"/>
         <image name="btn_editissue_arrow" width="13" height="8"/>
+        <image name="btn_microphone_gray" width="33" height="33"/>
         <image name="btn_pop_cancel" width="16" height="16"/>
         <image name="btn_pop_issue" width="40" height="40"/>
         <image name="btn_pop_member" width="40" height="40"/>
@@ -2236,6 +2292,7 @@
         <image name="msi" width="105" height="105"/>
         <image name="placeholder" width="200" height="125"/>
         <image name="radiobtn_nor" width="22" height="22"/>
+        <image name="video_camera" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bpB-YC-yxj"/>

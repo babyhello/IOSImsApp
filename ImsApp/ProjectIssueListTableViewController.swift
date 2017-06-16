@@ -61,7 +61,7 @@ class ProjectIssueListTableViewController: UITableViewController {
         
         if AppUser.WorkID! != "" {
             
-            Issue_List(WorkID: AppUser.WorkID!)
+            Issue_List(AppUser.WorkID!)
 
         }
         
@@ -77,7 +77,7 @@ class ProjectIssueListTableViewController: UITableViewController {
     func handleRefresh(_ refreshControl: UIRefreshControl) {
         if AppUser.WorkID! != "" {
             
-            Issue_List(WorkID: AppUser.WorkID!)
+            Issue_List(AppUser.WorkID!)
             
         }
         refreshControl.endRefreshing()
@@ -125,7 +125,7 @@ class ProjectIssueListTableViewController: UITableViewController {
         //        self.presentViewController(vc, animated: true, completion: nil)
     }
     
-    func Issue_List(WorkID:String)
+    func Issue_List(_ WorkID:String)
     {
         IssueArray = [IssueListInfo]()
         

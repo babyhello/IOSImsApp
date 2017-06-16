@@ -635,9 +635,8 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         
         // tableView.reloadSections(section, with: .automatic)
         
-        
         self.tableView.reloadSections(NSIndexSet(index: section!) as IndexSet, with: UITableViewRowAnimation.none)
-        
+                
         
         //        for i in 0 ..< ProjectInfoArray.count {
         //            tableView.reloadRows(at: [IndexPath(row: i, section: section!)], with: .automatic)

@@ -63,6 +63,7 @@
 		3CFAC0B31D25F6D10001F2F1 /* ProjectMemberTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFAC0B21D25F6D10001F2F1 /* ProjectMemberTableViewController.swift */; };
 		3CFD552A1D458DF3001BBD1B /* SelectProjectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD55291D458DF3001BBD1B /* SelectProjectTableViewController.swift */; };
 		3CFD552C1D458E50001BBD1B /* SelectPriorityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFD552B1D458E50001BBD1B /* SelectPriorityTableViewController.swift */; };
+		7F135C22D29BA38B56E846A2 /* Pods_IMS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCF1C33116281D53EFC0EFD /* Pods_IMS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -171,6 +172,7 @@
 			files = (
 				3C28568B1EE6471D0078824B /* MediaPlayer.framework in Frameworks */,
 				3C2856891ED7FCC70078824B /* Pods_IMS.framework in Frameworks */,
+				7F135C22D29BA38B56E846A2 /* Pods_IMS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
