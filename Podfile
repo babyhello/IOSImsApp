@@ -8,4 +8,5 @@ target 'IMS' do
     pod 'Firebase/Core'
     pod 'Firebase/Messaging'
     pod 'Fusuma'
+    pod 'Toast-Swift', '~> 2.0.0'
 end

@@ -626,6 +626,7 @@
                     <navigationItem key="navigationItem" title="Write Issue" id="QrL-d9-CmH"/>
                     <connections>
                         <outlet property="BottomHeight" destination="dyI-bq-50B" id="5e2-Fa-qHA"/>
+                        <outlet property="Btn_MicroPhone" destination="hm0-Oa-oJF" id="xKP-Ha-5kD"/>
                         <outlet property="CoverView" destination="Kxf-1k-O93" id="dTL-EE-3v2"/>
                         <outlet property="Scl_Content" destination="5yU-TZ-Jbl" id="ILe-Tx-EyB"/>
                         <outlet property="VW_Bottom" destination="fBF-2p-Pua" id="176-jb-I0G"/>
@@ -1334,7 +1335,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MtQ-hb-ZJD">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="638"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="637"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="aE3-Af-SVo">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="250"/>
@@ -1568,7 +1569,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hq5-lp-RAF">
-                                <rect key="frame" x="0.0" y="638" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="637" width="414" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_camera" translatesAutoresizingMaskIntoConstraints="NO" id="zRY-sE-fEx">
                                         <rect key="frame" x="16" y="14" width="25" height="19"/>
@@ -1578,7 +1579,7 @@
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HMA-5O-Pil">
-                                        <rect key="frame" x="59" y="10" width="292" height="29"/>
+                                        <rect key="frame" x="59" y="10" width="292" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>

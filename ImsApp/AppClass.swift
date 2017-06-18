@@ -129,7 +129,17 @@ open class AppClass
         return DisplayImage
         
     }
-    
+    open static func Get_Unique_FileName() -> String
+    {
+        let date = NSDate()
+        let calendar = NSCalendar.current
+        let hour = calendar.component(.hour, from: date as Date)
+        let minutes = calendar.component(.minute, from: date as Date)
+        let second = calendar.component(.second, from: date as Date)
+        let nanosecond = calendar.component(.nanosecond, from: date as Date)
+        
+        return String(hour) + String(minutes) + String(second) + String(nanosecond)
+    }
     
 }
 

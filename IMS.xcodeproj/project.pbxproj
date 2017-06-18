@@ -43,6 +43,7 @@
 		3C7CBB831D33613A00DF079C /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CBB821D33613A00DF079C /* ChatBubble.swift */; };
 		3C7CBB851D3362C900DF079C /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CBB841D3362C900DF079C /* MessageViewController.swift */; };
 		3C8A4A571ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8A4A561ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift */; };
+		3C94C8241EF3AEE70073CD76 /* VoiceRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */; };
 		3CA902331EEE2AF7009B7AE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CA902321EEE2AF7009B7AE4 /* Media.xcassets */; };
 		3CD894401D97CEB30066C836 /* DB_Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8943F1D97CEB20066C836 /* DB_Member.swift */; };
 		3CD894421D97CEE10066C836 /* DB_Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */; };
@@ -140,6 +141,7 @@
 		3C7CBB821D33613A00DF079C /* ChatBubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
 		3C7CBB841D3362C900DF079C /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		3C8A4A561ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandTableProjectListViewController.swift; sourceTree = "<group>"; };
+		3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRecord.swift; sourceTree = "<group>"; };
 		3CA902321EEE2AF7009B7AE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		3CD8943F1D97CEB20066C836 /* DB_Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DB_Member.swift; sourceTree = "<group>"; };
 		3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DB_Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -397,6 +399,7 @@
 				3C3636161D7660C000B7BB39 /* URLEncodedString.swift */,
 				3C7CBB691D2B462700DF079C /* AppClass.swift */,
 				3C7CBB6B1D2B7C6000DF079C /* AppUser.swift */,
+				3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */,
 			);
 			name = App_Library;
 			sourceTree = "<group>";
@@ -685,6 +688,7 @@
 				3CFAC0B31D25F6D10001F2F1 /* ProjectMemberTableViewController.swift in Sources */,
 				3C28D3B81D2216C800FF4538 /* ImsApp.xcdatamodeld in Sources */,
 				3CFD552A1D458DF3001BBD1B /* SelectProjectTableViewController.swift in Sources */,
+				3C94C8241EF3AEE70073CD76 /* VoiceRecord.swift in Sources */,
 				3C7CBB761D2FA5A400DF079C /* ProjectCell.swift in Sources */,
 				3CF400AD1D698F13001EC3C7 /* AccountSettingTableViewController.swift in Sources */,
 				3CE0E4BC1D6DEA540041EFCE /* QRCodeScan.swift in Sources */,

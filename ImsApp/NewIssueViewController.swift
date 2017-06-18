@@ -15,6 +15,8 @@ import AVFoundation
 import AVKit
 import Fusuma
 import MediaPlayer
+import Toast_Swift
+
 
 protocol NewIssueViewViewDelegate: class {         // make this class protocol so you can create `weak` reference
     func Cancel_NewIssue()
@@ -25,7 +27,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     
     @IBOutlet weak var CoverView: UIView!
     
-//    @IBOutlet weak var Img_Author: UIImageView!
+    //    @IBOutlet weak var Img_Author: UIImageView!
     weak var delegate: NewIssueViewViewDelegate?
     @IBOutlet weak var BottomHeight: NSLayoutConstraint!
     
@@ -41,6 +43,9 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     @IBOutlet weak var VW_Video: UIView!
     
     @IBOutlet weak var VW_Microphone: UIView!
+    @IBOutlet weak var Btn_MicroPhone: UIImageView!
+    
+    var recoder_manager = VoiceRecord()//初始化
     var height = 0
     
     var ModelID:String?
@@ -80,7 +85,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         self.title = ModelName
         
-               if txt_Subject.text.isEmpty {
+        if txt_Subject.text.isEmpty {
             txt_Subject.text = "Please enter a issue Subject"
             txt_Subject.textColor = UIColor.lightGray
         }
@@ -109,14 +114,14 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
             
         }
         
-//        Img_Author.layer.cornerRadius = Img_Author.frame.width/2.0
-//        
-//        Img_Author.clipsToBounds = true
+        //        Img_Author.layer.cornerRadius = Img_Author.frame.width/2.0
+        //
+        //        Img_Author.clipsToBounds = true
         
         //AVPlayer
         
         //let ImageArray: [[UIImage]] = [[UIImage(named: "1-1")!, UIImage(named: "1-2")!], [UIImage(named: "2-1")!, UIImage(named: "2-2")!]]
-
+        
         
         
     }
@@ -200,19 +205,19 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     func CameraFun(_ Camera:AnyObject)
     {
         
-//        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-//        let imagePickerController = UIImagePickerController()
-//        
-//        // Only allow photos to be picked, not taken.
-//        imagePickerController.sourceType = .camera
-//        
-//        // Make sure ViewController is notified when the user picks an image.
-//        imagePickerController.delegate = self
-//        
-//        present(imagePickerController, animated: true, completion: nil)
-//        
+        //        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
+        //        let imagePickerController = UIImagePickerController()
+        //
+        //        // Only allow photos to be picked, not taken.
+        //        imagePickerController.sourceType = .camera
+        //
+        //        // Make sure ViewController is notified when the user picks an image.
+        //        imagePickerController.delegate = self
+        //
+        //        present(imagePickerController, animated: true, completion: nil)
+        //
         
-      
+        
     }
     
     // MARK: UIImagePickerControllerDelegate
@@ -221,7 +226,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         dismiss(animated: true, completion: nil)
     }
     
-  
+    
     
     func getDocumentsDirectory() -> NSString {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
@@ -232,7 +237,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     func Take_Video(_ Video:AnyObject)
     {
         
-
+        
         
         startCameraFromViewController(self, withDelegate: self)
         
@@ -241,7 +246,35 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     
     func Take_MicroPhone(_ MicroPhone:AnyObject)
     {
+        let VoicePath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first?.appending("/"+AppClass.Get_Unique_FileName()+".wav")
         
+        
+        if (Btn_MicroPhone.backgroundColor == UIColor.red)
+        {
+            recoder_manager.stopRecord()//结束录音
+            
+            Btn_MicroPhone.backgroundColor = UIColor.clear
+
+            self.view.makeToast("StopRecord")
+            
+            ImagePickerVideo(Path:VoicePath!)
+
+        }
+        else
+        {
+            Btn_MicroPhone.backgroundColor = UIColor.red
+
+            
+            recoder_manager.file_path = VoicePath
+            
+            recoder_manager.beginRecord()//开始录音
+            
+            self.view.makeToast("BeginRecord")
+
+            
+        }
+        
+       
         
     }
     
@@ -249,14 +282,14 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     {
         
         
-                let fusuma = FusumaViewController()
+        let fusuma = FusumaViewController()
         
-                fusuma.delegate = self
-                fusuma.cropHeightRatio = 0.6
+        fusuma.delegate = self
+        fusuma.cropHeightRatio = 0.6
         
-                self.present(fusuma, animated: true, completion: nil)
+        self.present(fusuma, animated: true, completion: nil)
         
-    
+        
         
         
     }
@@ -577,7 +610,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
             print("Image selected")
         }
         
-       ImagePicker(image: image)
+        ImagePicker(image: image)
     }
     
     func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
@@ -597,22 +630,22 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         }
     }
     
-//    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
-//        
-//        print("Image mediatype: \(metaData.mediaType)")
-//        print("Source image size: \(metaData.pixelWidth)x\(metaData.pixelHeight)")
-//        print("Creation date: \(String(describing: metaData.creationDate))")
-//        print("Modification date: \(String(describing: metaData.modificationDate))")
-//        print("Video duration: \(metaData.duration)")
-//        print("Is favourite: \(metaData.isFavourite)")
-//        print("Is hidden: \(metaData.isHidden)")
-//        print("Location: \(String(describing: metaData.location))")
-//    }
+    //    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
+    //
+    //        print("Image mediatype: \(metaData.mediaType)")
+    //        print("Source image size: \(metaData.pixelWidth)x\(metaData.pixelHeight)")
+    //        print("Creation date: \(String(describing: metaData.creationDate))")
+    //        print("Modification date: \(String(describing: metaData.modificationDate))")
+    //        print("Video duration: \(metaData.duration)")
+    //        print("Is favourite: \(metaData.isFavourite)")
+    //        print("Is hidden: \(metaData.isHidden)")
+    //        print("Location: \(String(describing: metaData.location))")
+    //    }
     
     func fusumaVideoCompleted(withFileURL fileURL: URL) {
         
         print("video completed and output to file: \(fileURL)")
-       // self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
+        // self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
     }
     
     func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
@@ -668,7 +701,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     
     func ImagePicker(image: UIImage)
     {
-    
+        
         // The info dictionary contains multiple representations of the image, and this uses the original.
         let selectedImage = image
         
@@ -723,7 +756,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     {
         
         // The info dictionary contains multiple representations of the image, and this uses the original.
-       
+        
         
         let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
         
@@ -799,7 +832,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         
     }
-
+    
     
 }
 
