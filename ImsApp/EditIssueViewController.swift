@@ -10,12 +10,12 @@ import UIKit
 import MobileCoreServices
 import Alamofire
 import AlamofireImage
-
+import Fusuma
 
 
 class EditIssueCollectionCell:UICollectionViewCell
 {
-      
+    
     @IBOutlet weak var Img_Issue: UIImageView!
     
     
@@ -41,6 +41,8 @@ class EditIssueTableViewCell:UITableViewCell
     @IBOutlet weak var lbl_Command_Time: UILabel!
     
     @IBOutlet weak var lbl_Command_Content: UILabel!
+    
+    @IBOutlet weak var Img_Command: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -69,11 +71,12 @@ class Issue_Command
     var Command_Time: String?
     var Command_Content: String?
     var Command_Author_WorkID:String?
+    var Command_File:String?
     //var FileType: String?
 }
 
-class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate {
-
+class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate,FusumaDelegate {
+    
     @IBOutlet weak var VW_IssueInfo: UIView!
     
     @IBOutlet weak var Img_Camera: UIImageView!
@@ -82,7 +85,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     
     @IBOutlet weak var TB_WorkNote: UITableView!
-
+    
     @IBOutlet weak var lbl_ProjectName: UILabel!
     
     @IBOutlet weak var Img_Author: UIImageView!
@@ -94,7 +97,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     @IBOutlet weak var Img_Priority: UIImageView!
     
     @IBOutlet weak var lbl_IssueDate: UILabel!
-
+    
     
     @IBOutlet weak var lbl_Owner: UILabel!
     
@@ -104,7 +107,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     @IBAction func Btn_WorkNote_Send(_ sender: Any) {
         
-      WorkNote_Update()
+        WorkNote_Update()
     }
     
     var SelectPhoto:UIImage?
@@ -114,7 +117,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     var request: Request?
     var Issue_ID:String?
     var Issue_Keyin:String?
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,21 +135,23 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         Camera?.isUserInteractionEnabled = true
         Camera?.addGestureRecognizer(tapGestureRecognizer)
         
-                //Col_Edit_View.reloadData()
+        //Col_Edit_View.reloadData()
         
         //TB_WorkNote.translatesAutoresizingMaskIntoConstraints = false
         
         
         TB_WorkNote.estimatedRowHeight = 80
-TB_WorkNote.rowHeight = UITableViewAutomaticDimension
+        TB_WorkNote.rowHeight = UITableViewAutomaticDimension
         TB_WorkNote.delegate = self
         TB_WorkNote.dataSource = self
         TB_WorkNote.reloadData()
-      
         
-        Get_Issue(Issue_ID!)
-        Get_Issue_File(Issue_ID!)
-        Get_Issue_Command(Issue_ID!)
+        
+//        Get_Issue(Issue_ID!)
+//        Get_Issue_File(Issue_ID!)
+//        Get_Issue_Command(Issue_ID!)
+        Get_Issue_Info(Issue_ID!)
+        
         Insert_Issue_Read(Issue_ID!)
         WorkNoteMessage.delegate = self
         
@@ -227,7 +232,7 @@ TB_WorkNote.rowHeight = UITableViewAutomaticDimension
         
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/C_Comment_Insert", parameters: ["F_Keyin": WorkID,"F_Master_Table":"C_Issue","F_Master_ID":IssueID,"F_Comment":Comment])
             .responseJSON { response in
-                self.Get_Issue_Command(self.Issue_ID!)
+               self.Get_Issue_Info(self.Issue_ID!)
         }
         
         
@@ -245,7 +250,6 @@ TB_WorkNote.rowHeight = UITableViewAutomaticDimension
                 
                 WorkNoteMessage.text = ""
                 
-                Get_Issue_Command(Issue_ID!)
             }
         }
         
@@ -253,11 +257,15 @@ TB_WorkNote.rowHeight = UITableViewAutomaticDimension
         
     }
     
+    
+    
     func Get_Issue(_ Issue_ID:String)
     {
         
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Issue_Get", parameters: ["F_SeqNo": Issue_ID])
             .responseJSON { response in
+                
+                
                 
                 if let value = response.result.value as? [String: AnyObject] {
                     
@@ -272,15 +280,6 @@ TB_WorkNote.rowHeight = UITableViewAutomaticDimension
                         
                         if IssueInfo.count > 0
                         {
-                            
-                            
-                            
-                            //let Issue_Author = IssueInfo[0]["F_Owner"] as! String
-                            //let Issue_Owner = IssueInfo[0]["Issue_Owner"] as! String
-                            //let Issue_Date = IssueInfo[0]["F_CreateDate"] as! String
-                            //let Issue_Subject = IssueInfo[0]["F_Subject"] as! String
-                            //let Issue_Priority = IssueInfo[0]["F_Priority"] as! String
-                            //let Issue_ProjectName = IssueInfo[0]["F_ModelName"] as! String
                             
                             if (IssueInfo[0]["F_Owner"] as? String) != nil {
                                 
@@ -348,32 +347,21 @@ TB_WorkNote.rowHeight = UITableViewAutomaticDimension
                                 
                                 self.Issue_Keyin = IssueInfo[0]["F_Keyin"] as? String
                                 
-                                //self.Img_Author =  self.Get_Issue_Photo(self.Issue_Keyin!)
-                                
                                 AppClass.WebImgGet(AppClass.ImagePath + self.Issue_Keyin! + ".jpg",ImageView: self.Img_Author)
-                                
-                                
-print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
                                 
                             }
                             else
                             {
                                 self.Issue_Keyin = ""
                             }
-
-                            
                             
                             self.lbl_Author.adjustsFontSizeToFitWidth = true
-                            //                            self.lbl_ProjectName.adjustsFontSizeToFitWidth = true
                         }
                         
                         
                     }
                     else
                     {
-                        
-                        
-                        //AppClass.Alert("Not Verify", SelfControl: self)
                     }
                     
                 }
@@ -385,20 +373,208 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
         
     }
     
+    func Get_Issue_Info(_ Issue_ID:String)
+    {
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/GetIssue_Info", parameters: ["IssueID": Issue_ID])
+            .responseJSON { response in
+                
+                if let value = response.result.value as? [String: AnyObject] {
+                    
+                    let ObjectString = value["Key"]! as? [String: AnyObject]
+                    
+                    if((ObjectString?.count)! > 0)
+                    {
+                        let IssueInfo = ObjectString?["IssueInfo"]! as? [[String: AnyObject]]
+                        
+                        self.Get_Issue_InfoData(Data: IssueInfo!)
+                        
+                        let IssueComment = ObjectString?["IssueComment"] as? [[String: AnyObject]]
+                        
+                        self.Get_Issue_Command_Data(Data: IssueComment!)
+                        
+                        let IssueFile = ObjectString?["IssueFile"] as? [[String: AnyObject]]
+                        
+                        self.Get_Issue_FileData(Data: IssueFile!)
+                    }
+                    
+                }
+                else
+                {
+                    //AppClass.Alert("Outlook ID or Password Not Verify !!", SelfControl: self)
+                }
+        }
+        
+    }
+    
+    func Get_Issue_Command_Data(Data:[[String: AnyObject]])
+    {
+         Issue_Command_List = [Issue_Command]()
+        
+        for IssueInfo in (Data ) {
+            
+            let _Issue_Command = Issue_Command()
+            
+            let Issue_Command_Author = IssueInfo["F_Owner"] as! String
+            let Issue_Command_Date = IssueInfo["F_CreateDate"] as! String
+            
+            let Issue_Command_Content = IssueInfo["F_Comment"] as! String
+            let Issue_Command_WorkID = IssueInfo["F_Keyin"] as! String
+            let Issue_Command_File = IssueInfo["Comment_File"] as! String
+            
+            _Issue_Command.Command_Author_WorkID = Issue_Command_WorkID
+            _Issue_Command.Command_Author = Issue_Command_Author
+            _Issue_Command.Command_Content = Issue_Command_Content
+            _Issue_Command.Command_Time = Issue_Command_Date
+            _Issue_Command.Command_File = Issue_Command_File
+            
+            
+            self.Issue_Command_List.append(_Issue_Command)
+        }
+        
+        self.TB_WorkNote.reloadData()
+    }
+    
+    func Get_Issue_InfoData(Data:[[String: AnyObject]])
+    {
+        let IssueInfo = Data
+        
+        if IssueInfo.count > 0
+        {
+            
+            if (IssueInfo[0]["F_Owner"] as? String) != nil {
+                
+                self.lbl_Author.text = IssueInfo[0]["F_Owner"] as? String
+                
+            }
+            else
+            {
+                self.lbl_Author.text = ""
+                
+            }
+            
+            
+            if (IssueInfo[0]["Issue_Owner"] as? String) != nil {
+                
+                self.lbl_Owner.text = IssueInfo[0]["Issue_Owner"] as? String
+                
+            }
+            else
+            {
+                self.lbl_Owner.text = ""
+            }
+            
+            if (IssueInfo[0]["F_ModelName"] as? String) != nil {
+                
+                self.title = "MS-" + (IssueInfo[0]["F_ModelName"] as? String)!
+                
+            }
+            else
+            {
+                self.title = ""
+            }
+            
+            if (IssueInfo[0]["F_Subject"] as? String) != nil {
+                
+                self.lbl_Issue_Subject.text = IssueInfo[0]["F_Subject"] as? String
+                
+            }
+            else
+            {
+                self.lbl_Issue_Subject.text = ""
+            }
+            
+            if (IssueInfo[0]["F_Priority"] as? String) != nil {
+                
+                self.Img_Priority = AppClass.PriorityImage(IssueInfo[0]["F_Priority"] as! String)
+                
+            }
+            else
+            {
+                //self.Img_Priority = AppClass.PriorityImage(IssueInfo[0]["F_Priority"] as! String)
+            }
+            
+            if (IssueInfo[0]["F_CreateDate"] as? String) != nil {
+                
+                self.lbl_IssueDate.text = AppClass.DateStringtoShortDate( (IssueInfo[0]["F_CreateDate"] as? String)!)
+                
+            }
+            else
+            {
+                self.lbl_IssueDate.text = ""
+            }
+            
+            if (IssueInfo[0]["F_Keyin"] as? String) != nil {
+                
+                self.Issue_Keyin = IssueInfo[0]["F_Keyin"] as? String
+                
+                AppClass.WebImgGet(AppClass.ImagePath + self.Issue_Keyin! + ".jpg",ImageView: self.Img_Author)
+                
+            }
+            else
+            {
+                self.Issue_Keyin = ""
+            }
+            
+            self.lbl_Author.adjustsFontSizeToFitWidth = true
+        }
+    }
+    
+    func Get_Issue_FileData(Data:[[String: AnyObject]])
+    {
+         Issue_File_List = [Issue_File]()
+        
+        for IssueInfo in (Data ) {
+            
+            let _Issue_File = Issue_File()
+            
+            let Issue_File_Path = IssueInfo["F_DownloadFilePath"] as! String
+            
+            _Issue_File.FilePath = Issue_File_Path
+            
+            if ((_Issue_File.FilePath?.uppercased().contains("JPG"))! || (_Issue_File.FilePath?.uppercased().contains("PNG"))! || (_Issue_File.FilePath?.uppercased().contains("GIF"))!)
+            {
+                self.Issue_File_List.append(_Issue_File)
+            }
+            
+            
+            
+        }
+        
+        if(self.Issue_File_List.count > 0 )
+        {
+            self.Col_Edit_View.dataSource = self
+            
+            self.Col_Edit_View.delegate = self
+            
+            self.Col_Edit_View.collectionViewLayout.invalidateLayout()
+            
+            self.Col_Edit_View.reloadData()
+        }
+        else
+        {
+            
+            self.VW_IssueInfo.frame = CGRect(x: self.VW_IssueInfo.frame.origin.x, y: self.VW_IssueInfo.frame.origin.y, width: self.VW_IssueInfo.frame.width, height: self.VW_IssueInfo.frame.height - self.Col_Edit_View.frame.height)
+            
+            self.Col_Edit_View.frame = CGRect(x: self.Col_Edit_View.frame.origin.x, y: self.Col_Edit_View.frame.origin.y, width: 0, height: 0)
+        }
+
+    }
+
     func Get_Issue_Photo(_ WorkID:String) ->UIImageView
     {
         let Img:UIImageView = UIImageView(image: UIImage(named:"default man avatar"))
         
         AppClass.WebImgGet(AppClass.ImagePath + WorkID + ".jpg",ImageView: Img)
         
-//        print(AppClass.ImagePath + WorkID + ".jpg")
-//        
-//        print(Img)
-
+        //        print(AppClass.ImagePath + WorkID + ".jpg")
+        //
+        //        print(Img)
+        
         //loadImage(AppClass.ImagePath + WorkID + ".jpg",ImageView: Img)
         
         //AppClass.WebImgGet(AppClass.ImagePath + WorkID + ".jpg",ImageView: Img)
-      
+        
         return Img
     }
     
@@ -424,15 +600,15 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
                             
                             let Issue_File_Path = IssueInfo["F_DownloadFilePath"] as! String
                             
-                           _Issue_File.FilePath = Issue_File_Path
-                          
+                            _Issue_File.FilePath = Issue_File_Path
+                            
                             if ((_Issue_File.FilePath?.uppercased().contains("JPG"))! || (_Issue_File.FilePath?.uppercased().contains("PNG"))! || (_Issue_File.FilePath?.uppercased().contains("GIF"))!)
                             {
-                            self.Issue_File_List.append(_Issue_File)
+                                self.Issue_File_List.append(_Issue_File)
                             }
                             
                             
-                          
+                            
                         }
                         
                         if(self.Issue_File_List.count > 0 )
@@ -448,10 +624,10 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
                         else
                         {
                             
-                             self.VW_IssueInfo.frame = CGRect(x: self.VW_IssueInfo.frame.origin.x, y: self.VW_IssueInfo.frame.origin.y, width: self.VW_IssueInfo.frame.width, height: self.VW_IssueInfo.frame.height - self.Col_Edit_View.frame.height)
+                            self.VW_IssueInfo.frame = CGRect(x: self.VW_IssueInfo.frame.origin.x, y: self.VW_IssueInfo.frame.origin.y, width: self.VW_IssueInfo.frame.width, height: self.VW_IssueInfo.frame.height - self.Col_Edit_View.frame.height)
                             
                             self.Col_Edit_View.frame = CGRect(x: self.Col_Edit_View.frame.origin.x, y: self.Col_Edit_View.frame.origin.y, width: 0, height: 0)
-                                                    }
+                        }
                         
                         
                         
@@ -463,7 +639,7 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
         }
         
         
-
+        
         
     }
     
@@ -545,29 +721,33 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
     
     func Camera_Photo_Pic(_ sender:AnyObject)
     {
-        if UIImagePickerController.isSourceTypeAvailable(
-            UIImagePickerControllerSourceType.camera) {
-            
-            let imagePicker = UIImagePickerController()
-            
-            imagePicker.delegate = self
-            imagePicker.sourceType =
-                UIImagePickerControllerSourceType.camera
-            imagePicker.mediaTypes = [kUTTypeImage as String]
-            //imagePicker.mediaTypes = [kUTTypeMovie as String]
-            imagePicker.allowsEditing = false
-            
-            self.present(imagePicker, animated: true,
-                                       completion: nil)
-            //newMedia = true
-        }
+        //        if UIImagePickerController.isSourceTypeAvailable(
+        //            UIImagePickerControllerSourceType.camera) {
+        //
+        //            let imagePicker = UIImagePickerController()
+        //
+        //            imagePicker.delegate = self
+        //            imagePicker.sourceType =
+        //                UIImagePickerControllerSourceType.camera
+        //            imagePicker.mediaTypes = [kUTTypeImage as String]
+        //            //imagePicker.mediaTypes = [kUTTypeMovie as String]
+        //            imagePicker.allowsEditing = false
+        //
+        //            self.present(imagePicker, animated: true,
+        //                                       completion: nil)
+        //            //newMedia = true
+        //        }
+        
+        let fusuma = FusumaViewController()
+        
+        fusuma.delegate = self
+        fusuma.cropHeightRatio = 0.6
+        
+        self.present(fusuma, animated: true, completion: nil)
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        // The info dictionary contains multiple representations of the image, and this uses the original.
-        //let selectedImage = info[UIImagePickerControllerOriginalImage] as! UIImage
-        
-        
         
         dismiss(animated: true, completion: nil)
         
@@ -595,9 +775,9 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
         return cell
     }
     
-   
     
- 
+    
+    
     
     func populateCell(_ image: UIImage,ImageView:UIImageView) {
         
@@ -605,8 +785,8 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
         
     }
     
-
-
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -646,6 +826,24 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
         cell.lbl_Command_Author.text = Issue_Command_List[(indexPath as NSIndexPath).row].Command_Author
         cell.lbl_Command_Content.attributedText = attrString
         
+        if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File?.isEmpty)!
+        {
+            
+            cell.Img_Command.isHidden = true
+        }
+        else
+        {
+            cell.Img_Command.isHidden = false
+        AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
+        }
+        
+        if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_Content?.isEmpty)!
+        {
+            //cell.lbl_Command_Content.removeFromSuperview()
+        }
+
+        
+        
         return cell
     }
     
@@ -654,40 +852,243 @@ print(AppClass.ImagePath + self.Issue_Keyin! + ".jpg")
         //print("test")
     }
     
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        //print(UITableViewAutomaticDimension)
-//        return 80
-//    }
-//    
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        
-//      
-//        
-//        return 80
-//    }
+    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
+        
+        switch source {
+            
+        case .camera:
+            
+            print("Image captured from Camera")
+            
+        case .library:
+            
+            print("Image selected from Camera Roll")
+            
+        default:
+            
+            print("Image selected")
+        }
+        
+        ImagePicker(image: image)
+    }
+    
+    func ImagePicker(image: UIImage)
+    {
+        
+        let selectedImage = image
+        
+        let imageName = UUID().uuidString
+        
+        let imagePath = getDocumentsDirectory().appendingPathComponent(imageName + ".jpg")
+        
+        if let jpegData = UIImageJPEGRepresentation(selectedImage, 80) {
+            
+            try? jpegData.write(to: URL(fileURLWithPath: imagePath), options: [.atomic])
+            
+        }
+        
+        dismiss(animated: true, completion: nil)
+        
+        
+        let alert = UIAlertController(title: "\n\n\n\n\n\n\n", message: "", preferredStyle: UIAlertControllerStyle.alert)
+        
+        alert.addAction(UIAlertAction(title: "Send",
+                                      style: UIAlertActionStyle.default,
+                                      handler: {(alert: UIAlertAction!) in self.SendImageToWorkNote(ImagePath: imagePath)}))
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+        
+        
+        let width : NSLayoutConstraint = NSLayoutConstraint(item: alert.view, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 300);
+        
+        alert.view.addConstraint(width);
+        
+        let margin:CGFloat = 25.0
+        let rect = CGRect(x: margin, y: margin, width: 250, height: 160)
+        let imageView = UIImageView(frame: rect)
+        
+        imageView.image = image
+        
+        alert.view.addSubview(imageView)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+        
+    }
+    
+    func SendImageToWorkNote(ImagePath:String)
+    {
+        
+        if AppUser.WorkID! != "" {
+            
+            Upload_Issue_File(AppUser.WorkID!, IssueID: Issue_ID!, IssueFilePath: ImagePath)
+            
+        }
+        
+    }
+    
+    
+    
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory as NSString
+    }
+    
+    func Upload_Issue_File(_ WorkID:String,IssueID:String,IssueFilePath:String)
+    {
+        let Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Upload_Issue_File_MultiPart"
+        
+        let theFileName = (IssueFilePath as NSString).lastPathComponent
+        print(theFileName)
+        let fileUrl = URL(fileURLWithPath: IssueFilePath)
+        print(fileUrl)
+        Alamofire.upload(
+            multipartFormData: { multipartFormData in
+                multipartFormData.append(fileUrl, withName: "photo")
+        },
+            to: Path,
+            encodingCompletion: { encodingResult in
+                switch encodingResult {
+                case .success(let upload, _, _):
+                    upload.responseJSON { response in
+                        debugPrint(response)
+                    }
+                case .failure(let encodingError):
+                    print(encodingError)
+                }
+        }
+        )
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Issue_Comment_File_Insert", parameters: ["F_Keyin": WorkID,"F_Master_ID":IssueID,"File":theFileName])
+            .responseJSON { response in
+                
+                
+        }
+        
+        
+    }
+    
+    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
+        
+        print("Number of selection images: \(images.count)")
+        
+        var count: Double = 0
+        
+        for image in images {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + (3.0 * count)) {
+                
+                //self.imageView.image = image
+                print("w: \(image.size.width) - h: \(image.size.height)")
+            }
+            count += 1
+        }
+    }
+    
+    //    func fusumaImageSelected(_ image: UIImage, source: FusumaMode, metaData: ImageMetadata) {
+    //
+    //        print("Image mediatype: \(metaData.mediaType)")
+    //        print("Source image size: \(metaData.pixelWidth)x\(metaData.pixelHeight)")
+    //        print("Creation date: \(String(describing: metaData.creationDate))")
+    //        print("Modification date: \(String(describing: metaData.modificationDate))")
+    //        print("Video duration: \(metaData.duration)")
+    //        print("Is favourite: \(metaData.isFavourite)")
+    //        print("Is hidden: \(metaData.isHidden)")
+    //        print("Location: \(String(describing: metaData.location))")
+    //    }
+    
+    func fusumaVideoCompleted(withFileURL fileURL: URL) {
+        
+        print("video completed and output to file: \(fileURL)")
+        // self.fileUrlLabel.text = "file output to: \(fileURL.absoluteString)"
+    }
+    
+    func fusumaDismissedWithImage(_ image: UIImage, source: FusumaMode) {
+        
+        switch source {
+            
+        case .camera:
+            
+            print("Called just after dismissed FusumaViewController using Camera")
+            
+        case .library:
+            
+            print("Called just after dismissed FusumaViewController using Camera Roll")
+            
+        default:
+            
+            print("Called just after dismissed FusumaViewController")
+        }
+    }
+    
+    func fusumaCameraRollUnauthorized() {
+        
+        print("Camera roll unauthorized")
+        
+        let alert = UIAlertController(title: "Access Requested",
+                                      message: "Saving image needs to access your photo album",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Settings", style: .default) { (action) -> Void in
+            
+            if let url = URL(string:UIApplicationOpenSettingsURLString) {
+                
+                UIApplication.shared.openURL(url)
+            }
+        })
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+            
+        })
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func fusumaClosed() {
+        
+        print("Called when the FusumaViewController disappeared")
+    }
+    
+    func fusumaWillClosed() {
+        
+        print("Called when the close button is pressed")
+    }
+    
+    
+    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //        //print(UITableViewAutomaticDimension)
+    //        return 80
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    //
+    //
+    //
+    //        return 80
+    //    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "EditIssueToViewPhoto"
-//        {
-//            ///let ViewController = segue.destinationViewController as! SinglePhotoCollectionViewCell
-//            
-//            
-//            
-//            //ViewController.imgView.image = SelectPhoto
-//            
-//            // find selected photo index path
-//            let clickedIndexPath : [NSIndexPath] = self.Col_Edit_View!.indexPathsForSelectedItems()!
-//            
-//            // create destination view controller
-//            let destViewCtrl = segue.destinationViewController as! SinglePhotoViewController
-//            
-//            // set clicked photo index path for new page contoller
-//            destViewCtrl.clickedPhotoIndexPath = clickedIndexPath[0]
-//            
-//            // set current screne photo list to new controller
-//            destViewCtrl.photoList = self.photoList
-//            
-//        }
+        //        if segue.identifier == "EditIssueToViewPhoto"
+        //        {
+        //            ///let ViewController = segue.destinationViewController as! SinglePhotoCollectionViewCell
+        //
+        //
+        //
+        //            //ViewController.imgView.image = SelectPhoto
+        //
+        //            // find selected photo index path
+        //            let clickedIndexPath : [NSIndexPath] = self.Col_Edit_View!.indexPathsForSelectedItems()!
+        //
+        //            // create destination view controller
+        //            let destViewCtrl = segue.destinationViewController as! SinglePhotoViewController
+        //
+        //            // set clicked photo index path for new page contoller
+        //            destViewCtrl.clickedPhotoIndexPath = clickedIndexPath[0]
+        //
+        //            // set current screne photo list to new controller
+        //            destViewCtrl.photoList = self.photoList
+        //
+        //        }
         
         
     }

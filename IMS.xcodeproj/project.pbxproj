@@ -44,6 +44,8 @@
 		3C7CBB851D3362C900DF079C /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7CBB841D3362C900DF079C /* MessageViewController.swift */; };
 		3C8A4A571ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8A4A561ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift */; };
 		3C94C8241EF3AEE70073CD76 /* VoiceRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */; };
+		3C94C8261EF656E30073CD76 /* IssueVoice.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C94C8251EF656E30073CD76 /* IssueVoice.xib */; };
+		3C94C8281EF657220073CD76 /* IssueVoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C94C8271EF657220073CD76 /* IssueVoice.swift */; };
 		3CA902331EEE2AF7009B7AE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CA902321EEE2AF7009B7AE4 /* Media.xcassets */; };
 		3CD894401D97CEB30066C836 /* DB_Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8943F1D97CEB20066C836 /* DB_Member.swift */; };
 		3CD894421D97CEE10066C836 /* DB_Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */; };
@@ -142,6 +144,8 @@
 		3C7CBB841D3362C900DF079C /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
 		3C8A4A561ED3DE9C00C35B7F /* ExpandTableProjectListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandTableProjectListViewController.swift; sourceTree = "<group>"; };
 		3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRecord.swift; sourceTree = "<group>"; };
+		3C94C8251EF656E30073CD76 /* IssueVoice.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IssueVoice.xib; sourceTree = "<group>"; };
+		3C94C8271EF657220073CD76 /* IssueVoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueVoice.swift; sourceTree = "<group>"; };
 		3CA902321EEE2AF7009B7AE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		3CD8943F1D97CEB20066C836 /* DB_Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DB_Member.swift; sourceTree = "<group>"; };
 		3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DB_Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -314,6 +318,7 @@
 				3CDEAADD1D4EB8A9002961DC /* IssueImage.xib */,
 				3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */,
 				3C2856921EE779CF0078824B /* IssueVideo.xib */,
+				3C94C8251EF656E30073CD76 /* IssueVoice.xib */,
 			);
 			name = CustomXib;
 			sourceTree = "<group>";
@@ -326,6 +331,7 @@
 				3C7CBB751D2FA5A400DF079C /* ProjectCell.swift */,
 				3C5344A91D38BBA70085E366 /* ImsCell.swift */,
 				3C2856901EE779780078824B /* IssueVideo.swift */,
+				3C94C8271EF657220073CD76 /* IssueVoice.swift */,
 			);
 			name = CustomClass;
 			sourceTree = "<group>";
@@ -588,6 +594,7 @@
 			files = (
 				3C28D3BD1D2216C800FF4538 /* LaunchScreen.storyboard in Resources */,
 				3C28D3B51D2216C800FF4538 /* Main.storyboard in Resources */,
+				3C94C8261EF656E30073CD76 /* IssueVoice.xib in Resources */,
 				3C7CBB711D2F64A400DF079C /* ProjectCellNib.xib in Resources */,
 				3C5344AC1D38BBA70085E366 /* ImsCellNib.xib in Resources */,
 				3C2856931EE779CF0078824B /* IssueVideo.xib in Resources */,
@@ -703,6 +710,7 @@
 				3CFAC0AA1D25ED5F0001F2F1 /* IssueListTableViewController.swift in Sources */,
 				3C120EC31D40C92A00479C04 /* NewIssueViewController.swift in Sources */,
 				3C7678991D59BDCC002C5444 /* ViewPhotoViewController.swift in Sources */,
+				3C94C8281EF657220073CD76 /* IssueVoice.swift in Sources */,
 				3CF400AF1D698F25001EC3C7 /* NotificationSettingTableViewController.swift in Sources */,
 				3CE08EE51E7F9D720030199D /* TestTeableViewAutoHeightViewController.swift in Sources */,
 				3CF400A91D688B5D001EC3C7 /* SettingTableViewController.swift in Sources */,

@@ -17,6 +17,8 @@ class IssueImage: UIView {
     
     @IBOutlet weak var Img_Cancel: UIImageView!
     
+    var ImagePath:String!
+    
     var MyCustview:UIView!
     
 //    var height:Int?

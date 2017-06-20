@@ -120,7 +120,7 @@ class NotificationTableViewController: UIViewController,UITableViewDelegate,UITa
                                 _NotificationInfo.Author = ""
                             }
                             
-                            _NotificationInfo.Author = "IMS Post"
+                            _NotificationInfo.Author = "msi news +"
                             
                             if (NotificationInfo["Title"] as? String) != nil {
                                 

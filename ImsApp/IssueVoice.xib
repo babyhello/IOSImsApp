@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IssueVoice" customModule="IMS" customModuleProvider="target">
+            <connections>
+                <outlet property="Img_Cancel" destination="Pez-7y-FW5" id="ZWA-T0-zqi"/>
+                <outlet property="Img_Issue" destination="NIf-f7-cTW" id="QG8-QK-c1M"/>
+                <outlet property="IssueImageHeight" destination="m2e-UJ-eKE" id="NPu-EO-nw2"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="oxX-F2-vuo">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_set_loudvolume" translatesAutoresizingMaskIntoConstraints="NO" id="NIf-f7-cTW">
+                    <rect key="frame" x="8" y="0.0" width="584" height="250"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="250" id="m2e-UJ-eKE"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="btn_newissue_cancel" translatesAutoresizingMaskIntoConstraints="NO" id="Pez-7y-FW5">
+                    <rect key="frame" x="560" y="6" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="nln-jS-Wm4"/>
+                        <constraint firstAttribute="height" constant="24" id="zR2-Hq-afY"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="NIf-f7-cTW" firstAttribute="top" secondItem="Pez-7y-FW5" secondAttribute="bottom" constant="-30" id="6ba-HF-05v"/>
+                <constraint firstAttribute="trailing" secondItem="NIf-f7-cTW" secondAttribute="trailing" constant="8" id="V5s-Zq-rZJ"/>
+                <constraint firstItem="NIf-f7-cTW" firstAttribute="top" secondItem="oxX-F2-vuo" secondAttribute="top" id="Y7N-Ff-p5G"/>
+                <constraint firstItem="NIf-f7-cTW" firstAttribute="leading" secondItem="oxX-F2-vuo" secondAttribute="leading" constant="8" id="bHo-Ih-Sbb"/>
+                <constraint firstItem="Pez-7y-FW5" firstAttribute="leading" secondItem="NIf-f7-cTW" secondAttribute="trailing" constant="-32" id="pGP-gm-Urz"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="337" y="462"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_newissue_cancel" width="20" height="20"/>
+        <image name="ic_set_loudvolume" width="23" height="21"/>
+    </resources>
+</document>

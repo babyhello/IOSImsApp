@@ -14,11 +14,17 @@ class VoiceRecord {
     
     var recorder: AVAudioRecorder?
     var player: AVAudioPlayer?
-    var file_path = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first?.appending("/record.wav")
-    
+    var file_path = ""
     
     //开始录音
     func beginRecord() {
+        
+        let VoiceUniqueName = AppClass.Get_Unique_FileName()+".wav"
+        
+        let VoicePath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first?.appending("/"+VoiceUniqueName)
+        
+        self.file_path = VoicePath!
+        
         let session = AVAudioSession.sharedInstance()
         //设置session类型
         do {
@@ -41,7 +47,7 @@ class VoiceRecord {
         ];
         //开始录音
         do {
-            let url = URL(fileURLWithPath: file_path!)
+            let url = URL(fileURLWithPath: file_path)
             recorder = try AVAudioRecorder(url: url, settings: recordSetting)
             recorder!.prepareToRecord()
             recorder!.record()
@@ -56,7 +62,7 @@ class VoiceRecord {
     func stopRecord() {
         if let recorder = self.recorder {
             if recorder.isRecording {
-                print("正在录音，马上结束它，文件保存到了：\(file_path!)")
+                print("正在录音，马上结束它，文件保存到了：\(file_path)")
             }else {
                 print("没有录音，但是依然结束它")
             }
@@ -71,7 +77,9 @@ class VoiceRecord {
     //播放
     func play() {
         do {
-            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: file_path!))
+            
+            print("VoiceREcordPath:" + file_path)
+            player = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: file_path))
             print("歌曲长度：\(player!.duration)")
             player!.play()
         } catch let err {

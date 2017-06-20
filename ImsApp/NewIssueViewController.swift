@@ -25,6 +25,8 @@ protocol NewIssueViewViewDelegate: class {         // make this class protocol s
 
 class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate, UINavigationControllerDelegate, FusumaDelegate {
     
+    var activityIndicator:UIActivityIndicatorView!
+    
     @IBOutlet weak var CoverView: UIView!
     
     //    @IBOutlet weak var Img_Author: UIImageView!
@@ -55,6 +57,8 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     var MySubView:IssueImage!
     
     var MySubVideoView:IssueVideo?
+    
+    var MySubVoiceView:IssueVoice?
     
     var SubViewTag = 100
     
@@ -114,66 +118,82 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
             
         }
         
-        //        Img_Author.layer.cornerRadius = Img_Author.frame.width/2.0
-        //
-        //        Img_Author.clipsToBounds = true
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle:
+            UIActivityIndicatorViewStyle.gray)
+        activityIndicator.center=self.view.center
+        self.view.addSubview(activityIndicator);
         
-        //AVPlayer
-        
-        //let ImageArray: [[UIImage]] = [[UIImage(named: "1-1")!, UIImage(named: "1-2")!], [UIImage(named: "2-1")!, UIImage(named: "2-2")!]]
-        
-        
+        ModelID = "12773"
         
     }
     
-    func Upload_Issue_File(_ WorkID:String,IssueID:String,IssueFilePath:String)
+    func play(){
+        //进度条开始转动
+        activityIndicator.startAnimating()
+    }
+    
+    func stop(){
+        //进度条停止转动
+        activityIndicator.stopAnimating()
+    }
+    
+    func Upload_Issue_File(_ WorkID:String,IssueID:String,IssueFilePath:[String])
     {
+        self.play()
+        
         let Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Upload_Issue_File_MultiPart"
         
-        let theFileName = (IssueFilePath as NSString).lastPathComponent
-        print(theFileName)
-        let fileUrl = URL(fileURLWithPath: IssueFilePath)
-        print(fileUrl)
         Alamofire.upload(
+            
             multipartFormData: { multipartFormData in
-                multipartFormData.append(fileUrl, withName: "photo")
+                for filePath in IssueFilePath
+                {
+                    let theFileName = (filePath as NSString).lastPathComponent
+                    
+                    
+                    let fileUrl = URL(fileURLWithPath: filePath)
+                    
+                    multipartFormData.append(fileUrl, withName: theFileName)
+                    
+                }
+                
+                
         },
             to: Path,
+            
             encodingCompletion: { encodingResult in
                 switch encodingResult {
                 case .success(let upload, _, _):
                     upload.responseJSON { response in
                         debugPrint(response)
                     }
+                    upload.uploadProgress { progress in
+                        if(Float(progress.fractionCompleted) >= 1)
+                        {
+                            self.stop()
+                            
+                            _ = self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                    
                 case .failure(let encodingError):
                     print(encodingError)
                 }
         }
         )
         
-        //        Alamofire.upload(
-        //            multipartFormData: { multipartFormData in
-        //                multipartFormData.append(unicornImageURL, withName: "unicorn")
-        //                multipartFormData.append(rainbowImageURL, withName: "rainbow")
-        //            },
-        //            to: "https://httpbin.org/post",
-        //            encodingCompletion: { encodingResult in
-        //                switch encodingResult {
-        //                case .success(let upload, _, _):
-        //                    upload.responseJSON { response in
-        //                        debugPrint(response)
-        //                    }
-        //                case .failure(let encodingError):
-        //                    print(encodingError)
-        //                }
-        //            }
-        //        )
-        
-        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Upload_Issue_File", parameters: ["F_Keyin": WorkID,"F_Master_ID":IssueID,"F_Master_Table":"C_Issue","File":theFileName])
-            .responseJSON { response in
-                
-                print(response)
+        for filename in IssueFilePath
+        {
+            let theFileName = (filename as NSString).lastPathComponent
+            
+            Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Upload_Issue_File", parameters: ["F_Keyin": WorkID,"F_Master_ID":IssueID,"F_Master_Table":"C_Issue","File":theFileName])
+                .responseJSON { response in
+                    
+                    
+            }
         }
+        
+        
         
         
     }
@@ -184,8 +204,6 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         delegate?.Cancel_NewIssue()
         
         _ = navigationController?.popViewController(animated: true)
-        
-        //self.tabBarController?.tabBar.hidden = false
         
     }
     
@@ -202,23 +220,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         });
     }
     
-    func CameraFun(_ Camera:AnyObject)
-    {
-        
-        //        // UIImagePickerController is a view controller that lets a user pick media from their photo library.
-        //        let imagePickerController = UIImagePickerController()
-        //
-        //        // Only allow photos to be picked, not taken.
-        //        imagePickerController.sourceType = .camera
-        //
-        //        // Make sure ViewController is notified when the user picks an image.
-        //        imagePickerController.delegate = self
-        //
-        //        present(imagePickerController, animated: true, completion: nil)
-        //
-        
-        
-    }
+    
     
     // MARK: UIImagePickerControllerDelegate
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -246,35 +248,30 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     
     func Take_MicroPhone(_ MicroPhone:AnyObject)
     {
-        let VoicePath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first?.appending("/"+AppClass.Get_Unique_FileName()+".wav")
-        
         
         if (Btn_MicroPhone.backgroundColor == UIColor.red)
         {
             recoder_manager.stopRecord()//结束录音
             
             Btn_MicroPhone.backgroundColor = UIColor.clear
-
+            
             self.view.makeToast("StopRecord")
             
-            ImagePickerVideo(Path:VoicePath!)
-
+            VoicePicker(Path:recoder_manager.file_path)
+            
         }
         else
         {
             Btn_MicroPhone.backgroundColor = UIColor.red
-
-            
-            recoder_manager.file_path = VoicePath
             
             recoder_manager.beginRecord()//开始录音
             
             self.view.makeToast("BeginRecord")
-
+            
             
         }
         
-       
+        
         
     }
     
@@ -372,7 +369,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
     }
     
-    func Upload_Issue_File(_ imagePath:String)
+    func Upload_Issue_File(_ imagePath:[String])
     {
         
         if IssueNo != "" {
@@ -403,24 +400,53 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         New_Issue(IssueNo!,PM_ID: ModelID!,Priority: Priority,Subject: Subject!)
         
-        //let subViews = self.Scl_Content.subviews
+        let subViews = self.Scl_Content.subviews
         
-        //        for subView in subViews
-        //        {
-        //            if (subView as? IssueImage) != nil {
-        //
-        //                let IssueImageView:IssueImage =  (subView as? IssueImage)!
-        //
-        //                //Upload_Issue_File(IssueImageView.Img_Issue.image!)
-        //            }
-        //        }
-        //Upload_Issue_File(UIImage(named: "btn_share_back")!)
+        var FilePathArray = [String]()
+        
+        for subView in subViews
+        {
+            if (subView as? IssueImage) != nil {
+                
+                let IssueImageView:IssueImage =  (subView as? IssueImage)!
+                
+                FilePathArray.append(IssueImageView.ImagePath)
+            }
+            
+            if (subView as? IssueVideo) != nil {
+                
+                let IssueVideoView:IssueVideo =  (subView as? IssueVideo)!
+                
+                FilePathArray.append(IssueVideoView.VideoPath)
+                
+                
+            }
+            
+            if (subView as? IssueVoice) != nil {
+                
+                let IssueVoiceView:IssueVoice =  (subView as? IssueVoice)!
+                
+                FilePathArray.append(IssueVoiceView.VoicePath)
+                
+            }
+        }
+        
+        if(FilePathArray.count > 0)
+        {
+            Upload_Issue_File(FilePathArray)
+        }
+        else
+        {
+            _ = navigationController?.popViewController(animated: true)
+        }
         
         
-        _ = navigationController?.popViewController(animated: true)
         
         
-        //performSegueWithIdentifier("NewIssueToEditIssue", sender: self)
+        
+        
+        
+        //performSegue(withIdentifier: "NewIssueToEditIssue", sender: self)
     }
     
     func SelectPriority()
@@ -717,12 +743,12 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         if let jpegData = UIImageJPEGRepresentation(selectedImage, 80) {
             
+            self.MySubView.ImagePath = imagePath
+            
             try? jpegData.write(to: URL(fileURLWithPath: imagePath), options: [.atomic])
             
             
             self.MySubView.Img_Issue.image = UIImage(contentsOfFile: imagePath)
-            
-            //MySubView.Img_Issue.image = UIImage(named: "btn_share_back")
             
             let imageView = self.MySubView.Img_Cancel
             let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Cancel_Click(_:)))
@@ -789,6 +815,38 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
     }
     
+    func VoicePicker(Path: String)
+    {
+        
+        // The info dictionary contains multiple representations of the image, and this uses the original.
+        
+        
+        let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
+        
+        MySubVoiceView = IssueVoice(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight),VoicePath: Path)
+        
+        MySubVoiceView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        
+        let imageView = self.MySubVoiceView?.Img_Cancel
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(NewIssueViewController.Cancel_Click(_:)))
+        imageView?.isUserInteractionEnabled = true
+        imageView?.addGestureRecognizer(tapGestureRecognizer)
+        self.MySubVoiceView?.tag = self.SubViewTag
+        imageView?.tag = self.SubViewTag
+        self.height =  self.height + subviewHeight + 20
+        self.Scl_Content.isUserInteractionEnabled = true
+        self.Scl_Content.addSubview(self.MySubVoiceView!)
+        
+        if Int(self.Scl_Content.frame.size.height) <  self.height{
+            
+            self.Scl_Content.contentSize = CGSize(width: self.view.frame.size.width, height: CGFloat(self.height))
+            
+        }
+        
+        SubViewTag = SubViewTag + 1
+        
+    }
+    
     func startCameraFromViewController(_ viewController: UIViewController, withDelegate delegate: UIImagePickerControllerDelegate & UINavigationControllerDelegate) -> Bool {
         if UIImagePickerController.isSourceTypeAvailable(.camera) == false {
             return false
@@ -821,18 +879,33 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         let mediaType = info[UIImagePickerControllerMediaType] as! NSString
         //dismiss(animated: true, completion: nil)
         // Handle a movie capture
+        
         if mediaType == kUTTypeMovie {
             
-            let tempImage = info[UIImagePickerControllerMediaURL] as! NSURL!
+            let TempVideoPath = info[UIImagePickerControllerMediaURL] as! NSURL!
             
-            let path = tempImage?.absoluteURL?.absoluteString
+            guard let path = (TempVideoPath)?.path else { return }
             
-            ImagePickerVideo(Path:path!)
+            if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(path) {
+                
+                UISaveVideoAtPathToSavedPhotosAlbum(path, self, #selector(NewIssueViewController.video(_:didFinishSavingWithError:contextInfo:)), nil)
+                
+                //let path = TempVideoPath?.absoluteURL?.absoluteString
+                
+                ImagePickerVideo(Path:path)
+                
+            }
         }
-        
         
     }
     
-    
+    func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
+        var title = "Success"
+        var message = "Video was saved"
+        if let _ = error {
+            title = "Error"
+            message = "Video failed to save"
+        }
+    }
 }
 
