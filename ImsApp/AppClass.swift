@@ -43,10 +43,13 @@ open class AppClass
         switch Priotity {
         case "1":
             imageName = "ic_issue_prioP1"
+            break;
         case "2":
             imageName = "ic_issue_prioP2"
+            break;
         case "3":
             imageName = "ic_issue_prioP3"
+            break;
         default: break
             
         }
@@ -76,24 +79,15 @@ open class AppClass
     
     open static func WebImgGet(_ Path:String,ImageView:UIImageView)
     {
+
+        let size = ImageView.frame.size
         
-        let encodedName = ("http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Get_File?FileName=" + Path).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)
-        //let encodedName = Path.addingPercentEscapes(using: String.Encoding.utf8)
-        //print(encodedName)
+        let url = URL(string: ("http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Get_File?FileName=" + Path).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)!)!
         
-        Alamofire.request(encodedName!)
-            .responseImage { response in
-                
-                //print(response.data)
-                //return response.result.value
-                
-                if let image = response.result.value {
-                    //print(image)
-                    ImageView.image = image
-                    
-                }
-        }
-      
+        let placeholderImage = UIImage(contentsOfFile: "default_logo")
+        
+        ImageView.af_setImage(withURL: url,placeholderImage: placeholderImage,filter: AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 0.0))
+        
         
     }
     
@@ -131,8 +125,8 @@ open class AppClass
     }
     open static func Get_Unique_FileName() -> String
     {
-        let date = NSDate()
-        let calendar = NSCalendar.current
+        let date = Date()
+        let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date as Date)
         let minutes = calendar.component(.minute, from: date as Date)
         let second = calendar.component(.second, from: date as Date)

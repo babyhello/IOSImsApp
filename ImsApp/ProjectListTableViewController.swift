@@ -71,6 +71,10 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
         
         self.clearsSelectionOnViewWillAppear = true
         
+        let NewIssueControler = NewIssueViewController()
+        
+        NewIssueControler.delegate = self
+        
         //        refreshControl = UIRefreshControl()
         //        refreshControl?.attributedTitle = NSAttributedString(string: "")
         //        refreshControl?.addTarget(self, action: #selector(ProjectListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
@@ -127,17 +131,26 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
+        
         let NewIssue = UITableViewRowAction(style: .default, title: "New\n Issue") { (action, indexPath) in
             
-            let ProjectName = self.ProjectInfroList[(indexPath as NSIndexPath).row].ProjectName
+            let cell:ProjectCell = tableView.dequeueReusableCell(withIdentifier: "ImsProjectCell") as! ProjectCell
             
-            self.SelectPM_ID = self.ProjectInfroList[(indexPath as NSIndexPath).row].PM_ID
+            let ProjectInfoArray =  self.ProjectInfroList.filter{$0.Model_Focus == self.SectionTitleArray[(indexPath as NSIndexPath).section].Title}
             
-            self.SelectPM_Name = ProjectName
-            
-            self.tabBarController?.tabBar.isHidden = true
-            
-            self.performSegue(withIdentifier: "ProjectToNewIssue", sender: self)
+            if  (ProjectInfoArray.count >= (indexPath as NSIndexPath).row)
+            {
+                
+                let ProjectName = ProjectInfoArray[(indexPath as NSIndexPath).row].ProjectName
+                
+                self.SelectPM_ID = ProjectInfoArray[(indexPath as NSIndexPath).row].PM_ID
+                
+                self.SelectPM_Name = ProjectName
+                
+                self.tabBarController?.tabBar.isHidden = true
+                
+                self.performSegue(withIdentifier: "ProjectToNewIssue", sender: self)
+            }
             
         }
         
@@ -182,7 +195,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
     }
     func Finish_Issue()
     {
-        
+         self.tabBarController?.tabBar.isHidden = false
     }
     func ProjectList(_ WorkID:String,SearchString:String)
     {
@@ -422,8 +435,7 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
             cell.ProjectName.text = ProjectName
             
             AppClass.WebImgGet(PicPath!,ImageView: cell.ProjectImage)
-            
-            print(PicPath!)
+           
         }
         
         
@@ -507,6 +519,8 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
             ViewController.ModelID = SelectPM_ID!
             
             ViewController.ModelName = SelectPM_Name
+            
+            ViewController.delegate = self
             
             //ViewController.delegate = self
             

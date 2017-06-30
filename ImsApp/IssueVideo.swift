@@ -50,11 +50,11 @@ class IssueVideo: UIView {
 
          var avPlayer: AVPlayer!
         
-        let TrueVideoPath =  NSURL(fileURLWithPath: VideoPath)
+        let TrueVideoPath =  URL(fileURLWithPath: VideoPath)
         
         let videoURL = TrueVideoPath.absoluteURL
         
-        avPlayer = AVPlayer(url: videoURL! as URL)
+        avPlayer = AVPlayer(url: videoURL as URL)
         let playerLayer = AVPlayerLayer(player: avPlayer)
         playerLayer.frame = bounds
         MyCustview.layer.addSublayer(playerLayer)

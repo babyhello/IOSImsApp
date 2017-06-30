@@ -59,7 +59,7 @@ class IssueListTableViewController: UITableViewController,QRCode_Scan_Delegate,N
     
     var QR_Code_Scan_Text:String?
     
-    var IssueListRefresh: UIRefreshControl!
+    //var IssueListRefresh: UIRefreshControl!
     
     var DateRangeNum = 12
     
@@ -191,9 +191,12 @@ class IssueListTableViewController: UITableViewController,QRCode_Scan_Delegate,N
     
     func Issue_List(_ WorkID:String,DateRange:Int)
     {
+        
+        
+        
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Find_My_Issue_List", parameters: ["F_Keyin": WorkID,"DateRange":DateRange])
             .responseJSON { response in
-                
+                self.IssueArray = [IssueInfo]()
                 
                 if let value = response.result.value as? [String: AnyObject] {
                     
@@ -422,6 +425,13 @@ class IssueListTableViewController: UITableViewController,QRCode_Scan_Delegate,N
             print(IssueArray[(indexPath as NSIndexPath).row].WorkNoteRead!)
         }
         
+        if IssueArray[(indexPath as NSIndexPath).row].Status! == "5" {
+            cell.backgroundColor = UIColor(hexString: "#e4e7e9")
+        }else
+        {
+            cell.backgroundColor = UIColor.clear
+            
+        }
                 
         return cell
     }

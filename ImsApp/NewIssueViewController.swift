@@ -118,12 +118,20 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
             
         }
         
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
+        
+        var MemberData = [DB_Member]()
+        
+        MemberData = DB_Member.Get_Member(moc)
+
+        lbl_Author.text = MemberData[0].outlook_account
+        
+        
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle:
             UIActivityIndicatorViewStyle.gray)
         activityIndicator.center=self.view.center
         self.view.addSubview(activityIndicator);
         
-        ModelID = "12773"
         
     }
     
@@ -200,6 +208,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     
     func Cancel_NewIssue()
     {
+        
         
         delegate?.Cancel_NewIssue()
         
@@ -282,7 +291,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         let fusuma = FusumaViewController()
         
         fusuma.delegate = self
-        fusuma.cropHeightRatio = 0.6
+        fusuma.cropHeightRatio = 1.2
         
         self.present(fusuma, animated: true, completion: nil)
         
@@ -393,6 +402,11 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
     
     func Finish_Issue()
     {
+        delegate?.Finish_Issue()
+        
+        //防止多次送出
+        
+        navigationItem.rightBarButtonItem = nil
         
         let Subject = txt_Subject.text
         

@@ -68,13 +68,13 @@ class ProjectIssueListTableViewController: UITableViewController {
         
         self.refreshControl?.addTarget(self, action: #selector(ProjectIssueListTableViewController.handleRefresh(_:)), for: UIControlEvents.valueChanged)
     
-
-        //        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("buttonPressed"), name: , object: nil)
+               //        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("buttonPressed"), name: , object: nil)
         //
         
     }
     
     func handleRefresh(_ refreshControl: UIRefreshControl) {
+        
         if AppUser.WorkID! != "" {
             
             Issue_List(AppUser.WorkID!)
@@ -82,6 +82,14 @@ class ProjectIssueListTableViewController: UITableViewController {
         }
         refreshControl.endRefreshing()
     }
+    
+//    func handleRefresh(_ refreshControl: UIRefreshControl) {
+//        if AppUser.WorkID! != "" {
+//            
+//            Issue_List(AppUser.WorkID!,DateRange: DateRangeNum)
+//        }
+//        refreshControl.endRefreshing()
+//    }
     
     func backevent()
     {
@@ -127,11 +135,11 @@ class ProjectIssueListTableViewController: UITableViewController {
     
     func Issue_List(_ WorkID:String)
     {
-        IssueArray = [IssueListInfo]()
+       
         
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Find_Issue_List_Advantage", parameters: ["PM_ID": String(PM_ID!),"F_Keyin":WorkID])
             .responseJSON { response in
- 
+  self.IssueArray = [IssueListInfo]()
                 
                 if let value = response.result.value as? [String: AnyObject] {
                     
@@ -288,6 +296,16 @@ class ProjectIssueListTableViewController: UITableViewController {
                 
             }
         }
+        
+        if IssueArray[(indexPath as NSIndexPath).row].Status! == "5" {
+              cell.backgroundColor = UIColor(hexString: "#e4e7e9")
+        }else
+        {
+            cell.backgroundColor = UIColor.clear
+
+        }
+        
+
         
         return cell
     }

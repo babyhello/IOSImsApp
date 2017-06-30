@@ -120,7 +120,7 @@ class NotificationTableViewController: UIViewController,UITableViewDelegate,UITa
                                 _NotificationInfo.Author = ""
                             }
                             
-                            _NotificationInfo.Author = "msi news +"
+                            _NotificationInfo.Author = ""
                             
                             if (NotificationInfo["Title"] as? String) != nil {
                                 
@@ -190,7 +190,7 @@ class NotificationTableViewController: UIViewController,UITableViewDelegate,UITa
         
         cell.selectionStyle = UITableViewCellSelectionStyle.none;
         
-        cell.Img_Author.image = UIImage(named: "default man avatar")
+        //cell.Img_Author.image = UIImage(named: "default man avatar")
 
         cell.lbl_Author.text = NotificationList[(indexPath as NSIndexPath).row].Author
         

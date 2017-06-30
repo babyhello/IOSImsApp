@@ -10,12 +10,6 @@ import UIKit
 import Alamofire
 import AlamofireImage
 
-class ModelMember
-{
-    var MemberName:String?
-    var Header:String?
-    var F_Tel:String?
-}
 
 class ProjectMemberTableViewController: UITableViewController {
 

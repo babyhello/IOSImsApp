@@ -11,7 +11,7 @@ import MobileCoreServices
 import Alamofire
 import AlamofireImage
 import Fusuma
-
+import ImageViewer
 
 class EditIssueCollectionCell:UICollectionViewCell
 {
@@ -105,6 +105,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     @IBOutlet weak var WorkNoteMessage: UITextField!
     
+    @IBOutlet weak var Img_Edit_Issue: UIImageView!
+    
     @IBAction func Btn_WorkNote_Send(_ sender: Any) {
         
         WorkNote_Update()
@@ -117,8 +119,10 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     var request: Request?
     var Issue_ID:String?
     var Issue_Keyin:String?
-    
-    
+    var Issue_Priority:String?
+    var ModelID:String?
+    var AuthorNameCN:String?
+    var AuthorNameEN:String?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,6 +139,13 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         Camera?.isUserInteractionEnabled = true
         Camera?.addGestureRecognizer(tapGestureRecognizer)
         
+        
+        let _Img_Edit_Issue = Img_Edit_Issue
+        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.Edit_Issue_Fun(_:)))
+        _Img_Edit_Issue?.isUserInteractionEnabled = true
+        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+        
+        
         //Col_Edit_View.reloadData()
         
         //TB_WorkNote.translatesAutoresizingMaskIntoConstraints = false
@@ -147,9 +158,9 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         TB_WorkNote.reloadData()
         
         
-//        Get_Issue(Issue_ID!)
-//        Get_Issue_File(Issue_ID!)
-//        Get_Issue_Command(Issue_ID!)
+        //        Get_Issue(Issue_ID!)
+        //        Get_Issue_File(Issue_ID!)
+        //        Get_Issue_Command(Issue_ID!)
         Get_Issue_Info(Issue_ID!)
         
         Insert_Issue_Read(Issue_ID!)
@@ -232,7 +243,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/C_Comment_Insert", parameters: ["F_Keyin": WorkID,"F_Master_Table":"C_Issue","F_Master_ID":IssueID,"F_Comment":Comment])
             .responseJSON { response in
-               self.Get_Issue_Info(self.Issue_ID!)
+                self.Get_Issue_Info(self.Issue_ID!)
         }
         
         
@@ -327,6 +338,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                                 
                                 self.Img_Priority = AppClass.PriorityImage(IssueInfo[0]["F_Priority"] as! String)
                                 
+                                self.Issue_Priority = IssueInfo[0]["F_Priority"] as? String
+                                
                             }
                             else
                             {
@@ -409,7 +422,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     func Get_Issue_Command_Data(Data:[[String: AnyObject]])
     {
-         Issue_Command_List = [Issue_Command]()
+        Issue_Command_List = [Issue_Command]()
         
         for IssueInfo in (Data ) {
             
@@ -486,7 +499,10 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             
             if (IssueInfo[0]["F_Priority"] as? String) != nil {
                 
-                self.Img_Priority = AppClass.PriorityImage(IssueInfo[0]["F_Priority"] as! String)
+                Issue_Priority = IssueInfo[0]["F_Priority"] as? String
+                
+                self.Img_Priority.image = AppClass.PriorityImage(Issue_Priority!).image
+                
                 
             }
             else
@@ -516,13 +532,33 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 self.Issue_Keyin = ""
             }
             
+            if (IssueInfo[0]["F_PM_ID"] as? String) != nil {
+                
+                ModelID = IssueInfo[0]["F_PM_ID"] as? String
+                
+            }
+        
+            if (IssueInfo[0]["F_Owner_en"] as? String) != nil {
+                
+                AuthorNameEN = IssueInfo[0]["F_Owner_en"] as? String
+                
+            }
+            
+            if (IssueInfo[0]["F_Owner_cn"] as? String) != nil {
+                
+                AuthorNameCN = IssueInfo[0]["F_Owner_cn"] as? String
+                
+            }
+            
+                      
+            
             self.lbl_Author.adjustsFontSizeToFitWidth = true
         }
     }
     
     func Get_Issue_FileData(Data:[[String: AnyObject]])
     {
-         Issue_File_List = [Issue_File]()
+        Issue_File_List = [Issue_File]()
         
         for IssueInfo in (Data ) {
             
@@ -558,9 +594,9 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             
             self.Col_Edit_View.frame = CGRect(x: self.Col_Edit_View.frame.origin.x, y: self.Col_Edit_View.frame.origin.y, width: 0, height: 0)
         }
-
+        
     }
-
+    
     func Get_Issue_Photo(_ WorkID:String) ->UIImageView
     {
         let Img:UIImageView = UIImageView(image: UIImage(named:"default man avatar"))
@@ -719,6 +755,49 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         return Issue_File_List.count
     }
     
+    func Edit_Issue_Fun(_ sender:AnyObject)
+    {
+        let optionMenu = UIAlertController(title: nil,message: nil,preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title:"Cancel",style:.cancel,handler:nil)
+        
+        let ChangeOwnerAction = UIAlertAction(title:"Change Owner",style:.default,handler: {
+            (ACTION:UIAlertAction!) -> Void in self.Change_Owner()})
+        
+        let ChangePriorityAction = UIAlertAction(title:"Change Priority",style:.default,handler: {
+            (ACTION:UIAlertAction!) -> Void in self.Change_Priority()})
+        
+        let CloaseAction = UIAlertAction(title:"Issue Close",style:.default,handler: {
+            (ACTION:UIAlertAction!) -> Void in self.Close_Issue()})
+        
+        
+        
+        optionMenu.addAction(ChangeOwnerAction)
+        
+        optionMenu.addAction(ChangePriorityAction)
+        
+        optionMenu.addAction(CloaseAction)
+        
+        optionMenu.addAction(cancelAction)
+        
+        self.present(optionMenu, animated: true, completion: nil)
+        
+    }
+    
+    func Close_Issue()
+    {
+        performSegue(withIdentifier: "Issue_Close", sender: self)
+    }
+    func Change_Priority()
+    {
+        performSegue(withIdentifier: "Change_Priority", sender: self)
+    }
+    
+    func Change_Owner()
+    {
+        performSegue(withIdentifier: "Change_Owner", sender: self)
+    }
+    
     func Camera_Photo_Pic(_ sender:AnyObject)
     {
         //        if UIImagePickerController.isSourceTypeAvailable(
@@ -747,6 +826,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
     }
     
+    
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         dismiss(animated: true, completion: nil)
@@ -768,6 +849,12 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         //loadImage(path!,ImageView: cell.Img_Issue)
         
         AppClass.WebImgGet(path!,ImageView: cell.Img_Issue)
+        
+        let _Img_Edit_Issue = cell.Img_Issue
+                let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+        _Img_Edit_Issue?.isUserInteractionEnabled = true
+        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+        
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         //cell.
         cell.backgroundColor = UIColor.white // make cell more visible in our example project
@@ -834,14 +921,20 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         else
         {
             cell.Img_Command.isHidden = false
-        AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
+            AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
+            
+            //cell.Img_Command.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
+            
+           
+            
+            //GoToZoome(cell.Img_Command)
         }
         
         if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_Content?.isEmpty)!
         {
             //cell.lbl_Command_Content.removeFromSuperview()
         }
-
+        
         
         
         return cell
@@ -850,6 +943,78 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print("test")
+    }
+    
+    
+    func GoToZoome(sender:UITapGestureRecognizer)
+    {
+        let displacedView = sender.view as! UIImageView
+        
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        let screenWidth = screenSize.width
+        let screenHeight = screenSize.height
+        
+        let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ZoomImageView") as! ZoomViewController
+        
+        print("TestImage")
+        
+        popOverVC.ZoomImage = displacedView.image
+        
+        let nav = UINavigationController(rootViewController: popOverVC)
+
+         self.present(nav, animated: true, completion: nil)
+        
+    }
+    
+    func galleryConfiguration() -> GalleryConfiguration {
+        
+        return [
+            
+            GalleryConfigurationItem.closeButtonMode(.builtIn),
+            
+            GalleryConfigurationItem.pagingMode(.standard),
+            GalleryConfigurationItem.presentationStyle(.displacement),
+            GalleryConfigurationItem.hideDecorationViewsOnLaunch(false),
+            
+            //GalleryConfigurationItem.swipeToDismissMode(.vertical),
+            //GalleryConfigurationItem.toggleDecorationViewsBySingleTap(false),
+            
+            GalleryConfigurationItem.overlayColor(UIColor(white: 0.035, alpha: 1)),
+            GalleryConfigurationItem.overlayColorOpacity(1),
+            GalleryConfigurationItem.overlayBlurOpacity(1),
+            GalleryConfigurationItem.overlayBlurStyle(UIBlurEffectStyle.light),
+            
+            //GalleryConfigurationItem.videoControlsColor(.white),
+            
+            //GalleryConfigurationItem.maximumZoomScale(8),
+            GalleryConfigurationItem.swipeToDismissThresholdVelocity(500),
+            
+            GalleryConfigurationItem.doubleTapToZoomDuration(0.15),
+            
+            GalleryConfigurationItem.blurPresentDuration(0.5),
+            GalleryConfigurationItem.blurPresentDelay(0),
+            GalleryConfigurationItem.colorPresentDuration(0.25),
+            GalleryConfigurationItem.colorPresentDelay(0),
+            
+            GalleryConfigurationItem.blurDismissDuration(0.1),
+            GalleryConfigurationItem.blurDismissDelay(0.4),
+            GalleryConfigurationItem.colorDismissDuration(0.45),
+            GalleryConfigurationItem.colorDismissDelay(0),
+            
+            GalleryConfigurationItem.itemFadeDuration(0.3),
+            GalleryConfigurationItem.decorationViewsFadeDuration(0.15),
+            GalleryConfigurationItem.rotationDuration(0.15),
+            
+            GalleryConfigurationItem.displacementDuration(0.55),
+            GalleryConfigurationItem.reverseDisplacementDuration(0.25),
+            GalleryConfigurationItem.displacementTransitionStyle(.springBounce(0.7)),
+            GalleryConfigurationItem.displacementTimingCurve(.linear),
+            
+            GalleryConfigurationItem.statusBarHidden(true),
+            GalleryConfigurationItem.displacementKeepOriginalInPlace(false),
+            GalleryConfigurationItem.displacementInsetMargin(50)
+        ]
     }
     
     func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
@@ -1068,32 +1233,75 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     //    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //        if segue.identifier == "EditIssueToViewPhoto"
-        //        {
-        //            ///let ViewController = segue.destinationViewController as! SinglePhotoCollectionViewCell
-        //
-        //
-        //
-        //            //ViewController.imgView.image = SelectPhoto
-        //
-        //            // find selected photo index path
-        //            let clickedIndexPath : [NSIndexPath] = self.Col_Edit_View!.indexPathsForSelectedItems()!
-        //
-        //            // create destination view controller
-        //            let destViewCtrl = segue.destinationViewController as! SinglePhotoViewController
-        //
-        //            // set clicked photo index path for new page contoller
-        //            destViewCtrl.clickedPhotoIndexPath = clickedIndexPath[0]
-        //
-        //            // set current screne photo list to new controller
-        //            destViewCtrl.photoList = self.photoList
-        //
-        //        }
+        
+//        if segue.identifier == "EditIssueToViewPhoto"
+//        {
+//            ///let ViewController = segue.destinationViewController as! SinglePhotoCollectionViewCell
+//            
+//            
+//            
+//            //ViewController.imgView.image = SelectPhoto
+//            
+//            // find selected photo index path
+//            let clickedIndexPath : [NSIndexPath] = self.Col_Edit_View!.indexPathsForSelectedItems()!
+//            
+//            // create destination view controller
+//            let destViewCtrl = segue.destinationViewController as! SinglePhotoViewController
+//            
+//            // set clicked photo index path for new page contoller
+//            destViewCtrl.clickedPhotoIndexPath = clickedIndexPath[0]
+//            
+//            // set current screne photo list to new controller
+//            destViewCtrl.photoList = self.photoList
+//            
+//        }
+        
+        if segue.identifier == "Change_Priority"
+        {
+            if (!(Issue_ID?.isEmpty)! && !(Issue_Priority?.isEmpty)!)
+            {
+                let ViewController = segue.destination as! ChangePriorityViewController
+                
+                ViewController.IssueID = Issue_ID
+                
+                ViewController.OldSelectedPriority = Int(Issue_Priority!)
+
+            }
+            
+         
+        }
+        else if segue.identifier == "Issue_Close"
+        {
+            if (!(Issue_ID?.isEmpty)!)
+            {
+                let ViewController = segue.destination as! CloseIssueViewController
+                
+                ViewController.IssueNo = Issue_ID
+            }
+            
+            
+        }
+        else if segue.identifier == "Change_Owner"
+        {
+            if (!(ModelID?.isEmpty)!)
+            {
+                let ViewController = segue.destination as! ChangeOwnerViewController
+                
+                ViewController.ModelID = ModelID
+                
+                ViewController.AuthorNameEN = AuthorNameEN
+                
+                ViewController.AuthorNameEN = AuthorNameEN
+            }
+            
+            
+        }
+
         
         
     }
     
-    
+   
 }
 
 extension UILabel {
