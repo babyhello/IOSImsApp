@@ -123,6 +123,9 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     var ModelID:String?
     var AuthorNameCN:String?
     var AuthorNameEN:String?
+    var Issue_Owner:String?
+    var Issue_Status_Display:String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -140,10 +143,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         Camera?.addGestureRecognizer(tapGestureRecognizer)
         
         
-        let _Img_Edit_Issue = Img_Edit_Issue
-        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.Edit_Issue_Fun(_:)))
-        _Img_Edit_Issue?.isUserInteractionEnabled = true
-        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+        
         
         
         //Col_Edit_View.reloadData()
@@ -368,6 +368,20 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                                 self.Issue_Keyin = ""
                             }
                             
+                            if (IssueInfo[0]["F_Keyin"] as? String) != nil {
+                                
+                                self.Issue_Keyin = IssueInfo[0]["F_Keyin"] as? String
+                                
+                                AppClass.WebImgGet(AppClass.ImagePath + self.Issue_Keyin! + ".jpg",ImageView: self.Img_Author)
+                                
+                            }
+                            else
+                            {
+                                self.Issue_Keyin = ""
+                            }
+                            
+                          
+                            
                             self.lbl_Author.adjustsFontSizeToFitWidth = true
                         }
                         
@@ -386,8 +400,43 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
     }
     
+    func showActivityIndicatory(uiView: UIView) {
+        var container: UIView = UIView()
+        container.frame = uiView.frame
+        container.center = uiView.center
+        container.backgroundColor = UIColor(hexString: "0xffffff").withAlphaComponent(0.3)
+        
+        var loadingView: UIView = UIView()
+        loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        loadingView.center = uiView.center
+    
+        
+        
+        loadingView.backgroundColor = UIColor(hexString: "0x444444").withAlphaComponent(0.7)
+        loadingView.clipsToBounds = true
+        loadingView.layer.cornerRadius = 10
+        
+        var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
+        actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        actInd.activityIndicatorViewStyle =
+            UIActivityIndicatorViewStyle.whiteLarge
+        
+       
+        
+        actInd.center = CGPoint(x: loadingView.frame.size.width / 2,
+                                y: loadingView.frame.size.height / 2);
+        loadingView.addSubview(actInd)
+        container.addSubview(loadingView)
+        uiView.addSubview(container)
+        
+        container.tag = 1
+        
+        actInd.startAnimating()
+    }
+    
     func Get_Issue_Info(_ Issue_ID:String)
     {
+        showActivityIndicatory(uiView: self.view)
         
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/GetIssue_Info", parameters: ["IssueID": Issue_ID])
             .responseJSON { response in
@@ -416,6 +465,12 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 {
                     //AppClass.Alert("Outlook ID or Password Not Verify !!", SelfControl: self)
                 }
+                
+                if let viewWithTag = self.view.viewWithTag(1) {
+                   
+                    viewWithTag.removeFromSuperview()
+                }
+                
         }
         
     }
@@ -550,10 +605,28 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 
             }
             
-                      
+            if (IssueInfo[0]["F_RespGroup"] as? String) != nil {
+                
+                self.Issue_Owner = IssueInfo[0]["F_RespGroup"] as? String
+                
+                
+            }
+            
+            if (IssueInfo[0]["F_Status_Display"] as? String) != nil {
+                
+                self.Issue_Status_Display = IssueInfo[0]["F_Status_Display"] as? String
+                
+                
+            }
+            
             
             self.lbl_Author.adjustsFontSizeToFitWidth = true
         }
+        
+        let _Img_Edit_Issue = Img_Edit_Issue
+        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.Edit_Issue_Fun(_:)))
+        _Img_Edit_Issue?.isUserInteractionEnabled = true
+        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
     }
     
     func Get_Issue_FileData(Data:[[String: AnyObject]])
@@ -731,6 +804,9 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         }
         
     }
+    
+    
+    
     func Insert_Issue_Read(_ Issue_ID:String)
     {
         Issue_File_List = [Issue_File]()
@@ -770,18 +846,90 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         let CloaseAction = UIAlertAction(title:"Issue Close",style:.default,handler: {
             (ACTION:UIAlertAction!) -> Void in self.Close_Issue()})
         
+        let VerifyAction = UIAlertAction(title:"Verify",style:.default,handler: {
+            (ACTION:UIAlertAction!) -> Void in self.Verify()})
         
+        let RejectAction = UIAlertAction(title:"Reject",style:.default,handler: {
+            (ACTION:UIAlertAction!) -> Void in self.Reject()})
+
         
-        optionMenu.addAction(ChangeOwnerAction)
+        if (Issue_Status_Display == "3" && Issue_Keyin == AppUser.WorkID)
+        {
+            optionMenu.addAction(ChangeOwnerAction)
+            
+            optionMenu.addAction(ChangePriorityAction)
+            
+            optionMenu.addAction(CloaseAction)
+            
+            
+        }
         
-        optionMenu.addAction(ChangePriorityAction)
-        
-        optionMenu.addAction(CloaseAction)
+        if(Issue_Status_Display == "1" && Issue_Keyin != AppUser.WorkID)
+        {
+            optionMenu.addAction(VerifyAction)
+        }
         
         optionMenu.addAction(cancelAction)
         
         self.present(optionMenu, animated: true, completion: nil)
         
+    }
+    
+    
+    func Verify_Issue(_ IssueID:String,WorkID:String)
+    {
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Verify_Issue", parameters: ["IssueNo": IssueID,"WorkID":WorkID])
+            .responseJSON { response in
+                
+            self.Get_Issue_Info(self.Issue_ID!)
+                
+        }
+    }
+    
+    func Reject_Issue(_ IssueID:String,WorkID:String,CloseType:String)
+    {
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Reject_Verify_Issue", parameters: ["IssueNo": IssueID,"WorkID":WorkID])
+            .responseJSON { response in
+                
+                 self.Get_Issue_Info(self.Issue_ID!)
+        }
+    }
+    
+    func Verify()
+    {
+        let refreshAlert = UIAlertController(title: "Verify Issue!!", message: "Are you sure to verify Issue", preferredStyle: UIAlertControllerStyle.alert)
+
+        refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+            
+        self.Verify_Issue(self.Issue_ID!, WorkID: AppUser.WorkID!)
+        
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+           
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+
+    }
+    
+    func Reject()
+    {
+        let refreshAlert = UIAlertController(title: "Reject Issue!!", message: "Are you sure to reject Issue", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+            
+            self.Verify_Issue(self.Issue_ID!, WorkID: AppUser.WorkID!)
+            
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+            
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
     }
     
     func Close_Issue()
@@ -923,11 +1071,12 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             cell.Img_Command.isHidden = false
             AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
             
-            //cell.Img_Command.addGestureRecognizer(<#T##gestureRecognizer: UIGestureRecognizer##UIGestureRecognizer#>)
+            let _Img_Edit_Issue = cell.Img_Command
             
-           
-            
-            //GoToZoome(cell.Img_Command)
+            let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+            _Img_Edit_Issue?.isUserInteractionEnabled = true
+            _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+
         }
         
         if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_Content?.isEmpty)!
