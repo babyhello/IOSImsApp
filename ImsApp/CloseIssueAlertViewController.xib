@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CloseIssueAlertViewController" customModule="IMS" customModuleProvider="target">
+            <connections>
+                <outlet property="Btn_Fixed" destination="S2t-uw-3nt" id="RT9-OJ-Yag"/>
+                <outlet property="Btn_Limitation" destination="3UI-nv-PCT" id="my8-Vs-ou5"/>
+                <outlet property="Btn_Waive" destination="yPu-SZ-6De" id="QFN-S0-e1Q"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="ZrL-Py-HRs">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S2t-uw-3nt">
+                    <rect key="frame" x="147" y="35" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="5ad-Ks-Y8I"/>
+                        <constraint firstAttribute="height" constant="80" id="mM6-XL-zQi"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="btn_closeissue_fixe_nor"/>
+                    <connections>
+                        <action selector="Btn_Fixed_Click:" destination="-1" eventType="touchUpInside" id="mbc-ww-RLn"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3UI-nv-PCT">
+                    <rect key="frame" x="40" y="35" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="bJp-1h-toJ"/>
+                        <constraint firstAttribute="width" constant="80" id="dzI-42-P0y"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="btn_closeissue_limit_nor"/>
+                    <connections>
+                        <action selector="Btn_Limitation_Click:" destination="-1" eventType="touchUpInside" id="So7-bW-MDu"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yPu-SZ-6De">
+                    <rect key="frame" x="255" y="35" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="iBq-3H-EAx"/>
+                        <constraint firstAttribute="height" constant="80" id="vzr-Sr-4qs"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="btn_closeissue_waive_nor"/>
+                    <connections>
+                        <action selector="Btn_Waive_Click:" destination="-1" eventType="touchUpInside" id="CK8-fG-PaZ"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Close Issue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6a-Sh-uJh">
+                    <rect key="frame" x="10" y="10" width="325" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.89411764709999997" green="0.90588235289999997" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="yPu-SZ-6De" firstAttribute="top" secondItem="ZrL-Py-HRs" secondAttribute="top" constant="35" id="1zd-4K-xDh"/>
+                <constraint firstAttribute="trailing" secondItem="L6a-Sh-uJh" secondAttribute="trailing" constant="40" id="7Do-7Z-Y8P"/>
+                <constraint firstAttribute="trailing" secondItem="yPu-SZ-6De" secondAttribute="trailing" constant="40" id="9uF-qd-c6b"/>
+                <constraint firstItem="L6a-Sh-uJh" firstAttribute="top" secondItem="ZrL-Py-HRs" secondAttribute="top" constant="10" id="FSl-IO-XTs"/>
+                <constraint firstItem="S2t-uw-3nt" firstAttribute="leading" secondItem="3UI-nv-PCT" secondAttribute="trailing" constant="27" id="HGD-9m-1cQ"/>
+                <constraint firstItem="S2t-uw-3nt" firstAttribute="height" secondItem="3UI-nv-PCT" secondAttribute="height" id="LrR-lG-gOz"/>
+                <constraint firstItem="yPu-SZ-6De" firstAttribute="top" secondItem="3UI-nv-PCT" secondAttribute="top" id="Uch-xI-hjx"/>
+                <constraint firstItem="yPu-SZ-6De" firstAttribute="width" secondItem="3UI-nv-PCT" secondAttribute="width" id="cb4-LH-6pZ"/>
+                <constraint firstItem="3UI-nv-PCT" firstAttribute="leading" secondItem="ZrL-Py-HRs" secondAttribute="leading" constant="40" id="dBo-zc-6JK"/>
+                <constraint firstItem="S2t-uw-3nt" firstAttribute="width" secondItem="3UI-nv-PCT" secondAttribute="width" id="fOs-E7-OHJ"/>
+                <constraint firstItem="yPu-SZ-6De" firstAttribute="height" secondItem="3UI-nv-PCT" secondAttribute="height" id="orA-6v-HeS"/>
+                <constraint firstItem="yPu-SZ-6De" firstAttribute="top" secondItem="S2t-uw-3nt" secondAttribute="top" id="uvd-Ki-xQP"/>
+                <constraint firstItem="L6a-Sh-uJh" firstAttribute="leading" secondItem="ZrL-Py-HRs" secondAttribute="leading" constant="10" id="xRb-8N-Nfx"/>
+                <constraint firstItem="yPu-SZ-6De" firstAttribute="leading" secondItem="S2t-uw-3nt" secondAttribute="trailing" constant="28" id="z8g-X6-yHz"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_closeissue_fixe_nor" width="110" height="110"/>
+        <image name="btn_closeissue_limit_nor" width="110" height="110"/>
+        <image name="btn_closeissue_waive_nor" width="110" height="110"/>
+    </resources>
+</document>

@@ -80,15 +80,21 @@ open class AppClass
     open static func WebImgGet(_ Path:String,ImageView:UIImageView)
     {
 
-        let size = ImageView.frame.size
         
         let url = URL(string: ("http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Get_File?FileName=" + Path).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)!)!
         
-        let placeholderImage = UIImage(contentsOfFile: "default_logo")
+        let placeholderImage = UIImage(named: "msi_default_image")
         
-        ImageView.af_setImage(withURL: url,placeholderImage: placeholderImage,filter: AspectScaledToFillSizeWithRoundedCornersFilter(size: size, radius: 0.0))
-        
-        
+        let filter = AspectScaledToFillSizeWithRoundedCornersFilter(
+            size: ImageView.frame.size,
+            radius: 0
+        )
+     
+        ImageView.af_setImage(
+            withURL: url,
+            //placeholderImage: placeholderImage,
+            filter: filter
+        )
     }
     
     open static func WebImg(_ Path:String) -> UIImage

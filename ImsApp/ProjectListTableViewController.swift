@@ -434,6 +434,8 @@ class ProjectListTableViewController: UITableViewController,PopUpProjectSelectVi
             
             cell.ProjectName.text = ProjectName
             
+            cell.ProjectImage.image = UIImage(named: "msi_default_image")
+
             AppClass.WebImgGet(PicPath!,ImageView: cell.ProjectImage)
            
         }

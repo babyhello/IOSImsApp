@@ -147,7 +147,7 @@ class CloseIssueViewController: UIViewController,UITextViewDelegate,UIImagePicke
             Btn_Close_Waive.setBackgroundImage(UIImage(named: "btn_closeissue_waive_sel"), for: .normal)
             
             Btn_Close_Limit.setBackgroundImage(UIImage(named: "btn_closeissue_limit_nor"), for: .normal)
-            Btn_Close_Fixed.setBackgroundImage(UIImage(named: "btn_closeissue_fixe_sel"), for: .normal)
+            Btn_Close_Fixed.setBackgroundImage(UIImage(named: "btn_closeissue_fixe_nor"), for: .normal)
             
             break;
             

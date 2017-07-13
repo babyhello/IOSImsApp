@@ -31,7 +31,6 @@
 		3C5344AB1D38BBA70085E366 /* ImsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5344A91D38BBA70085E366 /* ImsCell.swift */; };
 		3C5344AC1D38BBA70085E366 /* ImsCellNib.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C5344AA1D38BBA70085E366 /* ImsCellNib.xib */; };
 		3C5C5E9D1D3E1F6F00950F50 /* ProjectIssueListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5C5E9C1D3E1F6F00950F50 /* ProjectIssueListTableViewController.swift */; };
-		3C628D3C1ECD2AAF007869F1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C628D3B1ECD2AAF007869F1 /* GoogleService-Info.plist */; };
 		3C6B1B5B1D74854F008C421D /* NotificationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6B1B5A1D74854F008C421D /* NotificationTableViewController.swift */; };
 		3C7678991D59BDCC002C5444 /* ViewPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7678981D59BDCC002C5444 /* ViewPhotoViewController.swift */; };
 		3C76789D1D5AB31B002C5444 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C76789C1D5AB31B002C5444 /* CollectionViewController.swift */; };
@@ -51,8 +50,14 @@
 		3C94C8241EF3AEE70073CD76 /* VoiceRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */; };
 		3C94C8261EF656E30073CD76 /* IssueVoice.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C94C8251EF656E30073CD76 /* IssueVoice.xib */; };
 		3C94C8281EF657220073CD76 /* IssueVoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C94C8271EF657220073CD76 /* IssueVoice.swift */; };
+		3CA0B7151F0DCC4600685E96 /* ChangePriorityAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA0B7131F0DCC4600685E96 /* ChangePriorityAlertViewController.swift */; };
+		3CA0B7161F0DCC4600685E96 /* ChangePriorityAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CA0B7141F0DCC4600685E96 /* ChangePriorityAlertViewController.xib */; };
+		3CA0B71A1F0E061C00685E96 /* CloseIssueAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA0B7191F0E061C00685E96 /* CloseIssueAlertViewController.swift */; };
+		3CA0B71E1F0E07ED00685E96 /* CloseIssueAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CA0B71D1F0E07ED00685E96 /* CloseIssueAlertViewController.xib */; };
+		3CA0B7201F0F10F500685E96 /* CustomizableActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CA0B71F1F0F10F500685E96 /* CustomizableActionSheet.swift */; };
 		3CA902331EEE2AF7009B7AE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CA902321EEE2AF7009B7AE4 /* Media.xcassets */; };
 		3CD4128A1F04EFE8003EEDB3 /* loadinganimation.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3CD412891F04EFE8003EEDB3 /* loadinganimation.gif */; };
+		3CD664F81F174C9C000FB8BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CD664F71F174C9C000FB8BF /* GoogleService-Info.plist */; };
 		3CD894401D97CEB30066C836 /* DB_Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8943F1D97CEB20066C836 /* DB_Member.swift */; };
 		3CD894421D97CEE10066C836 /* DB_Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */; };
 		3CDEAAD81D4D9CDA002961DC /* IssueImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEAAD61D4D9CDA002961DC /* IssueImage.swift */; };
@@ -137,7 +142,6 @@
 		3C5344A91D38BBA70085E366 /* ImsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImsCell.swift; sourceTree = "<group>"; };
 		3C5344AA1D38BBA70085E366 /* ImsCellNib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImsCellNib.xib; sourceTree = "<group>"; };
 		3C5C5E9C1D3E1F6F00950F50 /* ProjectIssueListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectIssueListTableViewController.swift; sourceTree = "<group>"; };
-		3C628D3B1ECD2AAF007869F1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3C6B1B5A1D74854F008C421D /* NotificationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationTableViewController.swift; sourceTree = "<group>"; };
 		3C7678981D59BDCC002C5444 /* ViewPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewPhotoViewController.swift; sourceTree = "<group>"; };
 		3C76789C1D5AB31B002C5444 /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
@@ -157,8 +161,14 @@
 		3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoiceRecord.swift; sourceTree = "<group>"; };
 		3C94C8251EF656E30073CD76 /* IssueVoice.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IssueVoice.xib; sourceTree = "<group>"; };
 		3C94C8271EF657220073CD76 /* IssueVoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueVoice.swift; sourceTree = "<group>"; };
+		3CA0B7131F0DCC4600685E96 /* ChangePriorityAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePriorityAlertViewController.swift; sourceTree = "<group>"; };
+		3CA0B7141F0DCC4600685E96 /* ChangePriorityAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePriorityAlertViewController.xib; sourceTree = "<group>"; };
+		3CA0B7191F0E061C00685E96 /* CloseIssueAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloseIssueAlertViewController.swift; sourceTree = "<group>"; };
+		3CA0B71D1F0E07ED00685E96 /* CloseIssueAlertViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CloseIssueAlertViewController.xib; sourceTree = "<group>"; };
+		3CA0B71F1F0F10F500685E96 /* CustomizableActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomizableActionSheet.swift; sourceTree = "<group>"; };
 		3CA902321EEE2AF7009B7AE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		3CD412891F04EFE8003EEDB3 /* loadinganimation.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadinganimation.gif; sourceTree = "<group>"; };
+		3CD664F71F174C9C000FB8BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3CD8943F1D97CEB20066C836 /* DB_Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DB_Member.swift; sourceTree = "<group>"; };
 		3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DB_Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3CDEAAD61D4D9CDA002961DC /* IssueImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueImage.swift; sourceTree = "<group>"; };
@@ -258,6 +268,7 @@
 		3C28D3AE1D2216C800FF4538 /* ImsApp */ = {
 			isa = PBXGroup;
 			children = (
+				3CD664F71F174C9C000FB8BF /* GoogleService-Info.plist */,
 				3C0C7BB31D7E96890089302E /* PhotoViewer */,
 				3CF400C21D69F65B001EC3C7 /* App_Library */,
 				3CF400B11D69F341001EC3C7 /* DB_Entity */,
@@ -269,7 +280,6 @@
 				3CFAC0AB1D25EE600001F2F1 /* Register */,
 				3CFDFF181D23C3A00085A106 /* Main */,
 				3C28D3AF1D2216C800FF4538 /* AppDelegate.swift */,
-				3C628D3B1ECD2AAF007869F1 /* GoogleService-Info.plist */,
 				3C28D3B11D2216C800FF4538 /* ViewController.swift */,
 				3C28D3B31D2216C800FF4538 /* Main.storyboard */,
 				3C28D3BB1D2216C800FF4538 /* LaunchScreen.storyboard */,
@@ -327,12 +337,14 @@
 		3C7CBB6D1D2F640B00DF079C /* CustomXib */ = {
 			isa = PBXGroup;
 			children = (
+				3CA0B7141F0DCC4600685E96 /* ChangePriorityAlertViewController.xib */,
 				3C5344AA1D38BBA70085E366 /* ImsCellNib.xib */,
 				3C7CBB701D2F64A400DF079C /* ProjectCellNib.xib */,
 				3CDEAADD1D4EB8A9002961DC /* IssueImage.xib */,
 				3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */,
 				3C2856921EE779CF0078824B /* IssueVideo.xib */,
 				3C94C8251EF656E30073CD76 /* IssueVoice.xib */,
+				3CA0B71D1F0E07ED00685E96 /* CloseIssueAlertViewController.xib */,
 			);
 			name = CustomXib;
 			sourceTree = "<group>";
@@ -340,12 +352,14 @@
 		3C7CBB721D2F98E600DF079C /* CustomClass */ = {
 			isa = PBXGroup;
 			children = (
+				3CA0B7191F0E061C00685E96 /* CloseIssueAlertViewController.swift */,
 				3C2856821ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift */,
 				3CDEAAD61D4D9CDA002961DC /* IssueImage.swift */,
 				3C7CBB751D2FA5A400DF079C /* ProjectCell.swift */,
 				3C5344A91D38BBA70085E366 /* ImsCell.swift */,
 				3C2856901EE779780078824B /* IssueVideo.swift */,
 				3C94C8271EF657220073CD76 /* IssueVoice.swift */,
+				3CA0B7131F0DCC4600685E96 /* ChangePriorityAlertViewController.swift */,
 			);
 			name = CustomClass;
 			sourceTree = "<group>";
@@ -439,6 +453,7 @@
 				3C7CBB6B1D2B7C6000DF079C /* AppUser.swift */,
 				3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */,
 				3C800D181F01E96C00ACA0F8 /* ModelMember.swift */,
+				3CA0B71F1F0F10F500685E96 /* CustomizableActionSheet.swift */,
 			);
 			name = App_Library;
 			sourceTree = "<group>";
@@ -584,6 +599,9 @@
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -631,12 +649,14 @@
 				3C94C8261EF656E30073CD76 /* IssueVoice.xib in Resources */,
 				3C7CBB711D2F64A400DF079C /* ProjectCellNib.xib in Resources */,
 				3C5344AC1D38BBA70085E366 /* ImsCellNib.xib in Resources */,
+				3CA0B71E1F0E07ED00685E96 /* CloseIssueAlertViewController.xib in Resources */,
 				3C2856931EE779CF0078824B /* IssueVideo.xib in Resources */,
+				3CD664F81F174C9C000FB8BF /* GoogleService-Info.plist in Resources */,
 				3CDEAADE1D4EB8A9002961DC /* IssueImage.xib in Resources */,
 				3CD4128A1F04EFE8003EEDB3 /* loadinganimation.gif in Resources */,
 				3C2856851ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib in Resources */,
+				3CA0B7161F0DCC4600685E96 /* ChangePriorityAlertViewController.xib in Resources */,
 				3CA902331EEE2AF7009B7AE4 /* Media.xcassets in Resources */,
-				3C628D3C1ECD2AAF007869F1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,6 +741,7 @@
 				3C04E5A31D51BD8900DE5E07 /* EditIssueViewController.swift in Sources */,
 				3C7CBB851D3362C900DF079C /* MessageViewController.swift in Sources */,
 				3C7CBB6C1D2B7C6000DF079C /* AppUser.swift in Sources */,
+				3CA0B7201F0F10F500685E96 /* CustomizableActionSheet.swift in Sources */,
 				3C5344AB1D38BBA70085E366 /* ImsCell.swift in Sources */,
 				3CFAC0A61D24B1260001F2F1 /* PopUpProjectSelectViewController.swift in Sources */,
 				3C800D191F01E96C00ACA0F8 /* ModelMember.swift in Sources */,
@@ -737,6 +758,7 @@
 				3C7CBB761D2FA5A400DF079C /* ProjectCell.swift in Sources */,
 				3CF400AD1D698F13001EC3C7 /* AccountSettingTableViewController.swift in Sources */,
 				3CE0E4BC1D6DEA540041EFCE /* QRCodeScan.swift in Sources */,
+				3CA0B71A1F0E061C00685E96 /* CloseIssueAlertViewController.swift in Sources */,
 				3CFAC0A41D247FB30001F2F1 /* ProjectListTableViewController.swift in Sources */,
 				3C2856871ED7ACE20078824B /* ProjectInfo.swift in Sources */,
 				3C2856841ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift in Sources */,
@@ -747,6 +769,7 @@
 				3C2856911EE779780078824B /* IssueVideo.swift in Sources */,
 				3CFAC0AA1D25ED5F0001F2F1 /* IssueListTableViewController.swift in Sources */,
 				3C120EC31D40C92A00479C04 /* NewIssueViewController.swift in Sources */,
+				3CA0B7151F0DCC4600685E96 /* ChangePriorityAlertViewController.swift in Sources */,
 				3C7678991D59BDCC002C5444 /* ViewPhotoViewController.swift in Sources */,
 				3C94C8281EF657220073CD76 /* IssueVoice.swift in Sources */,
 				3CF400AF1D698F25001EC3C7 /* NotificationSettingTableViewController.swift in Sources */,
@@ -853,7 +876,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				"LIBRARY_SEARCH_PATHS[arch=*]" = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -898,7 +921,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

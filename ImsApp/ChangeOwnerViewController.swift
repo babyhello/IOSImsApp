@@ -38,6 +38,8 @@ class ChangeOwnerViewController: UITableViewController,UISearchResultsUpdating, 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print(ModelID! + "Owner")
+        
         Model_Member(ModelID!)
 
         title = "Change Owner"
@@ -48,11 +50,11 @@ class ChangeOwnerViewController: UITableViewController,UISearchResultsUpdating, 
         
         self.tableView.dataSource = self
         
-        AuthorNameCN = "陳俞兆"
-        
-        AuthorNameEN = "Markycchen"
-        
-        IssueNo = "504207"
+//        AuthorNameCN = "陳俞兆"
+//        
+//        AuthorNameEN = "Markycchen"
+//        
+//        IssueNo = "504207"
     }
 
     func Finish_Issue()
@@ -63,6 +65,9 @@ class ChangeOwnerViewController: UITableViewController,UISearchResultsUpdating, 
         
         let NewOwner = MemberArray[SelectIndex!].MemberName
         
+        let NewOwnerWorkID = MemberArray[SelectIndex!].F_ID
+
+        
         var CommentText = "◎Issue Owner Change： 『" + AuthorNameCN!
         
         CommentText += " " + AuthorNameEN! + "』change to 『"
@@ -71,6 +76,8 @@ class ChangeOwnerViewController: UITableViewController,UISearchResultsUpdating, 
         
         if (!(AppUser.WorkID?.isEmpty)! && !NewOwner!.isEmpty)
         {
+            Change_Issue_Owner(NewOwnerWorkID!, IssueID: IssueNo!)
+            
             Comment_Insert(AppUser.WorkID!, IssueID: IssueNo!, Comment: CommentText)
             
             
@@ -79,6 +86,16 @@ class ChangeOwnerViewController: UITableViewController,UISearchResultsUpdating, 
         
     }
     
+    
+    func Change_Issue_Owner(_ WorkID:String,IssueID:String)
+    {
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Change_Issue_Owner", parameters: ["IssueID": IssueID,"WorkID":WorkID])
+            .responseJSON { response in
+                
+        }
+        
+    }
     func Comment_Insert(_ WorkID:String,IssueID:String,Comment:String)
     {
         
@@ -161,7 +178,7 @@ class ChangeOwnerViewController: UITableViewController,UISearchResultsUpdating, 
                             }
                             else
                             {
-                                _ModelMember.Header = ""
+                                _ModelMember.Header = "Normal"
                             }
                             
                             if (IssueInfomation["F_Tel"] as? String) != nil {

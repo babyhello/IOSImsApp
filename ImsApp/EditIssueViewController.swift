@@ -44,6 +44,10 @@ class EditIssueTableViewCell:UITableViewCell
     
     @IBOutlet weak var Img_Command: UIImageView!
     
+    @IBOutlet weak var Col_Img_Height: NSLayoutConstraint!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -75,7 +79,7 @@ class Issue_Command
     //var FileType: String?
 }
 
-class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate,FusumaDelegate {
+class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate,ChangePriorityDelegate,CloseIssueDelegate,FusumaDelegate {
     
     @IBOutlet weak var VW_IssueInfo: UIView!
     
@@ -112,6 +116,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         WorkNote_Update()
     }
     
+    var ChangePriorityView = ChangePriorityAlertViewController()
+    var CloseIssueView = CloseIssueAlertViewController()
     var SelectPhoto:UIImage?
     var Issue_File_List = [Issue_File]()
     var Issue_Command_List = [Issue_Command]()
@@ -125,6 +131,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     var AuthorNameEN:String?
     var Issue_Owner:String?
     var Issue_Status_Display:String?
+    var Issue_Status:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -380,7 +387,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                                 self.Issue_Keyin = ""
                             }
                             
-                          
+                            
                             
                             self.lbl_Author.adjustsFontSizeToFitWidth = true
                         }
@@ -401,27 +408,27 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     }
     
     func showActivityIndicatory(uiView: UIView) {
-        var container: UIView = UIView()
+        let container: UIView = UIView()
         container.frame = uiView.frame
         container.center = uiView.center
         container.backgroundColor = UIColor(hexString: "0xffffff").withAlphaComponent(0.3)
         
-        var loadingView: UIView = UIView()
+        let loadingView: UIView = UIView()
         loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         loadingView.center = uiView.center
-    
+        
         
         
         loadingView.backgroundColor = UIColor(hexString: "0x444444").withAlphaComponent(0.7)
         loadingView.clipsToBounds = true
         loadingView.layer.cornerRadius = 10
         
-        var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
+        let actInd: UIActivityIndicatorView = UIActivityIndicatorView()
         actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         actInd.activityIndicatorViewStyle =
             UIActivityIndicatorViewStyle.whiteLarge
         
-       
+        
         
         actInd.center = CGPoint(x: loadingView.frame.size.width / 2,
                                 y: loadingView.frame.size.height / 2);
@@ -467,13 +474,15 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 }
                 
                 if let viewWithTag = self.view.viewWithTag(1) {
-                   
+                    
                     viewWithTag.removeFromSuperview()
                 }
                 
         }
         
     }
+    
+    
     
     func Get_Issue_Command_Data(Data:[[String: AnyObject]])
     {
@@ -592,7 +601,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 ModelID = IssueInfo[0]["F_PM_ID"] as? String
                 
             }
-        
+            
             if (IssueInfo[0]["F_Owner_en"] as? String) != nil {
                 
                 AuthorNameEN = IssueInfo[0]["F_Owner_en"] as? String
@@ -618,6 +627,15 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 
                 
             }
+            
+            if (IssueInfo[0]["F_Status"] as? String) != nil {
+                
+                self.Issue_Status = IssueInfo[0]["F_Status"] as? String
+                
+                
+            }
+            
+            
             
             
             self.lbl_Author.adjustsFontSizeToFitWidth = true
@@ -833,48 +851,140 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     func Edit_Issue_Fun(_ sender:AnyObject)
     {
-        let optionMenu = UIAlertController(title: nil,message: nil,preferredStyle: .actionSheet)
         
-        let cancelAction = UIAlertAction(title:"Cancel",style:.cancel,handler:nil)
+        let margin:CGFloat = 8
         
-        let ChangeOwnerAction = UIAlertAction(title:"Change Owner",style:.default,handler: {
-            (ACTION:UIAlertAction!) -> Void in self.Change_Owner()})
+        let optionMenu = UIAlertController(title: "\n\n\n\n\n\n\n\n\n\n\n\n",message: nil,preferredStyle: .actionSheet)
         
-        let ChangePriorityAction = UIAlertAction(title:"Change Priority",style:.default,handler: {
-            (ACTION:UIAlertAction!) -> Void in self.Change_Priority()})
+        var items = [CustomizableActionSheetItem]()
         
-        let CloaseAction = UIAlertAction(title:"Issue Close",style:.default,handler: {
-            (ACTION:UIAlertAction!) -> Void in self.Close_Issue()})
+        let rect = CGRect(x: margin, y: margin, width: optionMenu.view.bounds.size.width - margin * 4.0, height: 100.0)
         
-        let VerifyAction = UIAlertAction(title:"Verify",style:.default,handler: {
-            (ACTION:UIAlertAction!) -> Void in self.Verify()})
-        
-        let RejectAction = UIAlertAction(title:"Reject",style:.default,handler: {
-            (ACTION:UIAlertAction!) -> Void in self.Reject()})
+        if ((Issue_Status_Display != "3") && Issue_Keyin == AppUser.WorkID)
+        {
+            //Priority
+            ChangePriorityView = ChangePriorityAlertViewController(frame: rect)
+            
+            ChangePriorityView.SelectedPriority = Int(self.Issue_Priority!)!
+            
+            ChangePriorityView.delegate = self
+            
+            ChangePriorityView.Set_Priority(Int(self.Issue_Priority!)!)
+            
+            items.append(Create_Sheet_Item(SheetType: .view, Label: nil, CustomView: ChangePriorityView, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
+            }
+                , Height: 120))
+            
+            
+            
+            if((Issue_Status != "5") && Issue_Owner == Issue_Keyin)
+            {
+                               
+                //Close Issue
+                
+                CloseIssueView = CloseIssueAlertViewController(frame: rect)
+                
+                CloseIssueView.delegate = self
+                
+//                if(!(Issue_Status?.isEmpty)!)
+//                {
+//                    CloseIssueView.Set_Close_Status(Int(Issue_Status!)!)
+//                }
+                
+                
+                items.append(Create_Sheet_Item(SheetType: .view, Label: nil, CustomView: CloseIssueView, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
+                }
+                    , Height: 120))
+                
+                
+            }
+            
+            //Change Owner
+            
+            items.append(Create_Sheet_Item(SheetType: .button, Label: "Change Owner", CustomView: nil, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
+                
+                self.Change_Owner()
+                
+                actionSheet.dismiss()
+            }
+                , Height: nil))
 
-        
-        if (Issue_Status_Display == "3" && Issue_Keyin == AppUser.WorkID)
-        {
-            optionMenu.addAction(ChangeOwnerAction)
-            
-            optionMenu.addAction(ChangePriorityAction)
-            
-            optionMenu.addAction(CloaseAction)
-            
             
         }
         
-        if(Issue_Status_Display == "1" && Issue_Keyin != AppUser.WorkID)
+        if(Issue_Status_Display == "1" && Issue_Owner == AppUser.WorkID && Issue_Keyin != AppUser.WorkID)
         {
-            optionMenu.addAction(VerifyAction)
+            items.append(Create_Sheet_Item(SheetType: .button, Label: "Solution privided", CustomView: nil, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
+                
+                self.Verify()
+                
+                actionSheet.dismiss()
+            }
+                , Height: nil))
         }
         
-        optionMenu.addAction(cancelAction)
+        if(Issue_Status_Display == "3" && Issue_Keyin == AppUser.WorkID)
+        {
+            items.append(Create_Sheet_Item(SheetType: .button, Label: "Reject", CustomView: nil, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
+                
+                self.Reject()
+                
+                actionSheet.dismiss()
+            }
+                , Height: nil))
+            
+            //Close Issue
+            
+            CloseIssueView = CloseIssueAlertViewController(frame: rect)
+            
+            CloseIssueView.delegate = self
+            
+//            if(!(Issue_Status?.isEmpty)!)
+//            {
+//                CloseIssueView.Set_Close_Status(Int(Issue_Status!)!)
+//            }
+            
+            items.append(Create_Sheet_Item(SheetType: .view, Label: nil, CustomView: CloseIssueView, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
+            }
+                , Height: 120))
         
-        self.present(optionMenu, animated: true, completion: nil)
+        }
+        
+        items.append(Create_Sheet_Item(SheetType: .button, Label: "Cancel", CustomView: nil, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in actionSheet.dismiss()
+        }
+            , Height: nil))
+        
+        // Show
+        let actionSheet = CustomizableActionSheet()
+        actionSheet.showInView(self.view, items: items)
         
     }
     
+    func Create_Sheet_Item(SheetType:CustomizableActionSheetItemType,Label:String?,CustomView:UIView?,SheetAction:@escaping (_ actionSheet: CustomizableActionSheet) -> Void,Height:Int?) -> CustomizableActionSheetItem
+    {
+        let SheetItem = CustomizableActionSheetItem()
+        
+        SheetItem.type = SheetType
+        
+        if(SheetType == .button)
+        {
+            SheetItem.label = Label
+            
+            SheetItem.selectAction = SheetAction
+        }
+        else if (SheetType == .view)
+        {
+            SheetItem.view = CustomView
+            
+            SheetItem.height = CGFloat(Height!)
+            
+        }
+        
+        
+        
+        
+        return SheetItem
+    }
     
     func Verify_Issue(_ IssueID:String,WorkID:String)
     {
@@ -882,7 +992,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Verify_Issue", parameters: ["IssueNo": IssueID,"WorkID":WorkID])
             .responseJSON { response in
                 
-            self.Get_Issue_Info(self.Issue_ID!)
+                self.Get_Issue_Info(self.Issue_ID!)
                 
         }
     }
@@ -893,26 +1003,26 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Reject_Verify_Issue", parameters: ["IssueNo": IssueID,"WorkID":WorkID])
             .responseJSON { response in
                 
-                 self.Get_Issue_Info(self.Issue_ID!)
+                self.Get_Issue_Info(self.Issue_ID!)
         }
     }
     
     func Verify()
     {
-        let refreshAlert = UIAlertController(title: "Verify Issue!!", message: "Are you sure to verify Issue", preferredStyle: UIAlertControllerStyle.alert)
-
+        let refreshAlert = UIAlertController(title: "Solution provided !!", message: "Are you sure to Solution provided", preferredStyle: UIAlertControllerStyle.alert)
+        
         refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
             
-        self.Verify_Issue(self.Issue_ID!, WorkID: AppUser.WorkID!)
-        
+            self.Verify_Issue(self.Issue_ID!, WorkID: AppUser.WorkID!)
+            
         }))
         
         refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
-           
+            
         }))
         
         present(refreshAlert, animated: true, completion: nil)
-
+        
     }
     
     func Reject()
@@ -930,6 +1040,130 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         }))
         
         present(refreshAlert, animated: true, completion: nil)
+    }
+    
+    func CloseIssueStatusChange() {
+        
+        let refreshAlert = UIAlertController(title: "Close Issue!!", message: "Are you sure to Close Issue", preferredStyle: UIAlertControllerStyle.alert)
+        
+        refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+            
+            let Status = self.CloseIssueView.IssueStatus
+            
+            self.CloseIssueFinish(IssueStatus: Status!)
+        }))
+        
+        refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+            
+            self.CloseIssueView.clearStatus()
+            
+        }))
+        
+        present(refreshAlert, animated: true, completion: nil)
+
+        
+        
+        
+    }
+    
+    func CloseIssueFinish(IssueStatus:Int)
+    {
+        //let CommentTitle = "@Issue Priority Change"
+        Close_Issue(self.Issue_ID!, WorkID: AppUser.WorkID!, CloseType: String(describing: IssueStatus))
+        
+        let CommentText = AuthorNameEN! + " " +  AuthorNameCN! + " Close Issue"
+        
+        if (!(AppUser.WorkID?.isEmpty)!)
+        {
+            Comment_Insert(AppUser.WorkID!, IssueID: self.Issue_ID!, Comment: CommentText)
+        }
+    }
+    
+    func Close_Issue(_ IssueID:String,WorkID:String,CloseType:String)
+    {
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Close_Issue", parameters: ["IssueNo": IssueID,"CloseType":CloseType,"WorkID":WorkID])
+            .responseJSON { response in
+                
+                
+        }
+    }
+    
+    func PriorityChange()
+    {
+        
+        let OldPriority = Int(Issue_Priority!)
+        
+        let SelectPriority = ChangePriorityView.SelectedPriority
+        
+        if(OldPriority != SelectPriority)
+        {
+            let refreshAlert = UIAlertController(title: "Priority Change !!", message: "Are you sure to Priority Change", preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action: UIAlertAction!) in
+                
+                self.Issue_Priority = String(self.ChangePriorityView.SelectedPriority)
+                
+                self.Change_Issue_Priority(self.Issue_ID!, Priority: String(SelectPriority))
+                
+                let CommentText = "◎Issue Priority Change： 『" + self.PriorityConvert(OldPriority!) + "』change to 『" + self.PriorityConvert(SelectPriority) + "』"
+                
+                if (!(AppUser.WorkID?.isEmpty)!)
+                {
+                    self.Comment_Insert(AppUser.WorkID!, IssueID: self.Issue_ID!, Comment: CommentText)
+                }
+                
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { (action: UIAlertAction!) in
+                
+                self.ChangePriorityView.Set_Priority(OldPriority!)
+                
+            }))
+            
+            present(refreshAlert, animated: true, completion: nil)
+            
+        }
+        
+        
+    }
+    
+    
+    func Change_Issue_Priority(_ IssueID:String,Priority:String)
+    {
+        
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Change_Issue_Priority", parameters: ["IssueID": IssueID,"Priority":Priority])
+            .responseJSON { response in
+                
+                
+        }
+    }
+    
+    
+    func PriorityConvert(_ Priority:Int) ->String {
+        
+        var PriorityDisplayText:String = "";
+        
+        
+        switch Priority {
+            
+        case 1:
+            PriorityDisplayText = "Critical (P1)";
+            
+            break;
+        case  2:
+            PriorityDisplayText = "Major (P2)";
+            break;
+        case  3:
+            PriorityDisplayText = "Minor (P3)";
+            break;
+            
+        default:
+            break;
+            
+            
+        }
+        return PriorityDisplayText;
     }
     
     func Close_Issue()
@@ -999,7 +1233,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         AppClass.WebImgGet(path!,ImageView: cell.Img_Issue)
         
         let _Img_Edit_Issue = cell.Img_Issue
-                let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
         _Img_Edit_Issue?.isUserInteractionEnabled = true
         _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
         
@@ -1064,11 +1298,15 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File?.isEmpty)!
         {
             
-            cell.Img_Command.isHidden = true
-        }
+            cell.Col_Img_Height.constant = 0
+            
+            cell.Img_Command.layoutIfNeeded()        }
         else
         {
-            cell.Img_Command.isHidden = false
+            cell.Col_Img_Height.constant = 100
+            
+            cell.Img_Command.layoutIfNeeded()
+            
             AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
             
             let _Img_Edit_Issue = cell.Img_Command
@@ -1076,12 +1314,16 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
             _Img_Edit_Issue?.isUserInteractionEnabled = true
             _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
-
+            
         }
         
         if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_Content?.isEmpty)!
         {
-            //cell.lbl_Command_Content.removeFromSuperview()
+            
+        }
+        else
+        {
+            
         }
         
         
@@ -1106,13 +1348,11 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ZoomImageView") as! ZoomViewController
         
-        print("TestImage")
-        
         popOverVC.ZoomImage = displacedView.image
         
         let nav = UINavigationController(rootViewController: popOverVC)
-
-         self.present(nav, animated: true, completion: nil)
+        
+        self.present(nav, animated: true, completion: nil)
         
     }
     
@@ -1253,12 +1493,15 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         let Path = AppClass.ServerPath + "/IMS_App_Service.asmx/Upload_Issue_File_MultiPart"
         
         let theFileName = (IssueFilePath as NSString).lastPathComponent
-        print(theFileName)
+        
         let fileUrl = URL(fileURLWithPath: IssueFilePath)
-        print(fileUrl)
+        
         Alamofire.upload(
             multipartFormData: { multipartFormData in
+                
                 multipartFormData.append(fileUrl, withName: "photo")
+                
+                
         },
             to: Path,
             encodingCompletion: { encodingResult in
@@ -1278,6 +1521,17 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 
                 
         }
+        
+        //        do {
+        //            let NSdata = try Data(contentsOf: URL(fileURLWithPath: IssueFilePath))
+        //
+        //
+        //
+        //
+        //        } catch {
+        //            print("Unable to load data: \(error)")
+        //        }
+        //
         
         
     }
@@ -1383,27 +1637,27 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-//        if segue.identifier == "EditIssueToViewPhoto"
-//        {
-//            ///let ViewController = segue.destinationViewController as! SinglePhotoCollectionViewCell
-//            
-//            
-//            
-//            //ViewController.imgView.image = SelectPhoto
-//            
-//            // find selected photo index path
-//            let clickedIndexPath : [NSIndexPath] = self.Col_Edit_View!.indexPathsForSelectedItems()!
-//            
-//            // create destination view controller
-//            let destViewCtrl = segue.destinationViewController as! SinglePhotoViewController
-//            
-//            // set clicked photo index path for new page contoller
-//            destViewCtrl.clickedPhotoIndexPath = clickedIndexPath[0]
-//            
-//            // set current screne photo list to new controller
-//            destViewCtrl.photoList = self.photoList
-//            
-//        }
+        //        if segue.identifier == "EditIssueToViewPhoto"
+        //        {
+        //            ///let ViewController = segue.destinationViewController as! SinglePhotoCollectionViewCell
+        //
+        //
+        //
+        //            //ViewController.imgView.image = SelectPhoto
+        //
+        //            // find selected photo index path
+        //            let clickedIndexPath : [NSIndexPath] = self.Col_Edit_View!.indexPathsForSelectedItems()!
+        //
+        //            // create destination view controller
+        //            let destViewCtrl = segue.destinationViewController as! SinglePhotoViewController
+        //
+        //            // set clicked photo index path for new page contoller
+        //            destViewCtrl.clickedPhotoIndexPath = clickedIndexPath[0]
+        //
+        //            // set current screne photo list to new controller
+        //            destViewCtrl.photoList = self.photoList
+        //
+        //        }
         
         if segue.identifier == "Change_Priority"
         {
@@ -1414,10 +1668,10 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 ViewController.IssueID = Issue_ID
                 
                 ViewController.OldSelectedPriority = Int(Issue_Priority!)
-
+                
             }
             
-         
+            
         }
         else if segue.identifier == "Issue_Close"
         {
@@ -1440,17 +1694,19 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 
                 ViewController.AuthorNameEN = AuthorNameEN
                 
-                ViewController.AuthorNameEN = AuthorNameEN
+                ViewController.AuthorNameCN = AuthorNameCN
+                
+                ViewController.IssueNo = Issue_ID
             }
             
             
         }
-
+        
         
         
     }
     
-   
+    
 }
 
 extension UILabel {

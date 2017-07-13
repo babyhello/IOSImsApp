@@ -37,13 +37,14 @@ class DB_Member: NSManagedObject {
 
     class func Get_Member(_ moc:NSManagedObjectContext)-> [DB_Member] {
         
-        let request: NSFetchRequest<DB_Member>
+        var request: NSFetchRequest<DB_Member>
         
         if #available(iOS 10.0, *) {
            request = DB_Member.fetchRequest() as! NSFetchRequest<DB_Member>
 
         } else {
-            request = NSFetchRequest<NSFetchRequestResult>(entityName: "Person") as! NSFetchRequest<DB_Member>
+            //request = NSFetchRequest<NSFetchRequestResult>(entityName: "Person") as! NSFetchRequest<DB_Member>
+            request = NSFetchRequest(entityName: "DB_Member")
         }
         
         

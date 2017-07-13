@@ -120,17 +120,19 @@ class NotificationTableViewController: UIViewController,UITableViewDelegate,UITa
                                 _NotificationInfo.Author = ""
                             }
                             
-                            _NotificationInfo.Author = ""
+                            //_NotificationInfo.Author = ""
                             
                             if (NotificationInfo["Title"] as? String) != nil {
                                 
                                 _NotificationInfo.Title = NotificationInfo["Title"] as? String
+                               
                                 
                             }
                             else
                             {
                                 _NotificationInfo.Title = ""
                             }
+//                             _NotificationInfo.Title = ""
                             
                             
                             if (NotificationInfo["F_Content"] as? String) != nil {
@@ -203,11 +205,7 @@ class NotificationTableViewController: UIViewController,UITableViewDelegate,UITa
         cell.Vw_Cell.layer.borderColor = UIColor(hexString: "#dfe1e7").cgColor
         
         cell.Vw_Cell.layer.borderWidth = 1
-        
-//        AppClass.WebImgGet(AppClass.ImagePath + NotificationList[(indexPath as NSIndexPath).row].Author_WorkID! + ".jpg", ImageView: cell.Img_Author)
-        
-       
-        
+    
         cell.Img_Author.layer.cornerRadius = cell.Img_Author.frame.width/2.0
         
         cell.Img_Author.clipsToBounds = true

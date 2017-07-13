@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChangePriorityAlertViewController" customModule="IMS" customModuleProvider="target">
+            <connections>
+                <outlet property="Btn_Priority_One" destination="dsG-jM-Jem" id="yYa-Aw-rma"/>
+                <outlet property="Btn_Priority_Three" destination="0uf-oq-T6r" id="SCe-zD-mfL"/>
+                <outlet property="Btn_Priority_Two" destination="xtN-df-Dgw" id="jOU-Mt-Xqo"/>
+                <outlet property="lbl_Title" destination="7Xy-cg-DvM" id="b9s-HS-d3v"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xtN-df-Dgw">
+                    <rect key="frame" x="147" y="35" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="UtO-Kn-PlP"/>
+                        <constraint firstAttribute="height" constant="80" id="YIl-DT-w9X"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="btn_change_prioP2_nor"/>
+                    <connections>
+                        <action selector="Btn_PriorityTwo_Click:" destination="-1" eventType="touchUpInside" id="1uW-6d-Zr6"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dsG-jM-Jem">
+                    <rect key="frame" x="40" y="35" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="crb-Ni-zGw"/>
+                        <constraint firstAttribute="width" constant="80" id="sEV-gd-bsm"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="btn_change_prioP1_nor"/>
+                    <connections>
+                        <action selector="Btn_PriorityOne_Click:" destination="-1" eventType="touchUpInside" id="rUG-Vm-Gog"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0uf-oq-T6r">
+                    <rect key="frame" x="255" y="35" width="80" height="80"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="hrH-qN-OYF"/>
+                        <constraint firstAttribute="height" constant="80" id="tHo-9N-TwI"/>
+                    </constraints>
+                    <state key="normal" backgroundImage="btn_change_prioP3_nor"/>
+                    <connections>
+                        <action selector="Btn_PriorityThree_Click:" destination="-1" eventType="touchUpInside" id="Xgd-zA-STF"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change Priority" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Xy-cg-DvM">
+                    <rect key="frame" x="10" y="10" width="325" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.89411764705882346" green="0.90588235294117647" blue="0.9137254901960784" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="0uf-oq-T6r" secondAttribute="trailing" constant="40" id="3qj-77-rtG"/>
+                <constraint firstItem="xtN-df-Dgw" firstAttribute="width" secondItem="dsG-jM-Jem" secondAttribute="width" id="9TW-SQ-xf6"/>
+                <constraint firstItem="7Xy-cg-DvM" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="KNf-Qu-C25"/>
+                <constraint firstItem="0uf-oq-T6r" firstAttribute="height" secondItem="dsG-jM-Jem" secondAttribute="height" id="LWq-EN-wv3"/>
+                <constraint firstItem="0uf-oq-T6r" firstAttribute="width" secondItem="dsG-jM-Jem" secondAttribute="width" id="Mvg-6X-TfM"/>
+                <constraint firstItem="0uf-oq-T6r" firstAttribute="top" secondItem="xtN-df-Dgw" secondAttribute="top" id="OCm-PS-9HV"/>
+                <constraint firstItem="dsG-jM-Jem" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="Sx4-N0-wkt"/>
+                <constraint firstItem="0uf-oq-T6r" firstAttribute="leading" secondItem="xtN-df-Dgw" secondAttribute="trailing" constant="28" id="Z6t-PV-HOC"/>
+                <constraint firstAttribute="trailing" secondItem="7Xy-cg-DvM" secondAttribute="trailing" constant="40" id="bJb-PG-WU9"/>
+                <constraint firstItem="7Xy-cg-DvM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="10" id="l6P-xw-FBC"/>
+                <constraint firstItem="0uf-oq-T6r" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="35" id="mcb-IX-NO5"/>
+                <constraint firstItem="xtN-df-Dgw" firstAttribute="height" secondItem="dsG-jM-Jem" secondAttribute="height" id="rWp-W2-S1Y"/>
+                <constraint firstItem="0uf-oq-T6r" firstAttribute="top" secondItem="dsG-jM-Jem" secondAttribute="top" id="sRi-w6-OKL"/>
+                <constraint firstItem="xtN-df-Dgw" firstAttribute="leading" secondItem="dsG-jM-Jem" secondAttribute="trailing" constant="27" id="uqf-sn-RSZ"/>
+            </constraints>
+            <point key="canvasLocation" x="34.5" y="53.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_change_prioP1_nor" width="110" height="110"/>
+        <image name="btn_change_prioP2_nor" width="110" height="110"/>
+        <image name="btn_change_prioP3_nor" width="110" height="110"/>
+    </resources>
+</document>
