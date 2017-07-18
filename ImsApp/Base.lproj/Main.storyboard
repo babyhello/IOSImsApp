@@ -1097,6 +1097,44 @@
             </objects>
             <point key="canvasLocation" x="3599" y="2669"/>
         </scene>
+        <!--Net Work View Controller-->
+        <scene sceneID="Ib8-1O-kfO">
+            <objects>
+                <viewController id="J4U-ij-1jU" customClass="NetWorkViewController" customModule="IMS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ugR-3V-QK1"/>
+                        <viewControllerLayoutGuide type="bottom" id="sYl-E5-pLa"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pqi-ou-l7D">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duu-7C-PeD">
+                                <rect key="frame" x="186" y="184" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ztV-5e-I1W">
+                                <rect key="frame" x="186" y="293" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="hostNameLabel" destination="ztV-5e-I1W" id="hEG-uZ-0QE"/>
+                        <outlet property="networkStatus" destination="duu-7C-PeD" id="emW-Bw-In1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YA5-QS-AtX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3866" y="-79"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="H7E-mW-LOn">
             <objects>

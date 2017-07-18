@@ -176,6 +176,9 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
                         debugPrint(response)
                     }
                     upload.uploadProgress { progress in
+                        
+                        debugPrint(Float(progress.fractionCompleted))
+                        
                         if(Float(progress.fractionCompleted) >= 1)
                         {
                             self.stop()
@@ -204,6 +207,22 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        AppUtility.lockOrientation(.portrait)
+        // Or to rotate and lock
+        // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+        // Don't forget to reset when view is being removed
+        AppUtility.lockOrientation(.all)
     }
     
     func Cancel_NewIssue()
@@ -525,11 +544,11 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
-    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        NotificationCenter.default.removeObserver(self)
+//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)

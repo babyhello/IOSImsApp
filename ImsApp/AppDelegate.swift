@@ -17,6 +17,8 @@ import FirebaseMessaging
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, FIRMessagingDelegate{
 
+    var orientationLock = UIInterfaceOrientationMask.all
+    
     var window: UIWindow?
 
     let gcmMessageIDKey = "gcm.message_id"
@@ -24,8 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
     
-        
-                
+                       
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -97,7 +98,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                                                selector: #selector(self.tokenRefreshNotification),
                                                name: .firInstanceIDTokenRefresh,
                                                object: nil)
-        
+       
+              
         
         return true
     }
@@ -138,6 +140,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+        FIRMessaging.messaging().subscribe(toTopic: "/topics/dogs")
+
+        
         print("APNs token retrieved: \(deviceToken)")
     }
     
@@ -146,10 +152,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        // If you are receiving a notification message while your app is in the background,
-        // this callback will not be fired till the user taps on the notification launching the application.
-        // TODO: Handle data of notification
-        // Print message ID.
+      
+        
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
@@ -158,6 +162,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         print(userInfo)
         
     }
+    
+  
     
     
     func applicationWillResignActive(_ application: UIApplication) {
@@ -254,7 +260,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         print(remoteMessage.appData)
     }
     
-    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return self.orientationLock
+    }
 
 }
 

@@ -141,6 +141,29 @@ open class AppClass
         return String(hour) + String(minutes) + String(second) + String(nanosecond)
     }
     
+    
+    
+}
+
+struct AppUtility {
+    
+    static func lockOrientation(_ orientation: UIInterfaceOrientationMask) {
+        
+        if let delegate = UIApplication.shared.delegate as? AppDelegate {
+            delegate.orientationLock = orientation
+            
+            
+        }
+    }
+    
+    /// OPTIONAL Added method to adjust lock and rotate to the desired orientation
+    static func lockOrientation(_ orientation: UIInterfaceOrientationMask, andRotateTo rotateOrientation:UIInterfaceOrientation) {
+        
+        self.lockOrientation(orientation)
+        
+        UIDevice.current.setValue(rotateOrientation.rawValue, forKey: "orientation")
+    }
+    
 }
 
 extension UIColor {
@@ -179,6 +202,9 @@ extension UIColor {
         
         return NSString(format:"#%06x", rgb) as String
     }
+    
+    
+    
 }
 
 extension UILabel{

@@ -58,6 +58,8 @@
 		3CA902331EEE2AF7009B7AE4 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3CA902321EEE2AF7009B7AE4 /* Media.xcassets */; };
 		3CD4128A1F04EFE8003EEDB3 /* loadinganimation.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3CD412891F04EFE8003EEDB3 /* loadinganimation.gif */; };
 		3CD664F81F174C9C000FB8BF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3CD664F71F174C9C000FB8BF /* GoogleService-Info.plist */; };
+		3CD664FA1F1DA6E2000FB8BF /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD664F91F1DA6E2000FB8BF /* Reachability.swift */; };
+		3CD664FD1F1DAB37000FB8BF /* NetWorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD664FC1F1DAB37000FB8BF /* NetWorkViewController.swift */; };
 		3CD894401D97CEB30066C836 /* DB_Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD8943F1D97CEB20066C836 /* DB_Member.swift */; };
 		3CD894421D97CEE10066C836 /* DB_Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */; };
 		3CDEAAD81D4D9CDA002961DC /* IssueImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDEAAD61D4D9CDA002961DC /* IssueImage.swift */; };
@@ -169,6 +171,8 @@
 		3CA902321EEE2AF7009B7AE4 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		3CD412891F04EFE8003EEDB3 /* loadinganimation.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loadinganimation.gif; sourceTree = "<group>"; };
 		3CD664F71F174C9C000FB8BF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3CD664F91F1DA6E2000FB8BF /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		3CD664FC1F1DAB37000FB8BF /* NetWorkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetWorkViewController.swift; sourceTree = "<group>"; };
 		3CD8943F1D97CEB20066C836 /* DB_Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DB_Member.swift; sourceTree = "<group>"; };
 		3CD894411D97CEE10066C836 /* DB_Member+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DB_Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		3CDEAAD61D4D9CDA002961DC /* IssueImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IssueImage.swift; sourceTree = "<group>"; };
@@ -268,6 +272,7 @@
 		3C28D3AE1D2216C800FF4538 /* ImsApp */ = {
 			isa = PBXGroup;
 			children = (
+				3CD664FB1F1DAB0F000FB8BF /* NetWork */,
 				3CD664F71F174C9C000FB8BF /* GoogleService-Info.plist */,
 				3C0C7BB31D7E96890089302E /* PhotoViewer */,
 				3CF400C21D69F65B001EC3C7 /* App_Library */,
@@ -408,6 +413,14 @@
 			name = Zoom;
 			sourceTree = "<group>";
 		};
+		3CD664FB1F1DAB0F000FB8BF /* NetWork */ = {
+			isa = PBXGroup;
+			children = (
+				3CD664FC1F1DAB37000FB8BF /* NetWorkViewController.swift */,
+			);
+			name = NetWork;
+			sourceTree = "<group>";
+		};
 		3CDEAADA1D4EA673002961DC /* TestFolder */ = {
 			isa = PBXGroup;
 			children = (
@@ -454,6 +467,7 @@
 				3C94C8231EF3AEE70073CD76 /* VoiceRecord.swift */,
 				3C800D181F01E96C00ACA0F8 /* ModelMember.swift */,
 				3CA0B71F1F0F10F500685E96 /* CustomizableActionSheet.swift */,
+				3CD664F91F1DA6E2000FB8BF /* Reachability.swift */,
 			);
 			name = App_Library;
 			sourceTree = "<group>";
@@ -761,6 +775,7 @@
 				3CA0B71A1F0E061C00685E96 /* CloseIssueAlertViewController.swift in Sources */,
 				3CFAC0A41D247FB30001F2F1 /* ProjectListTableViewController.swift in Sources */,
 				3C2856871ED7ACE20078824B /* ProjectInfo.swift in Sources */,
+				3CD664FA1F1DA6E2000FB8BF /* Reachability.swift in Sources */,
 				3C2856841ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift in Sources */,
 				3C28D3B01D2216C800FF4538 /* AppDelegate.swift in Sources */,
 				3C3636171D7660C000B7BB39 /* URLEncodedString.swift in Sources */,
@@ -771,6 +786,7 @@
 				3C120EC31D40C92A00479C04 /* NewIssueViewController.swift in Sources */,
 				3CA0B7151F0DCC4600685E96 /* ChangePriorityAlertViewController.swift in Sources */,
 				3C7678991D59BDCC002C5444 /* ViewPhotoViewController.swift in Sources */,
+				3CD664FD1F1DAB37000FB8BF /* NetWorkViewController.swift in Sources */,
 				3C94C8281EF657220073CD76 /* IssueVoice.swift in Sources */,
 				3CF400AF1D698F25001EC3C7 /* NotificationSettingTableViewController.swift in Sources */,
 				3C800D171EFB633400ACA0F8 /* CloseIssueViewController.swift in Sources */,
