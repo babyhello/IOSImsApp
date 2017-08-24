@@ -29,15 +29,15 @@ import SystemConfiguration
 import Foundation
 
 public enum ReachabilityError: Error {
-    case FailedToCreateWithAddress(sockaddr_in)
-    case FailedToCreateWithHostname(String)
-    case UnableToSetCallback
-    case UnableToSetDispatchQueue
+    case failedToCreateWithAddress(sockaddr_in)
+    case failedToCreateWithHostname(String)
+    case unableToSetCallback
+    case unableToSetDispatchQueue
 }
 
-public let ReachabilityChangedNotification = NSNotification.Name("ReachabilityChangedNotification")
+public let ReachabilityChangedNotification = Foundation.Notification.Name("ReachabilityChangedNotification")
 
-func callback(reachability:SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?) {
+func callback(_ reachability:SCNetworkReachability, flags: SCNetworkReachabilityFlags, info: UnsafeMutableRawPointer?) {
     
     guard let info = info else { return }
     
@@ -48,7 +48,7 @@ func callback(reachability:SCNetworkReachability, flags: SCNetworkReachabilityFl
     }
 }
 
-public class Reachability {
+open class Reachability {
     
     public typealias NetworkReachable = (Reachability) -> ()
     public typealias NetworkUnreachable = (Reachability) -> ()
@@ -66,18 +66,18 @@ public class Reachability {
         }
     }
     
-    public var whenReachable: NetworkReachable?
-    public var whenUnreachable: NetworkUnreachable?
-    public var reachableOnWWAN: Bool
+    open var whenReachable: NetworkReachable?
+    open var whenUnreachable: NetworkUnreachable?
+    open var reachableOnWWAN: Bool
     
     // The notification center on which "reachability changed" events are being posted
-    public var notificationCenter: NotificationCenter = NotificationCenter.default
+    open var notificationCenter: NotificationCenter = NotificationCenter.default
     
-    public var currentReachabilityString: String {
+    open var currentReachabilityString: String {
         return "\(currentReachabilityStatus)"
     }
     
-    public var currentReachabilityStatus: NetworkStatus {
+    open var currentReachabilityStatus: NetworkStatus {
         guard isReachable else { return .notReachable }
         
         if isReachableViaWiFi {
@@ -150,12 +150,12 @@ public extension Reachability {
         context.info = UnsafeMutableRawPointer(Unmanaged<Reachability>.passUnretained(self).toOpaque())
         if !SCNetworkReachabilitySetCallback(reachabilityRef, callback, &context) {
             stopNotifier()
-            throw ReachabilityError.UnableToSetCallback
+            throw ReachabilityError.unableToSetCallback
         }
         
         if !SCNetworkReachabilitySetDispatchQueue(reachabilityRef, reachabilitySerialQueue) {
             stopNotifier()
-            throw ReachabilityError.UnableToSetDispatchQueue
+            throw ReachabilityError.unableToSetDispatchQueue
         }
         
         // Perform an initial check

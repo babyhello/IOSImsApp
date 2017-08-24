@@ -283,8 +283,6 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Issue_Get", parameters: ["F_SeqNo": Issue_ID])
             .responseJSON { response in
                 
-                
-                
                 if let value = response.result.value as? [String: AnyObject] {
                     
                     let ObjectString = value["Key"]! as? [[String: AnyObject]]
@@ -923,7 +921,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 , Height: nil))
         }
         
-        if(Issue_Status_Display == "3" && Issue_Keyin == AppUser.WorkID)
+        if(Issue_Status_Display == "2" && Issue_Keyin == AppUser.WorkID)
         {
             items.append(Create_Sheet_Item(SheetType: .button, Label: "Reject", CustomView: nil, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
                 
@@ -939,10 +937,6 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             
             CloseIssueView.delegate = self
             
-//            if(!(Issue_Status?.isEmpty)!)
-//            {
-//                CloseIssueView.Set_Close_Status(Int(Issue_Status!)!)
-//            }
             
             items.append(Create_Sheet_Item(SheetType: .view, Label: nil, CustomView: CloseIssueView, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
             }

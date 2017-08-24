@@ -14,21 +14,21 @@ import UIKit
 }
 
 // Can't define CustomizableActionSheetItem as struct because Obj-C can't see struct definition.
-public class CustomizableActionSheetItem: NSObject {
+open class CustomizableActionSheetItem: NSObject {
     
     // MARK: - Public properties
-    public var type: CustomizableActionSheetItemType = .button
-    public var height: CGFloat = 44
+    open var type: CustomizableActionSheetItemType = .button
+    open var height: CGFloat = 44
     
     // type = .View
-    public var view: UIView?
+    open var view: UIView?
     
     // type = .Button
-    public var label: String?
-    public var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
-    public var backgroundColor: UIColor = UIColor.white
-    public var font: UIFont? = nil
-    public var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
+    open var label: String?
+    open var textColor: UIColor = UIColor(red: 0, green: 0.47, blue: 1.0, alpha: 1.0)
+    open var backgroundColor: UIColor = UIColor.white
+    open var font: UIFont? = nil
+    open var selectAction: ((_ actionSheet: CustomizableActionSheet) -> Void)? = nil
     
     // MARK: - Private properties
     fileprivate var element: UIView? = nil
@@ -76,21 +76,21 @@ private class ActionSheetItemView: UIView {
     }
 }
 
-public class CustomizableActionSheet: NSObject {
+open class CustomizableActionSheet: NSObject {
     
     // MARK: - Private properties
-    private static var actionSheets = [CustomizableActionSheet]()
-    private static let kCornerRadius: CGFloat = 4
-    private static let kMarginSide: CGFloat = 8
-    private static let kMarginBottom: CGFloat = 8
-    private static let kMarginTop: CGFloat = 20
-    private var items: [CustomizableActionSheetItem]?
-    private let maskView = UIView()
-    private let itemContainerView = UIView()
-    private var closeBlock: (() -> Void)?
+    fileprivate static var actionSheets = [CustomizableActionSheet]()
+    fileprivate static let kCornerRadius: CGFloat = 4
+    fileprivate static let kMarginSide: CGFloat = 8
+    fileprivate static let kMarginBottom: CGFloat = 8
+    fileprivate static let kMarginTop: CGFloat = 20
+    fileprivate var items: [CustomizableActionSheetItem]?
+    fileprivate let maskView = UIView()
+    fileprivate let itemContainerView = UIView()
+    fileprivate var closeBlock: (() -> Void)?
     
     // MARK: - Public properties
-    public func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
+    open func showInView(_ targetView: UIView, items: [CustomizableActionSheetItem], closeBlock: (() -> Void)? = nil) {
         // Save instance to reaction until closing this sheet
         CustomizableActionSheet.actionSheets.append(self)
         
@@ -192,7 +192,7 @@ public class CustomizableActionSheet: NSObject {
         }, completion: nil)
     }
     
-    public func dismiss() {
+    open func dismiss() {
         // Hide animation
         self.maskView.alpha = 1
         let moveY = UIScreen.main.bounds.height - self.itemContainerView.frame.origin.y
@@ -222,11 +222,11 @@ public class CustomizableActionSheet: NSObject {
     }
     
     // MARK: - Private methods
-    @objc private func maskViewWasTapped() {
+    @objc fileprivate func maskViewWasTapped() {
         self.dismiss()
     }
     
-    @objc private func buttonWasTapped(_ sender: AnyObject) {
+    @objc fileprivate func buttonWasTapped(_ sender: AnyObject) {
         guard let items = self.items else {
             return
         }

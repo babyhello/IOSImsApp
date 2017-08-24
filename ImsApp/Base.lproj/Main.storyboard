@@ -602,6 +602,22 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5yU-TZ-Jbl">
                                 <rect key="frame" x="0.0" y="207" width="414" height="430"/>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="p4d-0U-sKs" customClass="UICircularProgressRingView" customModule="UICircularProgressRing">
+                                <rect key="frame" x="147" y="308" width="120" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Mie-4D-r3v"/>
+                                    <constraint firstAttribute="width" constant="120" id="cOL-7S-OJf"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="outerRingColor">
+                                        <color key="value" red="0.89411764709999997" green="0.90588235289999997" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="innerRingColor">
+                                        <color key="value" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -611,6 +627,7 @@
                             <constraint firstItem="TcD-Vy-rVH" firstAttribute="leading" secondItem="DGU-5f-Jit" secondAttribute="leadingMargin" id="7af-No-caI"/>
                             <constraint firstItem="TcD-Vy-rVH" firstAttribute="trailing" secondItem="mPy-XY-nrz" secondAttribute="trailing" id="BJs-dM-L6w"/>
                             <constraint firstItem="Kxf-1k-O93" firstAttribute="top" secondItem="mPy-XY-nrz" secondAttribute="bottom" constant="7" id="Fv1-EF-XVQ"/>
+                            <constraint firstItem="p4d-0U-sKs" firstAttribute="centerX" secondItem="DGU-5f-Jit" secondAttribute="centerX" id="Qo4-n2-9gy"/>
                             <constraint firstAttribute="trailingMargin" secondItem="5yU-TZ-Jbl" secondAttribute="trailing" constant="-20" id="UIz-5i-f4b"/>
                             <constraint firstItem="78M-6s-mLJ" firstAttribute="top" secondItem="fBF-2p-Pua" secondAttribute="bottom" id="dyI-bq-50B"/>
                             <constraint firstItem="Kxf-1k-O93" firstAttribute="leading" secondItem="5yU-TZ-Jbl" secondAttribute="leading" id="eAf-7S-8gd"/>
@@ -618,6 +635,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="fBF-2p-Pua" secondAttribute="trailing" constant="-20" id="jFs-DK-XnM"/>
                             <constraint firstItem="fBF-2p-Pua" firstAttribute="leading" secondItem="DGU-5f-Jit" secondAttribute="leadingMargin" constant="-20" id="kMG-ar-7iT"/>
                             <constraint firstItem="Kxf-1k-O93" firstAttribute="trailing" secondItem="5yU-TZ-Jbl" secondAttribute="trailing" id="lCy-EV-tHP"/>
+                            <constraint firstItem="p4d-0U-sKs" firstAttribute="centerY" secondItem="DGU-5f-Jit" secondAttribute="centerY" id="lne-w6-NtY"/>
                             <constraint firstItem="fBF-2p-Pua" firstAttribute="top" secondItem="5yU-TZ-Jbl" secondAttribute="bottom" id="qBL-3S-HfN"/>
                             <constraint firstItem="TcD-Vy-rVH" firstAttribute="top" secondItem="eLQ-eH-nNO" secondAttribute="bottom" constant="20" id="qqD-6I-Asb"/>
                             <constraint firstItem="TcD-Vy-rVH" firstAttribute="leading" secondItem="mPy-XY-nrz" secondAttribute="leading" id="vT1-qB-net"/>
@@ -627,6 +645,7 @@
                     <connections>
                         <outlet property="BottomHeight" destination="dyI-bq-50B" id="5e2-Fa-qHA"/>
                         <outlet property="Btn_MicroPhone" destination="hm0-Oa-oJF" id="xKP-Ha-5kD"/>
+                        <outlet property="Cir_Progress" destination="p4d-0U-sKs" id="Hsb-Sa-4k9"/>
                         <outlet property="CoverView" destination="Kxf-1k-O93" id="dTL-EE-3v2"/>
                         <outlet property="Scl_Content" destination="5yU-TZ-Jbl" id="ILe-Tx-EyB"/>
                         <outlet property="VW_Bottom" destination="fBF-2p-Pua" id="176-jb-I0G"/>
@@ -2820,8 +2839,8 @@
         <image name="video_camera" width="33" height="33"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CCK-WI-AUT"/>
-        <segue reference="z56-FZ-lNc"/>
+        <segue reference="HxA-uX-BGL"/>
         <segue reference="cs0-j3-b8J"/>
+        <segue reference="z56-FZ-lNc"/>
     </inferredMetricsTieBreakers>
 </document>

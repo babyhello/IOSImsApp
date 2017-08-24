@@ -99,7 +99,7 @@ class SettingTableViewController: UITableViewController {
                         
                         if(!PlistPath.isEmpty && !PathPath.isEmpty)
                         {
-                            self.checkForUpdates(PlistPath: PlistPath, HtmlPath: PathPath)
+                            self.checkForUpdates(PlistPath, HtmlPath: PathPath)
                         }
                         
                     }
@@ -118,7 +118,7 @@ class SettingTableViewController: UITableViewController {
     }
     
     
-    func checkForUpdates(PlistPath:String,HtmlPath:String) {
+    func checkForUpdates(_ PlistPath:String,HtmlPath:String) {
         
         DispatchQueue.global().async {
             
@@ -138,7 +138,7 @@ class SettingTableViewController: UITableViewController {
                 let updateAvailable = serverVersion.compare(localVersion, options: .numeric) == .orderedDescending;
                 
                 if updateAvailable {
-                    self.showUpdateDialog(serverVersion: serverVersion,PagePath:HtmlPath)
+                    self.showUpdateDialog(serverVersion,PagePath:HtmlPath)
                 }
                 else
                 {
@@ -152,7 +152,7 @@ class SettingTableViewController: UITableViewController {
         
     }
     
-    func showUpdateDialog(serverVersion: String,PagePath:String) {
+    func showUpdateDialog(_ serverVersion: String,PagePath:String) {
         DispatchQueue.main.async(execute: { () -> Void in
             
             

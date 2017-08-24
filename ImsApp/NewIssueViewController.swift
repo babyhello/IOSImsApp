@@ -16,7 +16,7 @@ import AVKit
 import Fusuma
 import MediaPlayer
 import Toast_Swift
-
+import UICircularProgressRing
 
 protocol NewIssueViewViewDelegate: class {         // make this class protocol so you can create `weak` reference
     func Cancel_NewIssue()
@@ -26,6 +26,8 @@ protocol NewIssueViewViewDelegate: class {         // make this class protocol s
 class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,UITextViewDelegate, UINavigationControllerDelegate, FusumaDelegate {
     
     var activityIndicator:UIActivityIndicatorView!
+    
+    @IBOutlet weak var Cir_Progress: UICircularProgressRingView!
     
     @IBOutlet weak var CoverView: UIView!
     
@@ -127,22 +129,22 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         lbl_Author.text = MemberData[0].outlook_account
         
         
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle:
-            UIActivityIndicatorViewStyle.gray)
-        activityIndicator.center=self.view.center
-        self.view.addSubview(activityIndicator);
+//        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle:
+//            UIActivityIndicatorViewStyle.gray)
+//        activityIndicator.center=self.view.center
+//        self.view.addSubview(activityIndicator);
         
-        
+        Cir_Progress.isHidden = true
     }
     
     func play(){
         //进度条开始转动
-        activityIndicator.startAnimating()
+        Cir_Progress.isHidden = false
     }
     
     func stop(){
         //进度条停止转动
-        activityIndicator.stopAnimating()
+        Cir_Progress.isHidden = true
     }
     
     func Upload_Issue_File(_ WorkID:String,IssueID:String,IssueFilePath:[String])
@@ -178,6 +180,8 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
                     upload.uploadProgress { progress in
                         
                         debugPrint(Float(progress.fractionCompleted))
+                        
+                        self.Cir_Progress.setProgress(CGFloat(Float(progress.fractionCompleted) * 100), animationDuration: 0)
                         
                         if(Float(progress.fractionCompleted) >= 1)
                         {

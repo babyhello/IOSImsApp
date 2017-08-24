@@ -41,7 +41,8 @@ class ExpandTableProjectListViewController: UITableViewController,PopUpProjectSe
         
     }
     
-    
+    func scrollViewDidZoom(scrollView: UIScrollView) {
+        }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -683,6 +684,15 @@ class ExpandTableProjectListViewController: UITableViewController,PopUpProjectSe
 //            tableView.reloadRows(at: [IndexPath(row: i, section: section!)], with: .automatic)
 //        }
         tableView.endUpdates()
+    }
+    
+    override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        if(velocity.y>0){
+            NSLog("dragging Up");
+        }else{
+            NSLog("dragging Down");
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
