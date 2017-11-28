@@ -944,5 +944,8 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
             message = "Video failed to save"
         }
     }
+    
+    
+    
 }
 

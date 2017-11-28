@@ -661,9 +661,6 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             {
                 self.Issue_File_List.append(_Issue_File)
             }
-            
-            
-            
         }
         
         if(self.Issue_File_List.count > 0 )
@@ -1463,6 +1460,14 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
     }
     
+    
+    
+    func getDocumentsDirectory() -> NSString {
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+        let documentsDirectory = paths[0]
+        return documentsDirectory as NSString
+    }
+    
     func SendImageToWorkNote(ImagePath:String)
     {
         
@@ -1475,12 +1480,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     }
     
     
-    
-    func getDocumentsDirectory() -> NSString {
-        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        let documentsDirectory = paths[0]
-        return documentsDirectory as NSString
-    }
+ 
     
     func Upload_Issue_File(_ WorkID:String,IssueID:String,IssueFilePath:String)
     {
@@ -1515,19 +1515,6 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 
                 
         }
-        
-        //        do {
-        //            let NSdata = try Data(contentsOf: URL(fileURLWithPath: IssueFilePath))
-        //
-        //
-        //
-        //
-        //        } catch {
-        //            print("Unable to load data: \(error)")
-        //        }
-        //
-        
-        
     }
     
     func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {

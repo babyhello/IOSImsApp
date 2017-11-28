@@ -8,12 +8,14 @@
 
 import UIKit
 import Alamofire
+import AlamofireImage
 
 class ViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet weak var Txt_Account: UITextField!
     @IBOutlet weak var Btn_Next: UIButton!
     
+    @IBOutlet weak var ShowImage: UIImageView!
     @IBAction func Btn_Next_Click(_ sender: AnyObject) {
         
         
@@ -22,7 +24,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         if Account == "A"
         {
-           performSegue(withIdentifier: "RegisterConfirmPassword", sender: self)
+            performSegue(withIdentifier: "RegisterConfirmPassword", sender: self)
         }
         else
         {
@@ -35,7 +37,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
                 AppClass.Alert("Please Keyin Outlook ID", SelfControl: self)
             }
         }
-       
+        
         
         
         
@@ -46,7 +48,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
+    
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
@@ -91,14 +93,20 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         Btn_Next.layer.cornerRadius = 5
         
-    
+        
         
         if AppUser.WorkID != nil && AppUser.WorkID != "" {
             
-               performSegue(withIdentifier: "RegisterConfirmPassword", sender: self)
+            performSegue(withIdentifier: "RegisterConfirmPassword", sender: self)
             
         }
+        
+        
     }
+    
+    
+    
+   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -25,7 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-    
+//        if #available(iOS 10.0, *) {
+//            let description = NSPersistentStoreDescription()
+//        } else {
+//            // Fallback on earlier versions
+//        }
+//        
+//        description.shouldInferMappingModelAutomatically = true
+//        description.shouldMigrateStoreAutomatically = true
+//        
+//        container.persistentStoreDescriptions = [description]
                        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
@@ -45,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         application.registerForRemoteNotifications()
         FIRApp.configure()
         
-       let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
+        let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
     
        
@@ -99,7 +108,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                                                name: .firInstanceIDTokenRefresh,
                                                object: nil)
        
-              
+//        let DB_PhotoList =  DB_Photo.Get_DB_Photo(moc) as [DB_Photo]
+//        
+//        for DB_Photo in DB_PhotoList {
+//            
+//            let Image = AppClass.Get_DocumentImage(ImageFileName: DB_Photo.photo_path!)
+//            
+//            if  (Image != nil)
+//            {
+//               AppClass.ShowFirstImage = AppClass.Get_DocumentImage(ImageFileName: DB_Photo.photo_path!)
+//            }
+//            
+//        }
+//        
+//        if (DB_PhotoList.count == 0 )
+//        {
+//            AppClass.Get_Server_All_Image(moc: moc)
+//        }
         
         return true
     }

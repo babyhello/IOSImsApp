@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16G29" minimumToolsVersion="Xcode 7.3" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DB_Member" representedClassName=".DB_Member" syncable="YES">
+        <attribute name="fontsize" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notification" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="outlook_account" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="outlook_password" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="workid" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DB_Photo" representedClassName=".DB_Photo" syncable="YES">
+        <attribute name="photo_background" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo_edate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo_path" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="photo_sdate" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="DB_Member" positionX="-54" positionY="-9" width="128" height="150"/>
+        <element name="DB_Photo" positionX="-36" positionY="63" width="128" height="105"/>
+    </elements>
+</model>

@@ -6,11 +6,16 @@
 //  Copyright © 2016年 Mark. All rights reserved.
 //
 import UIKit
+import CoreData
 import Alamofire
 import AlamofireImage
 
 open class AppClass
 {
+   
+    
+    open static var ShowFirstImage = UIImage()
+    
     open static var ImagePath = "http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Get_File?FileName=//172.16.111.114/File/SDQA/Code/Admin/"
     
     //public static var ServerPath = "http://172.16.98.4/IMSApp"
@@ -141,7 +146,110 @@ open class AppClass
         return String(hour) + String(minutes) + String(second) + String(nanosecond)
     }
     
+    open static func Get_DocumentImage(ImageFileName:String) -> UIImage
+    {
+        var Image = UIImage()
+        
+        let documentsUrls =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        
+        do {
+            
+            for documentsUrl in  documentsUrls
+            {
+                let directoryContents = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: [])
+                print(directoryContents)
+                
+                // if you want to filter the directory contents you can do like this:
+                let PngFile = directoryContents.filter{ $0.absoluteString.contains(ImageFileName)}.first
+                
+                if PngFile != nil {
+                    
+                    return  UIImage(contentsOfFile: (PngFile?.path)!)!
+                    
+                }
+                
+                
+            }
+            
+            
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
+
+        
+        return Image
+    }
     
+    open static func Get_Server_All_Image(moc:NSManagedObjectContext)
+    {
+        Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/Get_Server_All_Image")
+            .responseJSON { response in
+                
+                if let value = response.result.value as? [String: AnyObject] {
+                    
+                    let ObjectString = value["Key"]! as? [[String: AnyObject]]
+                    
+                    let Jstring = String(describing: value["Key"]!)
+                    
+                    if Jstring  != "" {
+                        
+                        for Photo_Info in (ObjectString )! {
+                            
+                            let F_DownloadFilePath = Photo_Info["F_DownloadFilePath"] as! String
+                            
+                            let Downdate = Photo_Info["Downdate"] as! String
+                            
+                            let UpdateDate = Photo_Info["Update"] as! String
+                            
+                            
+                            //DB_Photo.add_Photo(self.moc, photo_background: "", photo_date: Downdate, photo_path: F_DownloadFilePath)
+                            self.SaveImageToPhoto(Path: F_DownloadFilePath, Update: UpdateDate, Downdate: Downdate,moc:moc)
+                            
+                        }
+                        
+                        
+                    }
+                    
+                }
+        }
+        
+    }
+    
+    open static func SaveImageToPhoto(Path:String,Update:String,Downdate:String,moc:NSManagedObjectContext)
+    {
+         let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
+        
+        let url = URL(string: ("http://wtsc.msi.com.tw/IMS/IMS_App_Service.asmx/Get_File?FileName=" + Path).addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed)!)!
+        
+        
+        Alamofire.request(url).responseImage { response in
+            debugPrint(response)
+            
+            
+            if response.result.value != nil {
+                let imageData = UIImagePNGRepresentation(response.result.value!)!
+                let docDir = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                
+                let ImageFileName = UUID().uuidString + ".png"
+                
+                let imageURL = docDir.appendingPathComponent(ImageFileName)
+                
+                do {
+                    try! imageData.write(to: imageURL, options: Data.WritingOptions.atomicWrite)
+                    
+                    DB_Photo.add_Photo(moc, photo_background: "", photo_sdate: Update, photo_edate: Downdate, photo_path: ImageFileName)
+                    
+                } catch {
+                    
+                    print("Save Image Error")
+                    
+                }
+                
+                
+            }
+        }
+    }
     
 }
 

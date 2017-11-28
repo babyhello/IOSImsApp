@@ -23,7 +23,6 @@ class RegisterPasswordViewController: UIViewController {
     
     @IBAction func Btn_Register_Click(_ sender: AnyObject) {
         
-        
         let Account = OutloockAccount
         
         let Password = Txt_Password.text
@@ -31,20 +30,13 @@ class RegisterPasswordViewController: UIViewController {
         if Account == "A" && Password == "B" {
             
             self.performSegue(withIdentifier: "RegisterToMainWindow", sender: self)
-            
-            
-            
         }
         else
         {
             Authority(Account!,outlookPassword: Password!)
         }
-
         
     }
-    
-
-    
     func Authority(_ outlookAccount:String,outlookPassword:String)
     {
         Alamofire.request(AppClass.ServerPath + "/IMS_App_Service.asmx/AuthenticateWTSC", parameters: ["OutlookID": outlookAccount,"OutlookPassword":outlookPassword])
@@ -60,28 +52,19 @@ class RegisterPasswordViewController: UIViewController {
                         
                         let MemberInfo = ObjectString!
                         
-                        
                         if MemberInfo.count > 0
                         {
-                            
                             var Work_ID = ""
                            
                             var _MemberName = ""
                             
                            if (MemberInfo[0]["WorkID"] as? String) != nil {
-                                
                                 Work_ID = (MemberInfo[0]["WorkID"] as? String)!
-                            //print(Work_ID!)
-                                
                             }
                             
                             if (MemberInfo[0]["ChineseName"] as? String) != nil {
-                                
                                 _MemberName = (MemberInfo[0]["ChineseName"] as? String)!
-                                
                             }
-                            
-                           
                             
                             if Work_ID != ""
                             {
@@ -91,28 +74,18 @@ class RegisterPasswordViewController: UIViewController {
                                 
                                 self.performSegue(withIdentifier: "RegisterToMainWindow", sender: self)
                             }
-                            
-                           
-                            
                         }
-                        
-                        
                     }
                     else
                     {
-                        
-                        
                         //AppClass.Alert("Not Verify", SelfControl: self)
                     }
-                    
                 }
                 else
                 {
                     //AppClass.Alert("Outlook ID or Password Not Verify !!", SelfControl: self)
                 }
-
         }
-        
     }
     
     override func viewDidLoad() {
@@ -129,13 +102,8 @@ class RegisterPasswordViewController: UIViewController {
         Btn_Next.layer.cornerRadius = 5
         
         if AppUser.WorkID != nil && AppUser.WorkID != "" {
-            
             self.performSegue(withIdentifier: "RegisterToMainWindow", sender: self)
-            
         }
-        
-        //Txt_Password.focused = true
-        // Do any additional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
