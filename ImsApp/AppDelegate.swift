@@ -15,27 +15,27 @@ import FirebaseInstanceID
 import FirebaseMessaging
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, FIRMessagingDelegate{
-
+class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterDelegate, MessagingDelegate{
+    
     var orientationLock = UIInterfaceOrientationMask.all
     
     var window: UIWindow?
-
+    
     let gcmMessageIDKey = "gcm.message_id"
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-//        if #available(iOS 10.0, *) {
-//            let description = NSPersistentStoreDescription()
-//        } else {
-//            // Fallback on earlier versions
-//        }
-//        
-//        description.shouldInferMappingModelAutomatically = true
-//        description.shouldMigrateStoreAutomatically = true
-//        
-//        container.persistentStoreDescriptions = [description]
-                       
+        //        if #available(iOS 10.0, *) {
+        //            let description = NSPersistentStoreDescription()
+        //        } else {
+        //            // Fallback on earlier versions
+        //        }
+        //
+        //        description.shouldInferMappingModelAutomatically = true
+        //        description.shouldMigrateStoreAutomatically = true
+        //
+        //        container.persistentStoreDescriptions = [description]
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
             UNUserNotificationCenter.current().delegate = self
@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
                 options: authOptions,
                 completionHandler: {_, _ in })
             // For iOS 10 data message (sent via FCM
-            FIRMessaging.messaging().remoteMessageDelegate = self
+            //dMessaging.messaging().remoteMessageDelegate = self
         } else {
             let settings: UIUserNotificationSettings =
                 UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
@@ -52,20 +52,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             
         }
         application.registerForRemoteNotifications()
-        FIRApp.configure()
+        FirebaseApp.configure()
         
         let moc = (UIApplication.shared.delegate as! AppDelegate).managedObjectContext
         
-    
-       
+        
+        
         let MemberData = DB_Member.Get_Member(moc)
         
         if MemberData.count > 0 {
             
-                           AppUser.WorkID = MemberData[0].workid!
+            AppUser.WorkID = MemberData[0].workid!
             
         }
-      
+        
         
         let navigationBarAppearace = UINavigationBar.appearance()
         //navigationBarAppearace.tintColor
@@ -75,29 +75,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         let tabBarAppearace = UITabBar.appearance()
         
-       
         
-//        tabBarAppearace.items?[2].badgeValue = "1"
-//        
-//        let CustomTabBarController =  self.tabBarController
+        
+        //        tabBarAppearace.items?[2].badgeValue = "1"
+        //
+        //        let CustomTabBarController =  self.tabBarController
         
         tabBarAppearace.items?[2].badgeValue = "1"
         
         
         tabBarAppearace.tintColor = UIColor(hexString:"#2196f3")
-
         
-//                let UilabelAppearace = UILabel.appearance()
-//        
-//                UilabelAppearace.font = UIFont.systemFontOfSize(40)
+        
+        //                let UilabelAppearace = UILabel.appearance()
+        //
+        //                UilabelAppearace.font = UIFont.systemFontOfSize(40)
         
         //UilabelAppearace.
-//        let UilabelAppearace = UILabel.appearance()
-//        
-//        UilabelAppearace.font = UIFont.systemFontOfSize(40)
+        //        let UilabelAppearace = UILabel.appearance()
+        //
+        //        UilabelAppearace.font = UIFont.systemFontOfSize(40)
         let notificationTypes: UIUserNotificationType = [UIUserNotificationType.alert, UIUserNotificationType.badge, UIUserNotificationType.sound]
         let pushNotificationSettings = UIUserNotificationSettings(types: notificationTypes, categories: nil)
- 
+        
         application.registerUserNotificationSettings(pushNotificationSettings)
         application.registerForRemoteNotifications()
         
@@ -105,34 +105,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         // Add observer for InstanceID token refresh callback.
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.tokenRefreshNotification),
-                                               name: .firInstanceIDTokenRefresh,
+                                               name: .InstanceIDTokenRefresh,
                                                object: nil)
-       
-//        let DB_PhotoList =  DB_Photo.Get_DB_Photo(moc) as [DB_Photo]
-//        
-//        for DB_Photo in DB_PhotoList {
-//            
-//            let Image = AppClass.Get_DocumentImage(ImageFileName: DB_Photo.photo_path!)
-//            
-//            if  (Image != nil)
-//            {
-//               AppClass.ShowFirstImage = AppClass.Get_DocumentImage(ImageFileName: DB_Photo.photo_path!)
-//            }
-//            
-//        }
-//        
-//        if (DB_PhotoList.count == 0 )
-//        {
-//            AppClass.Get_Server_All_Image(moc: moc)
-//        }
+        
+        //        let DB_PhotoList =  DB_Photo.Get_DB_Photo(moc) as [DB_Photo]
+        //
+        //        for DB_Photo in DB_PhotoList {
+        //
+        //            let Image = AppClass.Get_DocumentImage(ImageFileName: DB_Photo.photo_path!)
+        //
+        //            if  (Image != nil)
+        //            {
+        //               AppClass.ShowFirstImage = AppClass.Get_DocumentImage(ImageFileName: DB_Photo.photo_path!)
+        //            }
+        //
+        //        }
+        //
+        //        if (DB_PhotoList.count == 0 )
+        //        {
+        //            AppClass.Get_Server_All_Image(moc: moc)
+        //        }
         
         return true
     }
-
+    
     // [END receive_message]
     // [START refresh_token]
     func tokenRefreshNotification(notification: NSNotification) {
-        if let refreshedToken = FIRInstanceID.instanceID().token() {
+        if let refreshedToken = InstanceID.instanceID().token() {
             print("InstanceID token: \(refreshedToken)")
         }
         
@@ -143,14 +143,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     // [START connect_to_fcm]
     func connectToFcm() {
         // Won't connect since there is no token
-        guard FIRInstanceID.instanceID().token() != nil else {
+        guard InstanceID.instanceID().token() != nil else {
             return
         }
         
         // Disconnect previous FCM connection if it exists.
-        FIRMessaging.messaging().disconnect()
+        Messaging.messaging().disconnect()
         
-        FIRMessaging.messaging().connect { (error) in
+        Messaging.messaging().connect { (error) in
             if error != nil {
                 print("Unable to connect with FCM. \(error?.localizedDescription ?? "")")
             } else {
@@ -166,8 +166,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
-        FIRMessaging.messaging().subscribe(toTopic: "/topics/dogs")
-
+        Messaging.messaging().subscribe(toTopic: "/topics/dogs")
         
         print("APNs token retrieved: \(deviceToken)")
     }
@@ -177,7 +176,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-      
+        
         
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
@@ -188,14 +187,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
     }
     
-  
+    
     
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     }
-
+    
     func applicationDidEnterBackground(_ application: UIApplication) {
         //Crete a local notification
         
@@ -206,35 +205,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         notification.fireDate  = NSDate(timeIntervalSinceNow: 2) as Date
         UIApplication.shared.scheduleLocalNotification(notification)
     }
-
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
-
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-
+    
     // MARK: - Core Data stack
-
+    
     lazy var applicationDocumentsDirectory: URL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "MarkTest.ImsApp" in the application's documents Application Support directory.
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
-
+    
     lazy var managedObjectModel: NSManagedObjectModel = {
         // The managed object model for the application. This property is not optional. It is a fatal error for the application not to be able to find and load its model.
         let modelURL = Bundle.main.url(forResource: "ImsApp", withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
-
+    
     lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
         // The persistent store coordinator for the application. This implementation creates and returns a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
@@ -248,7 +247,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
             var dict = [String: AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data" as AnyObject?
             dict[NSLocalizedFailureReasonErrorKey] = failureReason as AnyObject?
-
+            
             dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
@@ -259,7 +258,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         
         return coordinator
     }()
-
+    
     lazy var managedObjectContext: NSManagedObjectContext = {
         // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.) This property is optional since there are legitimate error conditions that could cause the creation of the context to fail.
         let coordinator = self.persistentStoreCoordinator
@@ -267,9 +266,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
         managedObjectContext.persistentStoreCoordinator = coordinator
         return managedObjectContext
     }()
-
+    
     // MARK: - Core Data Saving support
-
+    
     func saveContext () {
         if managedObjectContext.hasChanges {
             do {
@@ -287,14 +286,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UNUserNotificationCenterD
     
     
     // The callback to handle data message received via FCM for devices running iOS 10 or above.
-    func applicationReceivedRemoteMessage(_ remoteMessage: FIRMessagingRemoteMessage) {
-        print(remoteMessage.appData)
+    //    @objc(applicationReceivedRemoteMessage:) func application(receivedapplication(received remoteMessage: MessagingRemoteMessage) {
+    //        print(remoteMessage.appData)
+    //    }
+    
+    func application(received remoteMessage: MessagingRemoteMessage)
+    {
+        
+        
     }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return self.orientationLock
     }
-
+    
 }
 
 

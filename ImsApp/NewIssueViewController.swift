@@ -181,7 +181,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
                         
                         debugPrint(Float(progress.fractionCompleted))
                         
-                        self.Cir_Progress.setProgress(CGFloat(Float(progress.fractionCompleted) * 100), animationDuration: 0)
+                        self.Cir_Progress.setProgress(value: CGFloat(Float(progress.fractionCompleted) * 100), animationDuration: 0)
                         
                         if(Float(progress.fractionCompleted) >= 1)
                         {
@@ -823,7 +823,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
         
-        MySubVideoView = IssueVideo(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight),VideoPath: Path)
+        MySubVideoView = IssueVideo(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight),VideoPath: Path,FromFile: true)
         
         MySubVideoView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         

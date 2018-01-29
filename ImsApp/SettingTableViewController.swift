@@ -144,8 +144,13 @@ class SettingTableViewController: UITableViewController {
                 {
                     let alertController = UIAlertController(title: "Is New Version", message:
                         "", preferredStyle: UIAlertControllerStyle.alert)
+
+                    alertController.addAction(UIAlertAction(title: "OK", style: .cancel,handler: nil))
                     
                     self.present(alertController, animated: true, completion: nil)
+
+                    
+                   
                 }
             })
         }

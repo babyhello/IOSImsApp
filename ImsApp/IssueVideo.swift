@@ -12,27 +12,32 @@ import AVFoundation
 import AVKit
 
 class IssueVideo: UIView {
-
+    
     @IBOutlet var MainView: UIView!
     @IBOutlet weak var IssueVideoHeight: NSLayoutConstraint!
-
-    @IBOutlet weak var Img_Cancel: UIImageView!
-//    @IBOutlet weak var IssueVideoHeight: NSLayoutConstraint!
-    @IBOutlet weak var Issue_Video_VW: UIView!
-//    
-//    @IBOutlet weak var Issue_Video_VW: UIView!
-//    
-//    @IBOutlet weak var Img_Cancel: UIImageView!
     
-
+    @IBOutlet weak var Img_Cancel: UIImageView!
+    //    @IBOutlet weak var IssueVideoHeight: NSLayoutConstraint!
+    @IBOutlet weak var Issue_Video_VW: UIView!
+    //
+    //    @IBOutlet weak var Issue_Video_VW: UIView!
+    //
+    //    @IBOutlet weak var Img_Cancel: UIImageView!
+    
+    
     
     var VideoPath:String!
     
     var MyCustview:UIView!
     
-    init(frame: CGRect,VideoPath: String){
+    var playerViewController = AVPlayerViewController()
+    
+    var FromFile:Bool!
+    
+    init(frame: CGRect,VideoPath: String,FromFile:Bool){
         
         self.VideoPath = VideoPath
+        self.FromFile = FromFile
         super.init(frame: frame)
         setup()
     }
@@ -40,29 +45,76 @@ class IssueVideo: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    func Hide_CancelBtn()
+    {
+        Img_Cancel.isHidden = true
+        
+    }
+    
     func setup() {
         
         
         MyCustview = loadViewFromNib()
-         MyCustview.frame = bounds
+        MyCustview.frame = bounds
         MyCustview.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         IssueVideoHeight.constant = MyCustview.frame.height
-
-         var avPlayer: AVPlayer!
         
-        let TrueVideoPath =  URL(fileURLWithPath: VideoPath)
+        var avPlayer: AVPlayer!
+        
+        let TrueVideoPath:URL
+        
+        if(FromFile)
+        {
+            TrueVideoPath = URL(fileURLWithPath: VideoPath)
+        }
+        else
+        {
+            
+            TrueVideoPath = URL(string: AppClass.ConvertServerPath(Path: VideoPath))!
+        }
         
         let videoURL = TrueVideoPath.absoluteURL
         
-        avPlayer = AVPlayer(url: videoURL as URL)
+        avPlayer = AVPlayer(url: videoURL as! URL)
         let playerLayer = AVPlayerLayer(player: avPlayer)
         playerLayer.frame = bounds
         MyCustview.layer.addSublayer(playerLayer)
-        avPlayer.play()
-       
+        //avPlayer.play()
+        
+        
+        let player = avPlayer
+        
+        playerViewController.player = player
+        
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(IssueVideo.Video_Click(_:)))
+        
+        
+        MyCustview.addGestureRecognizer(tapGestureRecognizer)
         
         addSubview(MyCustview)
-
+        
+    }
+    
+    func Video_Click(_ sender: UITapGestureRecognizer)
+    {
+        var avPlayer: AVPlayer!
+        
+        let TrueVideoPath = URL(string: AppClass.ConvertServerPath(Path: VideoPath))!
+        
+        let videoURL = TrueVideoPath.absoluteURL
+        
+        avPlayer = AVPlayer(url: videoURL as! URL)
+        
+        playerViewController.player = avPlayer
+        
+        let currentController = AppClass.getCurrentViewController()
+        
+        currentController?.present(playerViewController, animated: false)
+        {
+            self.playerViewController.player!.play()
+        }
     }
     
     func loadViewFromNib() -> UIView {
@@ -72,5 +124,5 @@ class IssueVideo: UIView {
         
         return view
     }
-
+    
 }

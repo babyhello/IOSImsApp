@@ -80,7 +80,10 @@ open class AppClass
         
     }
     
-    
+    open static func ConvertServerPath(Path:String) -> String
+    {
+        return Path.replacingOccurrences(of: "//172.16.111.114/File", with: "http://wtsc.msi.com.tw/IMS/FileServer")
+    }
     
     open static func WebImgGet(_ Path:String,ImageView:UIImageView)
     {
@@ -251,6 +254,19 @@ open class AppClass
         }
     }
     
+    open static func getCurrentViewController() -> UIViewController? {
+        
+        if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+            var currentController: UIViewController! = rootController
+            while( currentController.presentedViewController != nil ) {
+                currentController = currentController.presentedViewController
+            }
+            return currentController
+        }
+        return nil
+        
+    }
+    
 }
 
 struct AppUtility {
@@ -297,6 +313,8 @@ extension UIColor {
         
         self.init(red:red, green:green, blue:blue, alpha:1)
     }
+    
+  
     
     func toHexString() -> String {
         var r:CGFloat = 0

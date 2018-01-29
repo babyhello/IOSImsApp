@@ -39,8 +39,15 @@ class IssueVoice: UIView {
         super.init(coder: aDecoder)
     }
     
+    func Hide_CancelBtn()
+    {
+        Img_Cancel.isHidden = true
+        
+    }
     
     func setup() {
+        
+        VoicePath = AppClass.ConvertServerPath(Path: VoicePath)
         
         MyCustview = loadViewFromNib()
         self.Img_Issue.bringSubview(toFront: MyCustview)

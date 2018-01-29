@@ -16,18 +16,6 @@ import ImageViewer
 class EditIssueCollectionCell:UICollectionViewCell
 {
     
-    @IBOutlet weak var Img_Issue: UIImageView!
-    
-    
-    //    override init(frame: CGRect) {
-    //        super.init(frame: frame)
-    //        //setup()
-    //    }
-    //
-    //    required init(coder aDecoder: NSCoder) {
-    //        super.init(coder: aDecoder)!
-    //        //setup()
-    //    }
 }
 
 
@@ -42,12 +30,9 @@ class EditIssueTableViewCell:UITableViewCell
     
     @IBOutlet weak var lbl_Command_Content: UILabel!
     
-    @IBOutlet weak var Img_Command: UIImageView!
-    
-    @IBOutlet weak var Col_Img_Height: NSLayoutConstraint!
-    
-    
-    
+    @IBOutlet weak var Col_Content_View_Height: NSLayoutConstraint!
+    @IBOutlet weak var VW_File: UIView!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -657,10 +642,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             
             _Issue_File.FilePath = Issue_File_Path
             
-            if ((_Issue_File.FilePath?.uppercased().contains("JPG"))! || (_Issue_File.FilePath?.uppercased().contains("PNG"))! || (_Issue_File.FilePath?.uppercased().contains("GIF"))!)
-            {
-                self.Issue_File_List.append(_Issue_File)
-            }
+            self.Issue_File_List.append(_Issue_File)
         }
         
         if(self.Issue_File_List.count > 0 )
@@ -1217,16 +1199,55 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         //cell.selected = true
         
-        let path = Issue_File_List[(indexPath as NSIndexPath).row].FilePath
+        var index  = (indexPath as NSIndexPath).row
         
-        //loadImage(path!,ImageView: cell.Img_Issue)
+        let path = Issue_File_List[index].FilePath!
+//        AppClass.WebImgGet(path!,ImageView: cell.Img_Issue)
+//
+//        let _Img_Edit_Issue = cell.Img_Issue
+//        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+//        _Img_Edit_Issue?.isUserInteractionEnabled = true
+//        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
         
-        AppClass.WebImgGet(path!,ImageView: cell.Img_Issue)
         
-        let _Img_Edit_Issue = cell.Img_Issue
-        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
-        _Img_Edit_Issue?.isUserInteractionEnabled = true
-        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+        if((path.lowercased().contains("mov")) || (path.lowercased().contains("mp4")))
+        {
+            let VideoView = IssueVideo(frame: CGRect(x:5,y: 5, width:Int(cell.contentView.frame.size.width), height:Int(cell.contentView.frame.height)),VideoPath: path,FromFile: false)
+            
+            VideoView.Hide_CancelBtn()
+            
+            
+            cell.addSubview(VideoView)
+            
+            cell.contentView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        }
+        else if((path.lowercased().contains("3gp")))
+        {
+            
+            
+            let VoiceView = IssueVoice(frame: CGRect(x:5,y: 5, width:Int(cell.contentView.frame.size.width), height:Int(cell.contentView.frame.height)),VoicePath: path)
+            
+            VoiceView.Hide_CancelBtn()
+            
+            
+            cell.addSubview(VoiceView)
+            
+            cell.contentView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        }
+        else
+        {
+            
+            let ImageView = IssueImage(frame: CGRect(x:5,y: 5, width:Int(cell.contentView.frame.size.width), height:Int(cell.contentView.frame.height)))
+          
+            
+            AppClass.WebImgGet(path,ImageView: ImageView.Img_Issue)
+            
+            ImageView.Hide_CancelBtn()
+            
+            cell.addSubview(ImageView)
+            
+            cell.contentView.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        }
         
         // Use the outlet in our custom class to get a reference to the UILabel in the cell
         //cell.
@@ -1252,7 +1273,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         let cell : EditIssueCollectionCell = collectionView.cellForItem(at: indexPath) as! EditIssueCollectionCell
         
-        SelectPhoto = cell.Img_Issue.image
+        //SelectPhoto = cell.Img_Issue.image
         
         //performSegueWithIdentifier("EditIssueToViewPhoto", sender: self)
         
@@ -1286,25 +1307,70 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         cell.lbl_Command_Author.text = Issue_Command_List[(indexPath as NSIndexPath).row].Command_Author
         cell.lbl_Command_Content.attributedText = attrString
         
+        var FilePath = Issue_Command_List[(indexPath as NSIndexPath).row].Command_File
+        
         if(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File?.isEmpty)!
         {
             
-            cell.Col_Img_Height.constant = 0
+            cell.Col_Content_View_Height.constant = 0
             
-            cell.Img_Command.layoutIfNeeded()        }
+            cell.VW_File.layoutIfNeeded()
+            
+        }
         else
         {
-            cell.Col_Img_Height.constant = 100
+            cell.Col_Content_View_Height.constant = 100
             
-            cell.Img_Command.layoutIfNeeded()
+            cell.VW_File.layoutIfNeeded()
             
-            AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
+//            AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
+//
+//            let _Img_Edit_Issue = cell.Img_Command
+//
+//            let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+//            _Img_Edit_Issue?.isUserInteractionEnabled = true
+//            _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
             
-            let _Img_Edit_Issue = cell.Img_Command
             
-            let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
-            _Img_Edit_Issue?.isUserInteractionEnabled = true
-            _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+            if((FilePath?.lowercased().contains("mov"))! || (FilePath?.lowercased().contains("mp4"))!)
+            {
+                let VideoView = IssueVideo(frame: CGRect(x:5,y: 5, width:Int(150), height:Int(cell.VW_File.frame.height)),VideoPath: FilePath!,FromFile: false)
+                
+                VideoView.Hide_CancelBtn()
+                
+                
+                cell.VW_File.addSubview(VideoView)
+                
+                cell.VW_File.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+            }
+            else if((FilePath?.lowercased().contains("3gp")))!
+            {
+                
+                
+                let VoiceView = IssueVoice(frame: CGRect(x:5,y: 5, width:Int(150), height:Int(cell.VW_File.frame.height)),VoicePath: FilePath!)
+                
+                VoiceView.Hide_CancelBtn()
+                
+                
+                cell.VW_File.addSubview(VoiceView)
+                
+                cell.VW_File.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+            }
+            else
+            {
+                
+                print(cell.VW_File.frame.size.width)
+                print(cell.VW_File.frame.size.height)
+                let ImageView = IssueImage(frame: CGRect(x:5,y: 5, width:Int(150), height:Int(cell.VW_File.frame.height)))
+                
+                AppClass.WebImgGet(FilePath!,ImageView: ImageView.Img_Issue)
+                
+                ImageView.Hide_CancelBtn()
+                
+                cell.VW_File.addSubview(ImageView)
+                
+                cell.VW_File.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+            }
             
         }
         
@@ -1334,8 +1400,8 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         
         let screenSize: CGRect = UIScreen.main.bounds
         
-        let screenWidth = screenSize.width
-        let screenHeight = screenSize.height
+        _ = screenSize.width
+        _ = screenSize.height
         
         let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ZoomImageView") as! ZoomViewController
         

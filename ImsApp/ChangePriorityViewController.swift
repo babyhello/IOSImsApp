@@ -236,7 +236,7 @@ class ChangePriorityViewController: UIViewController,UITextViewDelegate,UIImageP
         
         let subviewHeight = Int(self.view.frame.size.width) / 4 * 3
         
-        MySubVideoView = IssueVideo(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight),VideoPath: Path)
+        MySubVideoView = IssueVideo(frame: CGRect(x:5,y: height, width:Int(self.view.frame.size.width), height:subviewHeight),VideoPath: Path,FromFile: true)
         
         MySubVideoView?.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         

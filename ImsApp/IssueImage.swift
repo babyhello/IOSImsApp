@@ -20,13 +20,18 @@ class IssueImage: UIView {
     var ImagePath:String!
     
     var MyCustview:UIView!
+
     
-//    var height:Int?
-//    
-//    var width:Int?
+    
+    func Hide_CancelBtn()
+    {
+        Img_Cancel.isHidden = true
+        
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+     
         setup()
     }
     
@@ -42,7 +47,34 @@ class IssueImage: UIView {
         MyCustview.frame = bounds
         MyCustview.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         IssueImageHeight.constant = MyCustview.frame.height
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(IssueImage.GoToZoome(_:)))
+        
+        
+        MyCustview?.addGestureRecognizer(tapGestureRecognizer)
+        
         addSubview(MyCustview)
+    }
+    
+    func GoToZoome(_ sender:UITapGestureRecognizer)
+    {
+       
+        
+        let screenSize: CGRect = UIScreen.main.bounds
+        
+        _ = screenSize.width
+        _ = screenSize.height
+        
+        let popOverVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ZoomImageView") as! ZoomViewController
+        
+        popOverVC.ZoomImage = Img_Issue.image
+        
+        let nav = UINavigationController(rootViewController: popOverVC)
+        
+        let currentController = AppClass.getCurrentViewController()
+        
+        currentController?.present(nav, animated: false)
+     
     }
     
     func loadViewFromNib() -> UIView {
