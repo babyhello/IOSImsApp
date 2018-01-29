@@ -28,7 +28,16 @@ extension Slider {
 
         slider.setMinimumTrackImage(minTrackImage.toImage(), for: UIControlState())
         slider.setMaximumTrackImage(maxTrackImage.toImage(), for: UIControlState())
-        
+
         return slider
+    }
+    
+    override func tintColorDidChange() {
+        self.minimumTrackTintColor = self.tintColor
+        self.maximumTrackTintColor = self.tintColor.shadeDarker()
+        
+        // Correct way would be setting self.thumbTintColor however this has a bug which changes the thumbImage frame
+        let image = self.currentThumbImage?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        self.setThumbImage(image, for: UIControlState.normal)
     }
 }

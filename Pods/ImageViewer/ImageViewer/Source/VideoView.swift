@@ -30,7 +30,7 @@ class VideoView: UIView {
                 let videoLayer = self.layer as? AVPlayerLayer {
 
                 videoLayer.player = player
-                videoLayer.videoGravity = AVLayerVideoGravityResizeAspect
+                videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
 
                 player.addObserver(self, forKeyPath: "status", options: NSKeyValueObservingOptions.new, context: nil)
                 player.addObserver(self, forKeyPath: "rate", options: NSKeyValueObservingOptions.new, context: nil)
@@ -74,13 +74,12 @@ class VideoView: UIView {
 
                 UIView.animate(withDuration: 0.3, animations: { [weak self] in
 
-                    if let weakself = self {
+                    if let strongSelf = self {
 
-                        weakself.previewImageView.alpha = 0
+                        strongSelf.previewImageView.alpha = 0
                     }
-                }) 
+                })
             }
         }
     }
 }
-

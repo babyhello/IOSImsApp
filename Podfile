@@ -8,7 +8,7 @@ target 'IMS' do
     pod 'Firebase/Core'
     pod 'Firebase/Messaging'
     pod 'Fusuma'
-    pod 'Toast-Swift', '~> 2.0.0'
+    pod 'Toast-Swift'
     pod 'ImageViewer'
     pod 'UICircularProgressRing'
 end

@@ -24,24 +24,20 @@ open class VideoScrubber: UIControl {
     weak var player: AVPlayer? {
 
         willSet {
-
-            if newValue == nil {
-
-                if let player = player {
-
-                    ///KVO
-                    player.removeObserver(self, forKeyPath: "status")
-                    player.removeObserver(self, forKeyPath: "rate")
-
-                    ///NC
-                    NotificationCenter.default.removeObserver(self)
-
-                    ///TIMER
-                    if let periodicObserver = self.periodicObserver {
-
-                        player.removeTimeObserver(periodicObserver)
-                        self.periodicObserver = nil
-                    }
+            if let player = player {
+                
+                ///KVO
+                player.removeObserver(self, forKeyPath: "status")
+                player.removeObserver(self, forKeyPath: "rate")
+                
+                ///NC
+                NotificationCenter.default.removeObserver(self)
+                
+                ///TIMER
+                if let periodicObserver = self.periodicObserver {
+                    
+                    player.removeTimeObserver(periodicObserver)
+                    self.periodicObserver = nil
                 }
             }
         }
@@ -58,12 +54,9 @@ open class VideoScrubber: UIControl {
                 NotificationCenter.default.addObserver(self, selector: #selector(didEndPlaying), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
 
                 ///TIMER
-                periodicObserver = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: nil) { [weak self] time in
-
-                    if let weakself = self {
-                        weakself.update()
-                    }
-                } as AnyObject?
+                periodicObserver = player.addPeriodicTimeObserver(forInterval: CMTime(value: 1, timescale: 1), queue: nil, using: { [weak self] time in
+                    self?.update()
+                }) as AnyObject?
 
                 self.update()
             }
@@ -93,11 +86,9 @@ open class VideoScrubber: UIControl {
             player?.removeTimeObserver(periodicObserver)
             self.periodicObserver = nil
         }
-
-        print("VideoScrubber deinit 💣")
     }
 
-    func didEndPlaying() {
+    @objc func didEndPlaying() {
 
         self.playButton.isHidden = true
         self.pauseButton.isHidden = true
@@ -106,6 +97,7 @@ open class VideoScrubber: UIControl {
 
     func setup() {
 
+        self.tintColor = .white
         self.clipsToBounds = true
         pauseButton.isHidden = true
         replayButton.isHidden = true
@@ -114,7 +106,7 @@ open class VideoScrubber: UIControl {
         scrubber.maximumValue = 1000
         scrubber.value = 0
 
-        timeLabel.attributedText = NSAttributedString(string: "--:--", attributes: [NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 12)])
+        timeLabel.attributedText = NSAttributedString(string: "--:--", attributes: [NSAttributedStringKey.foregroundColor : self.tintColor, NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12)])
         timeLabel.textAlignment =  .center
 
         playButton.addTarget(self, action: #selector(play), for: UIControlEvents.touchUpInside)
@@ -161,23 +153,23 @@ open class VideoScrubber: UIControl {
         }
     }
 
-    func play() {
+    @objc func play() {
 
         self.player?.play()
     }
 
-    func replay() {
+    @objc func replay() {
 
         self.player?.seek(to: CMTime(value:0 , timescale: 1))
         self.player?.play()
     }
 
-    func pause() {
+    @objc func pause() {
 
         self.player?.pause()
     }
 
-    func seekToTime() {
+    @objc func seekToTime() {
 
         let progress = scrubber.value / scrubber.maximumValue //naturally will be between 0 to 1
 
@@ -229,15 +221,15 @@ open class VideoScrubber: UIControl {
 
             UIView.animate(withDuration: 0.9, animations: { [weak self] in
 
-                if let weakself = self {
+                if let strongSelf = self {
 
-                    weakself.scrubber.value = Float(progress) * weakself.scrubber.maximumValue
+                    strongSelf.scrubber.value = Float(progress) * strongSelf.scrubber.maximumValue
                 }
-            }) 
+            })
         }
     }
 
-    func updateCurrentTime() {
+    @objc func updateCurrentTime() {
 
         if let duration = self.duration , self.duration != nil {
 
@@ -246,22 +238,65 @@ open class VideoScrubber: UIControl {
 
             let timeString = stringFromTimeInterval(currentTime as TimeInterval)
 
-            timeLabel.attributedText = NSAttributedString(string: timeString, attributes: [NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 12)])
+            timeLabel.attributedText = NSAttributedString(string: timeString, attributes: [NSAttributedStringKey.foregroundColor : self.tintColor, NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12)])
         }
         else {
-            timeLabel.attributedText = NSAttributedString(string: "--:--", attributes: [NSForegroundColorAttributeName : UIColor.white, NSFontAttributeName : UIFont.systemFont(ofSize: 12)])
+            timeLabel.attributedText = NSAttributedString(string: "--:--", attributes: [NSAttributedStringKey.foregroundColor : self.tintColor, NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12)])
         }
     }
-    
+
     func stringFromTimeInterval(_ interval:TimeInterval) -> String {
-        
+
         let timeInterval = NSInteger(interval)
-        
+
         let seconds = timeInterval % 60
         let minutes = (timeInterval / 60) % 60
         //let hours = (timeInterval / 3600)
-        
+
         return NSString(format: "%0.2d:%0.2d",minutes,seconds) as String
         //return NSString(format: "%0.2d:%0.2d:%0.2d",hours,minutes,seconds) as String
+    }
+    
+    override open func tintColorDidChange() {
+        timeLabel.attributedText = NSAttributedString(string: "--:--", attributes: [NSAttributedStringKey.foregroundColor : self.tintColor, NSAttributedStringKey.font : UIFont.systemFont(ofSize: 12)])
+        
+        let playButtonImage = playButton.imageView?.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        playButton.imageView?.tintColor = self.tintColor
+        playButton.setImage(playButtonImage, for: .normal)
+        
+        if let playButtonImage = playButtonImage,
+            let highlightImage = self.image(playButtonImage, with: self.tintColor.shadeDarker()) as UIImage? {
+            playButton.setImage(highlightImage, for: .highlighted)
+        }
+        
+        let pauseButtonImage = pauseButton.imageView?.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        pauseButton.imageView?.tintColor = self.tintColor
+        pauseButton.setImage(pauseButtonImage, for: .normal)
+        
+        if let pauseButtonImage = pauseButtonImage,
+            let highlightImage = self.image(pauseButtonImage, with: self.tintColor.shadeDarker()) as UIImage? {
+            pauseButton.setImage(highlightImage, for: .highlighted)
+        }
+        
+        let replayButtonImage = replayButton.imageView?.image?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)
+        replayButton.imageView?.tintColor = self.tintColor
+        replayButton.setImage(replayButtonImage, for: .normal)
+        
+        if let replayButtonImage = replayButtonImage,
+            let highlightImage = self.image(replayButtonImage, with: self.tintColor.shadeDarker()) as UIImage? {
+            replayButton.setImage(highlightImage, for: .highlighted)
+        }
+    }
+    
+    func image(_ image: UIImage, with color: UIColor) -> UIImage? {
+        UIGraphicsBeginImageContext(image.size)
+        let rect = CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(color.cgColor)
+        context?.clip(to: rect, mask: image.cgImage!)
+        context?.fill(CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        let fillImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return fillImage
     }
 }

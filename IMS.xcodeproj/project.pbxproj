@@ -12,6 +12,8 @@
 		3C120EC31D40C92A00479C04 /* NewIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C120EC21D40C92A00479C04 /* NewIssueViewController.swift */; };
 		3C204E8C1F53E95A007C1E51 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C204E8B1F53E95A007C1E51 /* LaunchScreenViewController.swift */; };
 		3C204E8E1F53ECB0007C1E51 /* LaunchScreenNib.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C204E8D1F53ECB0007C1E51 /* LaunchScreenNib.xib */; };
+		3C210E14201ED2150095AD84 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C210E13201ED2150095AD84 /* LaunchScreen.storyboard */; };
+		3C210E16201ED21B0095AD84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C210E15201ED21B0095AD84 /* Main.storyboard */; };
 		3C2856841ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2856821ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift */; };
 		3C2856851ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */; };
 		3C2856871ED7ACE20078824B /* ProjectInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2856861ED7ACE20078824B /* ProjectInfo.swift */; };
@@ -21,9 +23,7 @@
 		3C2856931EE779CF0078824B /* IssueVideo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3C2856921EE779CF0078824B /* IssueVideo.xib */; };
 		3C28D3B01D2216C800FF4538 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3AF1D2216C800FF4538 /* AppDelegate.swift */; };
 		3C28D3B21D2216C800FF4538 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3B11D2216C800FF4538 /* ViewController.swift */; };
-		3C28D3B51D2216C800FF4538 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C28D3B31D2216C800FF4538 /* Main.storyboard */; };
 		3C28D3B81D2216C800FF4538 /* ImsApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3B61D2216C800FF4538 /* ImsApp.xcdatamodeld */; };
-		3C28D3BD1D2216C800FF4538 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C28D3BB1D2216C800FF4538 /* LaunchScreen.storyboard */; };
 		3C28D3C81D2216C900FF4538 /* ImsAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3C71D2216C900FF4538 /* ImsAppTests.swift */; };
 		3C28D3D31D2216C900FF4538 /* ImsAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C28D3D21D2216C900FF4538 /* ImsAppUITests.swift */; };
 		3C3636031D75945700B7BB39 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3636021D75945700B7BB39 /* TableViewController.swift */; };
@@ -122,6 +122,8 @@
 		3C120EC21D40C92A00479C04 /* NewIssueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewIssueViewController.swift; sourceTree = "<group>"; };
 		3C204E8B1F53E95A007C1E51 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		3C204E8D1F53ECB0007C1E51 /* LaunchScreenNib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreenNib.xib; sourceTree = "<group>"; };
+		3C210E13201ED2150095AD84 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../../../.Trash/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3C210E15201ED21B0095AD84 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = ../../../../.Trash/Main.storyboard; sourceTree = "<group>"; };
 		3C2856821ED6893D0078824B /* ProjectHeaderCellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectHeaderCellTableViewCell.swift; sourceTree = "<group>"; };
 		3C2856831ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectHeaderCellTableViewCell.xib; sourceTree = "<group>"; };
 		3C2856861ED7ACE20078824B /* ProjectInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectInfo.swift; sourceTree = "<group>"; };
@@ -132,9 +134,7 @@
 		3C28D3AC1D2216C800FF4538 /* IMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C28D3AF1D2216C800FF4538 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C28D3B11D2216C800FF4538 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		3C28D3B41D2216C800FF4538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3C28D3B71D2216C800FF4538 /* ImsApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ImsApp.xcdatamodel; sourceTree = "<group>"; };
-		3C28D3BC1D2216C800FF4538 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C28D3BE1D2216C800FF4538 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C28D3C31D2216C900FF4538 /* IMS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C28D3C71D2216C900FF4538 /* ImsAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImsAppTests.swift; sourceTree = "<group>"; };
@@ -296,8 +296,8 @@
 				3CFDFF181D23C3A00085A106 /* Main */,
 				3C28D3AF1D2216C800FF4538 /* AppDelegate.swift */,
 				3C28D3B11D2216C800FF4538 /* ViewController.swift */,
-				3C28D3B31D2216C800FF4538 /* Main.storyboard */,
-				3C28D3BB1D2216C800FF4538 /* LaunchScreen.storyboard */,
+				3C210E15201ED21B0095AD84 /* Main.storyboard */,
+				3C210E13201ED2150095AD84 /* LaunchScreen.storyboard */,
 				3C28D3BE1D2216C800FF4538 /* Info.plist */,
 				3C28D3B61D2216C800FF4538 /* ImsApp.xcdatamodeld */,
 				3C3636021D75945700B7BB39 /* TableViewController.swift */,
@@ -672,9 +672,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3C28D3BD1D2216C800FF4538 /* LaunchScreen.storyboard in Resources */,
-				3C28D3B51D2216C800FF4538 /* Main.storyboard in Resources */,
 				3C94C8261EF656E30073CD76 /* IssueVoice.xib in Resources */,
+				3C210E14201ED2150095AD84 /* LaunchScreen.storyboard in Resources */,
 				3C7CBB711D2F64A400DF079C /* ProjectCellNib.xib in Resources */,
 				3C5344AC1D38BBA70085E366 /* ImsCellNib.xib in Resources */,
 				3CA0B71E1F0E07ED00685E96 /* CloseIssueAlertViewController.xib in Resources */,
@@ -682,6 +681,7 @@
 				3CD664F81F174C9C000FB8BF /* GoogleService-Info.plist in Resources */,
 				3CDEAADE1D4EB8A9002961DC /* IssueImage.xib in Resources */,
 				3CD4128A1F04EFE8003EEDB3 /* loadinganimation.gif in Resources */,
+				3C210E16201ED21B0095AD84 /* Main.storyboard in Resources */,
 				3C2856851ED6893D0078824B /* ProjectHeaderCellTableViewCell.xib in Resources */,
 				3CA0B7161F0DCC4600685E96 /* ChangePriorityAlertViewController.xib in Resources */,
 				3C204E8E1F53ECB0007C1E51 /* LaunchScreenNib.xib in Resources */,
@@ -849,25 +849,6 @@
 			targetProxy = 3C28D3CF1D2216C900FF4538 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		3C28D3B31D2216C800FF4538 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3C28D3B41D2216C800FF4538 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		3C28D3BB1D2216C800FF4538 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3C28D3BC1D2216C800FF4538 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3C28D3D51D2216C900FF4538 /* Debug */ = {
