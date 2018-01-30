@@ -45,8 +45,10 @@ class PopUpProjectSelectViewController: UIViewController {
     @IBOutlet weak var lbl_Project_MarketName: UILabel!
     
     @IBOutlet weak var Img_NewIssue: UIImageView!
-    @IBOutlet weak var BottomConstanct: NSLayoutConstraint!
+
     
+    
+   
     var ProjectInfo : ProjectInfo?
     
     override func viewDidLoad() {

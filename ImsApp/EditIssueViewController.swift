@@ -1150,7 +1150,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     func Change_Owner()
     {
-        if(!ModelID?.isEmpty)
+        if(!(ModelID?.isEmpty)!)
         {
             performSegue(withIdentifier: "Change_Owner", sender: self)
         }
