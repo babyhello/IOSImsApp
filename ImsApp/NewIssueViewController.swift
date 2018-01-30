@@ -79,7 +79,7 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
         
         VW_Bottom.layer.borderColor = UIColor(hexString: "#dcdde1").cgColor
         
-        CoverView.layer.backgroundColor = UIColor(hexString: "#dcdde1").cgColor
+        //CoverView.layer.backgroundColor = UIColor(hexString: "#dcdde1").cgColor
         
         let done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(Finish_Issue))
         
@@ -135,6 +135,20 @@ class NewIssueViewController: UIViewController,UIImagePickerControllerDelegate,U
 //        self.view.addSubview(activityIndicator);
         
         Cir_Progress.isHidden = true
+        
+        //play()
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let countOfWords = text.characters.count + textView.text!.characters.count - range.length
+        
+        if countOfWords > 70{
+            return false
+        }
+        
+       
+        
+        return true
     }
     
     func play(){

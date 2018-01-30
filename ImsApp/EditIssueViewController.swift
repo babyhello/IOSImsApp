@@ -32,7 +32,7 @@ class EditIssueTableViewCell:UITableViewCell
     
     @IBOutlet weak var Col_Content_View_Height: NSLayoutConstraint!
     @IBOutlet weak var VW_File: UIView!
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -856,17 +856,17 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             
             if((Issue_Status != "5") && Issue_Owner == Issue_Keyin)
             {
-                               
+                
                 //Close Issue
                 
                 CloseIssueView = CloseIssueAlertViewController(frame: rect)
                 
                 CloseIssueView.delegate = self
                 
-//                if(!(Issue_Status?.isEmpty)!)
-//                {
-//                    CloseIssueView.Set_Close_Status(Int(Issue_Status!)!)
-//                }
+                //                if(!(Issue_Status?.isEmpty)!)
+                //                {
+                //                    CloseIssueView.Set_Close_Status(Int(Issue_Status!)!)
+                //                }
                 
                 
                 items.append(Create_Sheet_Item(SheetType: .view, Label: nil, CustomView: CloseIssueView, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
@@ -885,7 +885,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
                 actionSheet.dismiss()
             }
                 , Height: nil))
-
+            
             
         }
         
@@ -920,7 +920,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             items.append(Create_Sheet_Item(SheetType: .view, Label: nil, CustomView: CloseIssueView, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in
             }
                 , Height: 120))
-        
+            
         }
         
         items.append(Create_Sheet_Item(SheetType: .button, Label: "Cancel", CustomView: nil, SheetAction: { (actionSheet: CustomizableActionSheet) -> Void in actionSheet.dismiss()
@@ -1033,7 +1033,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         }))
         
         present(refreshAlert, animated: true, completion: nil)
-
+        
         
         
         
@@ -1150,8 +1150,13 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     
     func Change_Owner()
     {
-        performSegue(withIdentifier: "Change_Owner", sender: self)
+        if(!ModelID?.isEmpty)
+        {
+            performSegue(withIdentifier: "Change_Owner", sender: self)
+        }
     }
+    
+    
     
     func Camera_Photo_Pic(_ sender:AnyObject)
     {
@@ -1202,12 +1207,12 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         var index  = (indexPath as NSIndexPath).row
         
         let path = Issue_File_List[index].FilePath!
-//        AppClass.WebImgGet(path!,ImageView: cell.Img_Issue)
-//
-//        let _Img_Edit_Issue = cell.Img_Issue
-//        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
-//        _Img_Edit_Issue?.isUserInteractionEnabled = true
-//        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+        //        AppClass.WebImgGet(path!,ImageView: cell.Img_Issue)
+        //
+        //        let _Img_Edit_Issue = cell.Img_Issue
+        //        let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+        //        _Img_Edit_Issue?.isUserInteractionEnabled = true
+        //        _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
         
         
         if((path.lowercased().contains("mov")) || (path.lowercased().contains("mp4")))
@@ -1238,7 +1243,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
         {
             
             let ImageView = IssueImage(frame: CGRect(x:5,y: 5, width:Int(cell.contentView.frame.size.width), height:Int(cell.contentView.frame.height)))
-          
+            
             
             AppClass.WebImgGet(path,ImageView: ImageView.Img_Issue)
             
@@ -1323,13 +1328,13 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
             
             cell.VW_File.layoutIfNeeded()
             
-//            AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
-//
-//            let _Img_Edit_Issue = cell.Img_Command
-//
-//            let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
-//            _Img_Edit_Issue?.isUserInteractionEnabled = true
-//            _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
+            //            AppClass.WebImgGet(Issue_Command_List[(indexPath as NSIndexPath).row].Command_File!,ImageView: cell.Img_Command)
+            //
+            //            let _Img_Edit_Issue = cell.Img_Command
+            //
+            //            let Img_EditGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(EditIssueViewController.GoToZoome(sender:)))
+            //            _Img_Edit_Issue?.isUserInteractionEnabled = true
+            //            _Img_Edit_Issue?.addGestureRecognizer(Img_EditGestureRecognizer)
             
             
             if((FilePath?.lowercased().contains("mov"))! || (FilePath?.lowercased().contains("mp4"))!)
@@ -1546,7 +1551,7 @@ class EditIssueViewController: UIViewController,UICollectionViewDataSource, UICo
     }
     
     
- 
+    
     
     func Upload_Issue_File(_ WorkID:String,IssueID:String,IssueFilePath:String)
     {
