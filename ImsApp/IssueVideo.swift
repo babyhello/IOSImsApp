@@ -101,7 +101,17 @@ class IssueVideo: UIView {
     {
         var avPlayer: AVPlayer!
         
-        let TrueVideoPath = URL(string: AppClass.ConvertServerPath(Path: VideoPath))!
+        let TrueVideoPath:URL
+        
+        if(FromFile)
+        {
+            TrueVideoPath = URL(fileURLWithPath: VideoPath)
+        }
+        else
+        {
+            
+            TrueVideoPath = URL(string: AppClass.ConvertServerPath(Path: VideoPath))!
+        }
         
         let videoURL = TrueVideoPath.absoluteURL
         
